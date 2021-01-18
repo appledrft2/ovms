@@ -1,6 +1,6 @@
 <?php include('header.php'); ?>
 <body class="hold-transition login-page">
-  <div id="topstrip"><a href="#">OVMS | Online Veterinary Management System</a></div>
+  <div id="topstrip"><a href="#">VetCare - Online Veterinary Management System</a></div>
 <div class="login-box">
   <div class="login-logo">
     <a href="#"><b>Client</b>Login</a>
@@ -11,8 +11,8 @@
 
     <form action="index2.html" method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <input type="text" class="form-control" placeholder="Username">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
         <input type="password" class="form-control" placeholder="Password">
