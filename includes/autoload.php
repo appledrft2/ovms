@@ -1,6 +1,6 @@
 <?php 
-$geturl = ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['HTTP_HOST'].'/ovms/' : $_SERVER['HTTP_HOST'].'/');
-$baseurl = 'http://'.$geturl;
+$geturl = ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://'.$_SERVER['HTTP_HOST'].'/ovms/' : 'https://'.$_SERVER['HTTP_HOST'].'/');
+$baseurl = $geturl;
 $connection = new mysqli('localhost','root','','ovms');
 
 ?>
