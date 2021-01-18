@@ -49,10 +49,10 @@
         
       <div class="row">
         <div class="form-group col-md-12">
-          <a href="<?php echo $baseurl ?>client" class="btn btn-success btn-block btn-lg">CLIENT LOGIN</a>
+          <a href="/client" class="btn btn-success btn-block btn-lg">CLIENT LOGIN</a>
         </div>
         <div class="form-group col-md-12">
-          <a href="<?php echo $baseurl ?>employee" class="btn btn-success btn-block btn-lg">EMPLOYEE LOGIN</a>
+          <a href="/employee" class="btn btn-success btn-block btn-lg">EMPLOYEE LOGIN</a>
         </div>
       </div>
     </form>
