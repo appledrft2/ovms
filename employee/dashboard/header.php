@@ -92,14 +92,14 @@
         <li><a href=""><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
         <li class="treeview active">
           <a href="#">
-            <i class="fa fa-paw"></i> <span>Manage Pets</span>
+            <i class="fa fa-users"></i> <span>Manage Employee</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-plus"></i> Add Pet</a></li>
-            <li><a href="#"><i class="fa fa-list"></i> Pet List</a></li>
+            <li><a href="#"><i class="fa fa-plus"></i> Add Employee</a></li>
+            <li><a href="#"><i class="fa fa-list"></i> Employee List</a></li>
           </ul>
         </li>
        
