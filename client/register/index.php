@@ -1,50 +1,96 @@
 <?php include('header.php'); ?>
-<body class="hold-transition login-page">
-  <div id="topstrip"><a href="#">OVMS | Online Veterinary Management System</a></div>
-<div class="login-box">
-  <div class="login-logo">
-    <a href="#"><b>Client</b>Login</a>
+<body class="hold-transition register-page">
+  <div id="topstrip"><a href="#">Bath & Bark Grooming and Veterinary Services Management System</a></div>
+<div class="register-box">
+  <div class="register-logo">
+    <a href="#"><b>Create</b>Account</a>
   </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+  <div class="register-box-body">
+    <p class="login-box-msg">Please fill in your details below</p>
+    <?php 
+      if(isset($_GET['status'])){
+        if($_GET['status'] == 'created'){
+          echo '<div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <p><i class="icon fa fa-check"></i>  Record Successfully Added.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your ID number: '.$_GET['cid'].'</p>
+                   
+                  </div>';
+        }if($_GET['status'] == 'error'){
+          echo '<div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <p><i class="icon fa fa-remove"></i>  There was a problem creating your account.</p>
+                   
+                  </div>';
+        }
+      }
+    ?>
 
-    <form action="index2.html" method="post">
+    <form action="#" method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <input type="text" class="form-control" name="firstname" placeholder="First name" required>
+        
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        <input type="text" class="form-control" name="middlename" placeholder="Middle name" required>
+        
+      </div>
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" name="lastname" placeholder="Last name" required>
+        
+      </div>
+      <div class="form-group has-feedback">
+        <input type="email" name="email" class="form-control" placeholder="Email" autocomplete="off" required>
+
+      </div>
+      <div class="form-group has-feedback">
+        <select class="form-control" name="gender" required>
+          <option value="" selected disabled="">Select Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+
+      </div>
+      <div class="form-group has-feedback">
+        <textarea class="form-control" name="address" placeholder="Address (Street, Barangay, City)" required></textarea>
+        
+      </div>
+      <div class="form-group has-feedback">
+        <input type="number" class="form-control" name="phone" placeholder="Phone number (09123456789)" required>
+    
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" name="password" placeholder="Password (at least 8 characters)" autocomplete="off" required>
+
       </div>
       <div class="row">
-        <div class="form-group col-md-12">
-          <button type="submit" class="btn btn-success btn-block btn-flat">Login</button>
+        <div class="col-md-12">
+          <button type="submit" name="btnRegister" class="btn btn-success btn-block btn-flat">Register</button>
         </div>
       </div>
     </form>
-    <div class="row">
-      <div class="form-group col-md-12">
-         <div class="col-md-6">
-           <a href="" style="float: left">Create an account</a>
-         </div>
-         <div class="col-md-6">
-           <a href="" style="float: right">Forgot Password?</a>
-         </div>
-      </div>
-      <div class="col-md-12">
-           <div class="col-md-12">
-             <a href="<?php echo $_SERVER['HTTP_REFERER']; ?>" style="float: left">&lArr; Go back</a>
-           </div>
-      </div>
-    </div>
-
+    <br>
+    <a href="<?php echo $baseurl ?>client" class="tex-center">&lArr; Go back</a>
   </div>
-  <!-- /.login-box-body -->
+  <br>
+  <!-- /.form-box -->
 </div>
-<!-- /.login-box -->
-
 <?php include('footer.php'); ?>
 </body>
 </html>
+<?php 
+  if(isset($_POST['btnRegister'])){
+      $client_num = "CID".rand(19999,29999);
+      $sql = "INSERT INTO tbl_client(firstname,middlename,lastname,email,gender,address,phone,password,client_num) VALUES(?,?,?,?,?,?,?,?,?)";
+      $qry = $connection->prepare($sql);
+      $qry->bind_param("sssssssss",$_POST['firstname'],$_POST['middlename'],$_POST['lastname'],$_POST['email'],$_POST['gender'],$_POST['address'],$_POST['phone'],$_POST['password'],$client_num);
+
+      if($qry->execute()) {
+      
+        echo '<meta http-equiv="refresh" content="0; URL=index.php?status=created&cid='.$client_num.'">';
+      }else{
+        
+        echo '<meta http-equiv="refresh" content="0; URL=index.php?status=error">';
+
+      }
+  }
+?>
