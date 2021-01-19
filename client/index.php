@@ -17,11 +17,11 @@
 
     <form action="login_process.php" method="post">
       <div class="form-group has-feedback">
-        <input type="text" name="email-id" class="form-control" placeholder="Email / ID Number">
+        <input type="text" name="email-id" class="form-control" placeholder="Email / ID Number" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" name="password" class="form-control" placeholder="Password">
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
