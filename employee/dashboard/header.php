@@ -102,7 +102,6 @@
             <li><a href="#"><i class="fa fa-list"></i> Employee List</a></li>
           </ul>
         </li>
-       
       </ul>
     </section>
     <!-- /.sidebar -->
