@@ -46,8 +46,8 @@
                          <tbody>
                          <tr>
                            <td>1/19/2021</td>
-                           <td>-</td>
-                           <td>Pending</td>
+                           <td>1/22/2021</td>
+                           <td>Completed</td>
                          </tr>
                         </tbody>
                       </table> 
@@ -65,15 +65,15 @@
                            <tbody>
                            <tr>
                              <td>1/26/2021</td>
-                             <td>Completed</td>
-                             <td><button class="btn btn-default fa fa-file"></button></td>
+                             <td>Pending</td>
+                             <td><button disabled class="btn btn-default fa fa-file"></button></td>
                            </tr>
                           </tbody>
                         </table> 
                       
                     </div>
                     <div class="col-md-12">
-                      <b>Past Appointments</b>
+                      <b>Appointment List</b>
                          <table id="table4" class="table table-bordered table-hover">
                            <thead>
                            <tr>
@@ -87,8 +87,8 @@
                            <tr>
                             <td>Follow Up</td>
                              <td>1/26/2021</td>
-                             <td>Completed</td>
-                             <td><button class="btn btn-default fa fa-file"></button></td>
+                             <td>Pending</td>
+                             <td><button disabled class="btn btn-default fa fa-file"></button></td>
                            </tr>
                            <tr>
                              <td>Requested</td>
