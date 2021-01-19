@@ -68,7 +68,7 @@
                 <div >
                   <form method="POST" action="#">
                       <button name="btnLogout" class="btn btn-block btn-default btn-flat">Sign out</button>
-                    </form>
+                  </form>
                 </div>
               </li>
             </ul>

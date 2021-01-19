@@ -25,7 +25,7 @@
       }
     ?>
 
-    <form action="#" method="post">
+    <form action="register_process.php" method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" name="firstname" placeholder="First name" required>
         
@@ -77,20 +77,3 @@
 <?php include('footer.php'); ?>
 </body>
 </html>
-<?php 
-  if(isset($_POST['btnRegister'])){
-      $client_num = "CID".rand(19999,29999);
-      $sql = "INSERT INTO tbl_client(firstname,middlename,lastname,email,gender,address,phone,password,client_num) VALUES(?,?,?,?,?,?,?,?,?)";
-      $qry = $connection->prepare($sql);
-      $qry->bind_param("sssssssss",$_POST['firstname'],$_POST['middlename'],$_POST['lastname'],$_POST['email'],$_POST['gender'],$_POST['address'],$_POST['phone'],$_POST['password'],$client_num);
-
-      if($qry->execute()) {
-      
-        echo '<meta http-equiv="refresh" content="0; URL=index.php?status=created&cid='.$client_num.'">';
-      }else{
-        
-        echo '<meta http-equiv="refresh" content="0; URL=index.php?status=error">';
-
-      }
-  }
-?>

@@ -1,8 +1,13 @@
-<?php
-  session_start();
-    if(isset($_SESSION['dbu'])){ 
-      header("location:/ovms/client/dashboard");
-    } 
+<?php 
+session_start();
+include('../includes/autoload.php');
+if(isset($_SESSION['dbu'])){ 
+  if($_SESSION['dbc'] != true){
+    header("location:".$baseurl."employee/dashboard");
+  }else{
+    header("location:".$baseurl."client/dashboard");
+  }
+}
 ?>
 <?php include('header.php'); ?>
 <body class="hold-transition login-page">
@@ -18,11 +23,11 @@
     <form action="login_process.php" method="post">
       <div class="form-group has-feedback">
         <input type="text" name="email-id" class="form-control" placeholder="Email / ID Number" required>
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        <span class="glyphicon glyphicon-user form-control-feedback" autocomplete="off"></span>
       </div>
       <div class="form-group has-feedback">
         <input type="password" name="password" class="form-control" placeholder="Password" required>
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        <span class="glyphicon glyphicon-lock form-control-feedback" autocomplete="off"></span>
       </div>
       <div class="row">
         <div class="form-group col-md-12">

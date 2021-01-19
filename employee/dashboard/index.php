@@ -6,8 +6,8 @@ if(isset($_POST['btnLogout'])){
   header('location:'.$baseurl.'');
 }
 if(isset($_SESSION['dbu'])){ 
-  if($_SESSION['dbc'] != true){
-      header("location:".$baseurl."employee/dashboard");
+  if($_SESSION['dbc'] != false){
+      header("location:".$baseurl."client/dashboard");
   }
 }else{
   header('location:'.$baseurl.'');

@@ -1,4 +1,4 @@
-<?php include('../includes/autoload.php'); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
