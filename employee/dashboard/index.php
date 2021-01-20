@@ -33,7 +33,61 @@ if(isset($_SESSION['dbu'])){
 
     <!-- Main content -->
     <section class="content">
-     
+      <div class="row">
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-green">&#8369;</span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Today's Income</span>
+                    <span class="info-box-number">&#8369; 0.00</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-red">&#8369;</span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Weekly Income</span>
+                    <span class="info-box-number">&#8369; 0.00</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+               <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-default">&#8369;</span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Monthly Income</span>
+                    <span class="info-box-number">&#8369; 0.00</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-blue">&#8369;</span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Annual Income</span>
+                    <span class="info-box-number">&#8369; 0.00</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+
+      </div>
     </section>
     <!-- /.content -->
   </div>
@@ -50,4 +104,3 @@ if(isset($_SESSION['dbu'])){
 <!-- ./wrapper -->
 
 <?php include('footer.php') ?>
-<?php include('fullcalendar.php'); ?>
