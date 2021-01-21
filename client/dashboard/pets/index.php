@@ -6,8 +6,8 @@ if(isset($_POST['btnLogout'])){
   header('location:'.$baseurl.'');
 }
 if(isset($_SESSION['dbu'])){ 
-  if($_SESSION['dbc'] != false){
-      header("location:".$baseurl."client/dashboard");
+  if($_SESSION['dbc'] != true){
+      header("location:".$baseurl."employee/dashboard");
   }
 }else{
   header('location:'.$baseurl.'');
@@ -22,7 +22,7 @@ if(isset($_SESSION['dbu'])){
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Employee List</span>
+            <span class="text-left">Pet List</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -61,44 +61,45 @@ if(isset($_SESSION['dbu'])){
 
           <div class="box">
             <div class="box-header">
-              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-plus"></i> Add Employee</a>
+              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-paw"></i>&nbsp;&nbsp;Add Pet</a>
             </div>
             <div class="box-body">
               <table id="table1" class="table table-bordered">
                 <thead style="background-color: #222d32;color:white;">
                   <tr>
-                    <th>Type</th>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
+                    <th>Name</th>
+                    <th>Breed</th>
                     <th>Gender</th>
-                    <th>Phone</th>
+                    <th>Specie</th>
+                    <th>Date of Birth</th>
                     <th>Date Added</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,employee_type,firstname,lastname,gender,phone,timestamp FROM tbl_employee ORDER BY timestamp ASC";
+                    $sql = "SELECT id,name,breed,gender,specie,dob,timestamp FROM tbl_pet WHERE client_id = ?";
                     $qry = $connection->prepare($sql);
+                    $qry->bind_param("i",$_SESSION['dbu']);
                     $qry->execute();
-                    $qry->bind_result($id,$dbt, $dbf, $dbl, $dbg,$dbp,$dbtimestamp);
+                    $qry->bind_result($id,$dbn, $dbb, $dbg, $dbs,$dbdob,$dbtimestamp);
                     $qry->store_result();
-                    while($qry->fetch ()) {
+                    while($qry->fetch()){
                       echo"<tr>";
                       echo"<td>";
-                      echo $dbt;
+                      echo $dbn;
                       echo"</td>";
                       echo"<td>";
-                      echo $dbf;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbl;
+                      echo $dbb;
                       echo"</td>";
                       echo"<td>";
                       echo $dbg;
                       echo"</td>";
                       echo"<td>";
-                      echo $dbp;
+                      echo $dbs;
+                      echo"</td>";
+                      echo"<td>";
+                      echo date("M d, Y", strtotime($dbdob));
                       echo"</td>";
                       echo"<td>";
                       echo $dbtimestamp;

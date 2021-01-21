@@ -127,8 +127,7 @@ if(isset($_POST['btnSave'])){
     if($qry->execute()) {
       echo '<meta http-equiv="refresh" content="0; URL=index.php?status=updated">';
     }else{
-      echo $_POST['password'];
-      //echo '<meta http-equiv="refresh" content="0; URL=edit.php?status=error">';
+      echo '<meta http-equiv="refresh" content="0; URL=edit.php?status=error">';
     }
 }
 ?>

@@ -39,7 +39,7 @@ if(isset($_SESSION['dbu'])){
                   <span class="info-box-icon bg-green">&#8369;</span>
 
                   <div class="info-box-content">
-                    <span class="info-box-text">Today's Income</span>
+                    <span class="info-box-text">Daily Income</span>
                     <span class="info-box-number">&#8369; 0.00</span>
                   </div>
                   <!-- /.info-box-content -->

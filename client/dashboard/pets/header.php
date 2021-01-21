@@ -68,7 +68,7 @@
                 <div >
                   <form method="POST" action="#">
                       <button name="btnLogout" class="btn btn-block btn-default btn-flat">Sign out</button>
-                    </form>
+                  </form>
                 </div>
               </li>
             </ul>
@@ -102,7 +102,6 @@
             <li><a href="<?php echo $baseurl; ?>client/dashboard/pets"><i class="fa fa-list"></i> Pet List</a></li>
           </ul>
         </li>
-       
       </ul>
     </section>
     <!-- /.sidebar -->
