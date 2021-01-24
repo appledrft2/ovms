@@ -12,7 +12,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages = 'employee/index';
+$pages = 'service/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -23,7 +23,7 @@ $pages = 'employee/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Employee List</span>
+            <span class="text-left">Services List</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -62,45 +62,38 @@ $pages = 'employee/index';
 
           <div class="box">
             <div class="box-header">
-              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-plus-circle"></i> Add Employee</a>
+              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-plus-circle"></i> Add Service</a>
             </div>
             <div class="box-body">
               <table id="table1" class="table table-bordered">
                 <thead style="background-color: #222d32;color:white;">
                   <tr>
-                    <th>Type</th>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
-                    <th>Gender</th>
-                    <th>Phone</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
                     <th>Date Added</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,employee_type,firstname,lastname,gender,phone,timestamp FROM tbl_employee ORDER BY timestamp ASC";
+                    $sql = "SELECT id,name,price,description,timestamp FROM tbl_service ORDER BY timestamp ASC";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbt, $dbf, $dbl, $dbg,$dbp,$dbtimestamp);
+                    $qry->bind_result($id,$dbn, $dbp, $dbd,$dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
                       echo"<tr>";
                       echo"<td>";
-                      echo $dbt;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbf;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbl;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbg;
+                      echo $dbn;
                       echo"</td>";
                       echo"<td>";
                       echo $dbp;
                       echo"</td>";
+                      echo"<td>";
+                      echo $dbd;
+                      echo"</td>";
+ ;
                       echo"<td>";
                       echo $dbtimestamp;
                       echo"</td>";

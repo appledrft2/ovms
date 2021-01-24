@@ -12,8 +12,9 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
+$pages = 'employee/add';
 ?>
-<?php include('header.php'); ?>
+<?php include('../header.php'); ?>
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->

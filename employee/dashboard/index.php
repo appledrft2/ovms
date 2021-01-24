@@ -12,6 +12,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
+$pages ='dashboard/index';
 ?>
 <?php include('header.php'); ?>
   <!-- =============================================== -->

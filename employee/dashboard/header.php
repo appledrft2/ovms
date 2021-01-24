@@ -88,9 +88,9 @@
 
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
-        <li><a href="<?php echo $baseurl; ?>employee/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="treeview active">
+        <li class="header text-center">MAIN NAVIGATION</li>
+        <li class="<?php if($pages == 'dashboard/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li class="treeview <?php if($pages == 'employee/index' || $pages == 'employee/add'){echo 'active'; } ?>">
           <a href="#">
             <i class="fa fa-users"></i> <span>Manage Employee</span>
             <span class="pull-right-container">
@@ -98,10 +98,60 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?php echo $baseurl; ?>employee/dashboard/employees/add.php"><i class="fa fa-plus"></i> Add Employee</a></li>
-            <li><a href="<?php echo $baseurl; ?>employee/dashboard/employees"><i class="fa fa-list"></i> Employee List</a></li>
+            <li class="<?php if($pages == 'employee/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees/add.php"><i class="fa fa-plus-circle"></i> Add Employee</a></li>
+            <li class="<?php if($pages == 'employee/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees"><i class="fa fa-list"></i> Employee List</a></li>
           </ul>
         </li>
+        <li class="treeview <?php if($pages == 'service/index' || $pages == 'service/add'){echo 'active'; } ?>">
+          <a href="#">
+            <i class="fa fa-heart"></i> <span>Manage Services</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="<?php if($pages == 'service/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services/add.php"><i class="fa fa-plus-circle"></i> Add Service</a></li>
+            <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list"></i> Service List</a></li>
+          </ul>
+        </li>
+        <!-- <li class="header text-center">INVENTORY</li>
+        <li class="treeview ">
+          <a href="#">
+            <i class="fa fa-archive"></i> <span>Manage Product</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo $baseurl; ?>employee/dashboard/products/add.php"><i class="fa fa-plus-circle"></i> Add Product</a></li>
+            <li><a href="<?php echo $baseurl; ?>employee/dashboard/products"><i class="fa fa-list"></i> Product List</a></li>
+          </ul>
+        </li>
+        <li class="treeview ">
+          <a href="#">
+            <i class="fa fa-tag"></i> <span>Product Category</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo $baseurl; ?>employee/dashboard/pcategory/add.php"><i class="fa fa-plus-circle"></i> Add Category</a></li>
+            <li><a href="<?php echo $baseurl; ?>employee/dashboard/pcategory"><i class="fa fa-list"></i> Category List</a></li>
+          </ul>
+        </li>
+        <li class="treeview ">
+          <a href="#">
+            <i class="fa fa-balance-scale"></i> <span>Product Unit</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo $baseurl; ?>employee/dashboard/punit/add.php"><i class="fa fa-plus-circle"></i> Add Unit</a></li>
+            <li><a href="<?php echo $baseurl; ?>employee/dashboard/punit"><i class="fa fa-list"></i> Unit List</a></li>
+          </ul>
+        </li> -->
+        
       </ul>
     </section>
     <!-- /.sidebar -->

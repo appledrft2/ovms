@@ -98,7 +98,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?php echo $baseurl; ?>client/dashboard/pets/add.php"><i class="fa fa-plus"></i> Add Pet</a></li>
+            <li><a href="<?php echo $baseurl; ?>client/dashboard/pets/add.php"><i class="fa fa-plus-circle"></i> Add Pet</a></li>
             <li><a href="<?php echo $baseurl; ?>client/dashboard/pets"><i class="fa fa-list"></i> Pet List</a></li>
           </ul>
         </li>

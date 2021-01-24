@@ -41,55 +41,15 @@ if(isset($_SESSION['dbu'])){
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-12"><br>
-                      <button class="btn btn-primary">Request Schedule</button>
-
-                       <table id="table2" class="table table-bordered table-hover">
-                         <thead>
-                         <tr>
-                           <th>Date Requested</th>
-                           <th>Date of Appointment</th>
-                           <th>Status</th>
-                         </tr>
-                         </thead>
-                         <tbody>
-                         <tr>
-                           <td>1/19/2021</td>
-                           <td>1/22/2021</td>
-                           <td>Completed</td>
-                         </tr>
-                        </tbody>
-                      </table> 
-                    </div>
-                     <div class="col-md-12">
-                      <b>Follow Up Checkup</b>
-                         <table id="table3" class="table table-bordered table-hover">
-                           <thead>
-                           <tr>
-                             <th>Date of Appointment</th>
-                             <th>Status</th>
-                             <th>Action</th>
-                           </tr>
-                           </thead>
-                           <tbody>
-                           <tr>
-                             <td>1/26/2021</td>
-                             <td>Pending</td>
-                             <td><button disabled class="btn btn-default fa fa-file"></button></td>
-                           </tr>
-                          </tbody>
-                        </table> 
-                      
-                    </div>
-                    <div class="col-md-12">
-                      <b>Appointment List</b>
+                    <div class="col-md-12"><h3>My Appointments</h3><br>
+                      <button class="btn btn-primary">Request Schedule</button><br>
                          <table id="table4" class="table table-bordered table-hover">
                            <thead>
                            <tr>
                             <th>Type</th>
                              <th>Date of Appointment</th>
                              <th>Status</th>
-                             <th>Action</th>
+                             <th>Details</th>
                            </tr>
                            </thead>
                            <tbody>
@@ -97,13 +57,13 @@ if(isset($_SESSION['dbu'])){
                             <td>Follow Up</td>
                              <td>1/26/2021</td>
                              <td>Pending</td>
-                             <td><button disabled class="btn btn-default fa fa-file"></button></td>
+                             <td><button disabled class="btn btn-default fa fa-search"></button></td>
                            </tr>
                            <tr>
                              <td>Requested</td>
                              <td>1/22/2021</td>
                              <td>Completed</td>
-                             <td><button class="btn btn-default fa fa-file"></button></td>
+                             <td><button class="btn btn-default fa fa-search"></button></td>
                            </tr>
                           </tbody>
                         </table> 

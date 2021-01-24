@@ -21,8 +21,9 @@ if(isset($_GET['id'])){
   $qry->store_result();
   $qry->fetch ();
 }
+$pages = 'employee/index';
 ?>
-<?php include('header.php'); ?>
+<?php include('../header.php'); ?>
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
