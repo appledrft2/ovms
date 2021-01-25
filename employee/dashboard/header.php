@@ -114,8 +114,8 @@
             <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list"></i> Service List</a></li>
           </ul>
         </li>
-        <!-- <li class="header text-center">INVENTORY</li>
-        <li class="treeview ">
+         <li class="header text-center">INVENTORY</li>
+        <li class="treeview <?php if($pages == 'product/index'|| $pages == 'product/add'){echo 'active'; } ?>">
           <a href="#">
             <i class="fa fa-archive"></i> <span>Manage Product</span>
             <span class="pull-right-container">
@@ -123,34 +123,11 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?php echo $baseurl; ?>employee/dashboard/products/add.php"><i class="fa fa-plus-circle"></i> Add Product</a></li>
-            <li><a href="<?php echo $baseurl; ?>employee/dashboard/products"><i class="fa fa-list"></i> Product List</a></li>
+            <li class="<?php if($pages == 'product/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/products/add.php"><i class="fa fa-plus-circle"></i> Add Product</a></li>
+            <li class="<?php if($pages == 'product/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/products"><i class="fa fa-list"></i> Product List</a></li>
           </ul>
         </li>
-        <li class="treeview ">
-          <a href="#">
-            <i class="fa fa-tag"></i> <span>Product Category</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo $baseurl; ?>employee/dashboard/pcategory/add.php"><i class="fa fa-plus-circle"></i> Add Category</a></li>
-            <li><a href="<?php echo $baseurl; ?>employee/dashboard/pcategory"><i class="fa fa-list"></i> Category List</a></li>
-          </ul>
-        </li>
-        <li class="treeview ">
-          <a href="#">
-            <i class="fa fa-balance-scale"></i> <span>Product Unit</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo $baseurl; ?>employee/dashboard/punit/add.php"><i class="fa fa-plus-circle"></i> Add Unit</a></li>
-            <li><a href="<?php echo $baseurl; ?>employee/dashboard/punit"><i class="fa fa-list"></i> Unit List</a></li>
-          </ul>
-        </li> -->
+      
         
       </ul>
     </section>
