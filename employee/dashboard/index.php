@@ -89,6 +89,74 @@ $pages ='dashboard/index';
               <!-- /.col -->
 
       </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header">
+              <label>Upcomming Appointments</label>
+            </div>
+            <div class="box-body">
+              <table id="table1" class="table">
+                <thead>
+                  <tr>
+                    <th>Client</th>
+                    <th>Type</th>
+                    <th>Date of Appointment</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ragie Doromal</td>
+                    <td>Requested</td>
+                    <td>1/27/2021</td>
+                    <td>Approved</td>
+                    <td><button class="btn btn-default"><i class="fa fa-list"></i></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header">
+              <label>Appointment Request</label>
+            </div>
+            <div class="box-body">
+              <table id="table11" class="table">
+                <thead>
+                  <tr>
+                    <th>Client</th>
+                    <th>Date Requested</th>
+                    <th>Date of Appoinment</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Maria Santos</td>
+                    <td>1/22/2021</td>
+                    <td>1/30/2021</td>
+                    <td>Pending</td>
+                    <td><button class="btn btn-default"><i class="fa fa-list"></i></button></td>
+                  </tr>
+                  <tr>
+                    <td>Ragie Doromal</td>
+                    <td>1/20/2021</td>
+                    <td>1/27/2021</td>
+                    <td>Approved</td>
+                    <td><button class="btn btn-default"><i class="fa fa-list"></i></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
     <!-- /.content -->
   </div>

@@ -114,6 +114,7 @@
             <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list"></i> Service List</a></li>
           </ul>
         </li>
+        <li class="<?php if($pages == 'crecord/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/crecords"><i class="fa fa-book"></i> <span>View Client Records</span></a></li>
          <li class="header text-center">INVENTORY</li>
         <li class="treeview <?php if($pages == 'product/index'|| $pages == 'product/add'){echo 'active'; } ?>">
           <a href="#">

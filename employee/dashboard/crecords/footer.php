@@ -30,7 +30,6 @@
   })
   $(function () {
     $('#table1').DataTable()
-    $('#table11').DataTable()
     $('#table2').DataTable({
       'paging'      : true,
       'lengthChange': false,
