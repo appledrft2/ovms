@@ -99,7 +99,7 @@
           </a>
           <ul class="treeview-menu">
             <li class="<?php if($pages == 'employee/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees/add.php"><i class="fa fa-plus-circle"></i> Add Employee</a></li>
-            <li class="<?php if($pages == 'employee/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees"><i class="fa fa-list"></i> Employee List</a></li>
+            <li class="<?php if($pages == 'employee/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees"><i class="fa fa-list"></i> View Employees</a></li>
           </ul>
         </li>
         <li class="treeview <?php if($pages == 'service/index' || $pages == 'service/add'){echo 'active'; } ?>">
@@ -111,11 +111,35 @@
           </a>
           <ul class="treeview-menu">
             <li class="<?php if($pages == 'service/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services/add.php"><i class="fa fa-plus-circle"></i> Add Service</a></li>
-            <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list"></i> Service List</a></li>
+            <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list"></i> View Services</a></li>
           </ul>
         </li>
         <li class="<?php if($pages == 'crecord/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/crecords"><i class="fa fa-book"></i> <span>View Client Records</span></a></li>
          <li class="header text-center">INVENTORY</li>
+         <li class="treeview <?php if($pages == 'pcategory/index'|| $pages == 'pcategory/add'){echo 'active'; } ?>">
+           <a href="#">
+             <i class="fa fa-tag"></i> <span>Product Category</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+             <li class="<?php if($pages == 'pcategory/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/pcategory/add.php"><i class="fa fa-plus-circle"></i> Add Category</a></li>
+             <li class="<?php if($pages == 'pcategory/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/pcategory"><i class="fa fa-list"></i> View Categories</a></li>
+           </ul>
+         </li>
+         <li class="treeview <?php if($pages == 'punit/index'|| $pages == 'punit/add'){echo 'active'; } ?>">
+           <a href="#">
+             <i class="fa fa-balance-scale"></i> <span>Product Unit</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+             <li class="<?php if($pages == 'punit/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/punit/add.php"><i class="fa fa-plus-circle"></i> Add Unit</a></li>
+             <li class="<?php if($pages == 'punit/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/punit"><i class="fa fa-list"></i> Unit List</a></li>
+           </ul>
+         </li>
         <li class="treeview <?php if($pages == 'product/index'|| $pages == 'product/add'){echo 'active'; } ?>">
           <a href="#">
             <i class="fa fa-archive"></i> <span>Manage Product</span>
@@ -125,9 +149,10 @@
           </a>
           <ul class="treeview-menu">
             <li class="<?php if($pages == 'product/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/products/add.php"><i class="fa fa-plus-circle"></i> Add Product</a></li>
-            <li class="<?php if($pages == 'product/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/products"><i class="fa fa-list"></i> Product List</a></li>
+            <li class="<?php if($pages == 'product/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/products"><i class="fa fa-list"></i> View Products</a></li>
           </ul>
         </li>
+        
       
         
       </ul>

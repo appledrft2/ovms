@@ -6,13 +6,13 @@ if(isset($_POST['btnLogout'])){
   header('location:'.$baseurl.'');
 }
 if(isset($_SESSION['dbu'])){ 
-  if($_SESSION['dbc'] != true){
-      header("location:".$baseurl."employee/dashboard");
+  if($_SESSION['dbc'] != false){
+      header("location:".$baseurl."client/dashboard");
   }
 }else{
   header('location:'.$baseurl.'');
 }
-$pages = 'pet/index';
+$pages = 'pcategory/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -23,7 +23,7 @@ $pages = 'pet/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Pet List</span>
+            <span class="text-left">Category List</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -62,45 +62,32 @@ $pages = 'pet/index';
 
           <div class="box">
             <div class="box-header">
-              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-paw"></i>&nbsp;&nbsp;Add Pet</a>
+              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-plus-circle"></i> Add Product</a>
             </div>
             <div class="box-body">
               <table id="table1" class="table table-bordered">
                 <thead style="background-color: #222d32;color:white;">
                   <tr>
                     <th>Name</th>
-                    <th>Breed</th>
-                    <th>Gender</th>
-                    <th>Specie</th>
-                    <th>Date of Birth</th>
+                    <th>Description</th>
                     <th>Date Added</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,name,breed,gender,specie,dob,timestamp FROM tbl_pet WHERE client_id = ?";
+                    $sql = "SELECT id,name,description,timestamp FROM tbl_pcategory ORDER BY timestamp ASC";
                     $qry = $connection->prepare($sql);
-                    $qry->bind_param("i",$_SESSION['dbu']);
                     $qry->execute();
-                    $qry->bind_result($id,$dbn, $dbb, $dbg, $dbs,$dbdob,$dbtimestamp);
+                    $qry->bind_result($id,$dbn, $dbd, $dbtimestamp);
                     $qry->store_result();
-                    while($qry->fetch()){
+                    while($qry->fetch ()) {
                       echo"<tr>";
                       echo"<td>";
                       echo $dbn;
                       echo"</td>";
                       echo"<td>";
-                      echo $dbb;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbg;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbs;
-                      echo"</td>";
-                      echo"<td>";
-                      echo date("M d, Y", strtotime($dbdob));
+                      echo $dbd;
                       echo"</td>";
                       echo"<td>";
                       echo $dbtimestamp;

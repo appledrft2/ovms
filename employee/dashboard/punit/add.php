@@ -6,13 +6,13 @@ if(isset($_POST['btnLogout'])){
   header('location:'.$baseurl.'');
 }
 if(isset($_SESSION['dbu'])){ 
-  if($_SESSION['dbc'] != true){
-      header("location:".$baseurl."employees/dashboard");
+  if($_SESSION['dbc'] != false){
+      header("location:".$baseurl."client/dashboard");
   }
 }else{
   header('location:'.$baseurl.'');
 }
-$pages = 'pet/add';
+$pages ='punit/add';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -23,7 +23,7 @@ $pages = 'pet/add';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Add Pet</span>
+            <span class="text-left">Add Unit</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -43,38 +43,17 @@ $pages = 'pet/add';
               <div class="col-md-6">
                 <label>Name <i style="color:red">*</i></label>
                 <input type="text" class="form-control" name="name" required>
-                <label>Breed <i style="color:red">*</i></label>
-                <input type="text" class="form-control" name="breed" required>
-                <label>Gender <i style="color:red">*</i></label>
-                <select class="form-control" name="gender" requred>
-                  <option value="" selected disabled>Select Gender</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Neutered</option>
-                  <option>Spayed</option>
-                </select>
+                <label>Description <i style="color:red"></i></label>
+                <textarea class="form-control" name="description"></textarea>
               </div>
               <div class="col-md-6">
-                <label>Specie <i style="color:red">*</i></label>
-                <select class="form-control" name="specie">
-                  <option value="" selected disabled>Select Specie</option>
-                  <option>Canine</option>
-                  <option>Feline</option>
-                  <option>Other</option>
-                </select>
-                <label>Date of Birth <i style="color:red">*</i></label>
-                <input type="date" class="form-control" name="dob" required>
-                <label>Markings </label>
-                <textarea class="form-control" name="markings"></textarea>
-                <label>Special Considerations </label>&nbsp;(Allergies, Surgeries, etc.)
-                <textarea class="form-control" name="considerations"></textarea>
                 
               </div>
               
             </div>
             <div class="box-footer">
               <div class="pull-right">
-                <a href="<?php echo $baseurl; ?>client/dashboard/pets" class="btn btn-default" > Go Back</a>
+                <a href="<?php echo $baseurl; ?>employee/dashboard/punit" class="btn btn-default" > Go Back</a>
                 <button name="btnSave" class="btn btn-success" > Save Changes</button>
               </form>
               </div>
@@ -101,14 +80,17 @@ $pages = 'pet/add';
 
 <?php 
 if(isset($_POST['btnSave'])){
-    $sql = "INSERT INTO tbl_pet(client_id,name,breed,gender,specie,dob,markings,considerations) VALUES(?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO tbl_punit(name,description) VALUES(?,?)";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("isssssss",$_SESSION['dbu'],$_POST['name'],$_POST['breed'],$_POST['gender'],$_POST['specie'],$_POST['dob'],$_POST['markings'],$_POST['considerations']);
+    $qry->bind_param("ss",$_POST['name'],$_POST['description']);
 
     if($qry->execute()) {
+    
       echo '<meta http-equiv="refresh" content="0; URL=index.php?status=created">';
     }else{
+      
       echo '<meta http-equiv="refresh" content="0; URL=add.php?status=error">';
+
     }
 }
 ?>

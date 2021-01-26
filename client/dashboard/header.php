@@ -89,8 +89,8 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li><a href="<?php echo $baseurl; ?>client/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="treeview active">
+        <li class="<?php if($pages == 'dashboard/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li class="treeview <?php if($pages == 'pet/index' || $pages == 'pet/add'){echo 'active'; } ?>">
           <a href="#">
             <i class="fa fa-paw"></i> <span>Manage Pets</span>
             <span class="pull-right-container">
@@ -98,8 +98,21 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?php echo $baseurl; ?>client/dashboard/pets/add.php"><i class="fa fa-plus-circle"></i> Add Pet</a></li>
-            <li><a href="<?php echo $baseurl; ?>client/dashboard/pets"><i class="fa fa-list"></i> Pet List</a></li>
+            <li class="<?php if($pages == 'pet/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/pets/add.php"><i class="fa fa-plus-circle"></i> Add Pet</a></li>
+            <li class="<?php if($pages == 'pet/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/pets"><i class="fa fa-list"></i> View Pets</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview <?php if($pages == 'product/index' || $pages == 'product/buy'){echo 'active'; } ?>">
+          <a href="#">
+            <i class="fa fa-shopping-cart"></i> <span>Bath & Bark Products</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="<?php if($pages == 'product/buy'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/pets/add.php"><i class="fa fa-shopping-bag"></i> Buy Products</a></li>
+            <li class="<?php if($pages == 'product/invoice'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/pets"><i class="fa fa-file"></i> My Invoices</a></li>
           </ul>
         </li>
        

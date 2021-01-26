@@ -21,7 +21,7 @@ if(isset($_GET['id'])){
   $qry->store_result();
   $qry->fetch ();
 }
-$pages = 'service/index';
+$pages = 'product/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -32,7 +32,7 @@ $pages = 'service/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Edit Employee</span>
+            <span class="text-left">Edit Products</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -56,29 +56,34 @@ $pages = 'service/index';
                 <label>Category <i style="color:red">*</i></label>
                 <select class="form-control" name="category" requred>
                   <option value="" selected disabled>Select Category</option>
-                  <option <?php if($dbc == 'Medicine'){ echo 'selected';}?> >Medicine</option>
-                  <option <?php if($dbc == 'Vaccine'){ echo 'selected';}?>>Vaccine</option>
-                  <option <?php if($dbc == 'Dog Food'){ echo 'selected';}?>>  Dog Food</option>
-                  <option <?php if($dbc == 'Cat Food'){ echo 'selected';}?>> Cat Food</option>
-                  <option <?php if($dbc == 'Soap'){ echo 'selected';}?>> Soap</option>
-                  <option <?php if($dbc == 'Shampoo'){ echo 'selected';}?>> Shampoo</option>
-                  <option <?php if($dbc == 'Suppliments'){ echo 'selected';}?>> Suppliments</option>
-                  <option <?php if($dbc == 'Others'){ echo 'selected';}?>> Others</option>
+                  <?php 
+                  $sql = "SELECT id,name FROM tbl_pcategory ORDER BY name ASC";
+                  $qry = $connection->prepare($sql);
+                  $qry->execute();
+                  $qry->bind_result($id,$dbcn);
+                  $qry->store_result();
+                  while($qry->fetch ()) {
+                      if($dbc == $dbcn){ echo '<option selected>';}else{echo'<option>';}
+                      echo $dbcn;
+                      echo"</option>";
+                    }
+                  ?>
                 </select>
                 <label>Unit <i style="color:red">*</i></label>
                 <select class="form-control" name="unit" requred>
                   <option value="" selected disabled>Select Unit</option>
-                  <option <?php if($dbu == 'Pc'){ echo 'selected';}?>>Pc</option>
-                  <option <?php if($dbu == 'Ml'){ echo 'selected';}?> >Ml</option>
-                  <option <?php if($dbu == 'Kg'){ echo 'selected';}?> >Kg</option>
-                  <option <?php if($dbu == 'Can'){ echo 'selected';}?> >Can</option>
-                  <option <?php if($dbu == 'Ampule'){ echo 'selected';}?> >Ampule</option>
-                  <option <?php if($dbu == 'Vial'){ echo 'selected';}?> >Vial</option>
-                  <option <?php if($dbu == 'Pipette'){ echo 'selected';}?> >Pipette</option>
-                  <option <?php if($dbu == 'Capsule'){ echo 'selected';}?> >Capsule</option>
-                  <option <?php if($dbu == 'Tablet'){ echo 'selected';}?> >Tablet</option>
-                  <option <?php if($dbu == 'Sack'){ echo 'selected';}?> >Sack</option>
-                  <option <?php if($dbu == 'Other'){ echo 'selected';}?> >Other</option>
+                  <?php 
+                  $sql = "SELECT id,name FROM tbl_punit ORDER BY name ASC";
+                  $qry = $connection->prepare($sql);
+                  $qry->execute();
+                  $qry->bind_result($id,$dbun);
+                  $qry->store_result();
+                  while($qry->fetch ()) {
+                      if($dbu == $dbun){ echo '<option selected>';}else{echo'<option>';}
+                      echo $dbun;
+                      echo"</option>";
+                    }
+                  ?>
                 </select>
               </div>
               <div class="col-md-6">

@@ -104,7 +104,7 @@ $pages = 'crecord/index';
                       echo $dbtimestamp;
                       echo"</td>";
                       echo"<td>";
-                      echo '<a class="btn btn-success btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-calendar"></i>&nbsp;&nbsp;View History</a>
+                      echo '<a class="btn btn-default btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-calendar"></i>&nbsp;&nbsp;View History</a>
                       ';
                       echo"</td>";
                       echo"</tr>";

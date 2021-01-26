@@ -47,29 +47,34 @@ $pages ='product/add';
                 <label>Category <i style="color:red">*</i></label>
                 <select class="form-control" name="category" requred>
                   <option value="" selected disabled>Select Category</option>
-                  <option>Medicine</option>
-                  <option>Vaccine</option>
-                  <option>Dog Food</option>
-                  <option>Cat Food</option>
-                  <option>Soap</option>
-                  <option>Shampoo</option>
-                  <option>Suppliments</option>
-                  <option>Others</option>
+                  <?php 
+                  $sql = "SELECT id,name FROM tbl_pcategory ORDER BY name ASC";
+                  $qry = $connection->prepare($sql);
+                  $qry->execute();
+                  $qry->bind_result($id,$dbn);
+                  $qry->store_result();
+                  while($qry->fetch ()) {
+                      echo"<option>";
+                      echo $dbn;
+                      echo"</option>";
+                    }
+                  ?>
                 </select>
                 <label>Unit <i style="color:red">*</i></label>
                 <select class="form-control" name="unit" requred>
                   <option value="" selected disabled>Select Unit</option>
-                  <option>Pc</option>
-                  <option>Ml</option>
-                  <option>Kg</option>
-                  <option>Can</option>
-                  <option>Ampule</option>
-                  <option>Vial</option>
-                  <option>Pipette</option>
-                  <option>Capsule</option>
-                  <option>Tablet</option>
-                  <option>Sack</option>
-                  <option>Other</option>
+                  <?php 
+                  $sql = "SELECT id,name FROM tbl_punit ORDER BY name ASC";
+                  $qry = $connection->prepare($sql);
+                  $qry->execute();
+                  $qry->bind_result($id,$dbn);
+                  $qry->store_result();
+                  while($qry->fetch ()) {
+                      echo"<option>";
+                      echo $dbn;
+                      echo"</option>";
+                    }
+                  ?>
                 </select>
               </div>
               <div class="col-md-6">
