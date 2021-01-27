@@ -68,6 +68,7 @@ $pages = 'product/index';
                       echo"</option>";
                     }
                   ?>
+                  <option>Other</option>
                 </select>
                 <label>Unit <i style="color:red">*</i></label>
                 <select class="form-control" name="unit" requred>
@@ -84,6 +85,7 @@ $pages = 'product/index';
                       echo"</option>";
                     }
                   ?>
+                  <option>Other</option>
                 </select>
               </div>
               <div class="col-md-6">
