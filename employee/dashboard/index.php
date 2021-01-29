@@ -108,13 +108,7 @@ $pages ='dashboard/index';
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Ragie Doromal</td>
-                    <td>Requested</td>
-                    <td>1/27/2021</td>
-                    <td>Approved</td>
-                    <td><button class="btn btn-default"><i class="fa fa-list"></i></button></td>
-                  </tr>
+                  
                 </tbody>
               </table>
             </div>
@@ -129,28 +123,53 @@ $pages ='dashboard/index';
               <table id="table11" class="table">
                 <thead>
                   <tr>
-                    <th>Client</th>
-                    <th>Date Requested</th>
+                    <th width="20%">Client</th>
+                    <th>Type</th>
                     <th>Date of Appoinment</th>
+                    <th>Veterinarian</th>
                     <th>Status</th>
+                    <th>Date Requested</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Maria Santos</td>
-                    <td>1/22/2021</td>
-                    <td>1/30/2021</td>
-                    <td>Pending</td>
-                    <td><button class="btn btn-default"><i class="fa fa-list"></i></button></td>
-                  </tr>
-                  <tr>
-                    <td>Ragie Doromal</td>
-                    <td>1/20/2021</td>
-                    <td>1/27/2021</td>
-                    <td>Approved</td>
-                    <td><button class="btn btn-default"><i class="fa fa-list"></i></button></td>
-                  </tr>
+                  <?php 
+                  
+                  $sql = "SELECT ap.id,cl.firstname,cl.lastname,ap.type,ap.appointment_date,ap.status,ap.timestamp,em.firstname,em.lastname FROM tbl_appointment as ap INNER JOIN tbl_client as cl ON ap.client_id = cl.id INNER JOIN tbl_employee as em ON ap.veterinarian_id = em.id";
+                  $qry = $connection->prepare($sql);
+                  $qry->execute();
+                  $qry->bind_result($id,$dbf,$dbl,$dbt,$dba,$dbs,$dbtimestamp,$dbf2,$dbl2);
+                  $qry->store_result();
+                  while($qry->fetch ()) {
+                      echo"<tr>";
+                      echo"<td>";
+                      echo $dbf." ".$dbl;
+                      echo"</td>"; 
+                      echo"<td>";
+                      echo $dbt;
+                      echo"</td>";  
+                      echo"<td>";
+                      if($dba == ''){
+                        echo '-';
+                      }else{
+                        echo $dba;
+                      }
+                      echo"</td>";  
+                      echo"<td>";
+                      echo "Dr. ".$dbf2." ".$dbl2;
+                      echo"</td>";
+                      echo"<td>";
+                      echo $dbs;
+                      echo"</td>";
+                      echo"<td>";
+                      echo $dbtimestamp;
+                      echo"</td>";   
+                      echo"<td>";
+                      echo "<button id=".$id." class='btn btn-default btn-sm btn_details' data-toggle='modal' data-target='#modal-default'><i class='fa fa-list'></i></button>";
+                      echo"</td>";   
+                      echo"</tr>";   
+                    }
+                  ?>
                 </tbody>
               </table>
             </div>
@@ -159,6 +178,27 @@ $pages ='dashboard/index';
       </div>
     </section>
     <!-- /.content -->
+    <div class="modal fade" id="modal-default">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Default Modal</h4>
+          </div>
+          <div class="modal-body">
+            <p>One fine body&hellip;</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">

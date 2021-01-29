@@ -48,7 +48,7 @@ $pages ='service/add';
               </div>
               <div class="col-md-6">
                
-                <label>Description <i style="color:red">*</i></label>
+                <label>Description <i style="color:red"></i></label>
                 <textarea class="form-control" name="description"></textarea>
               </div>
               
