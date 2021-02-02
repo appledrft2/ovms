@@ -51,7 +51,7 @@ $pages = 'dashboard/index';
                              <th>Date of Appointment</th>
                              <th>Status</th>
                              <th>Date Requested</th>
-                             <th>Details</th>
+                           
                            </tr>
                            </thead>
                            <tbody>
@@ -82,9 +82,7 @@ $pages = 'dashboard/index';
                                 echo"<td>";
                                 echo $dbtimestamp;
                                 echo"</td>";   
-                                echo"<td>";
-                                echo "<button id=".$id." class='btn btn-default btn-sm btn_details'><i class='fa fa-list'></i></button>";
-                                echo"</td>";   
+                                
                                 echo"</tr>";   
                               }
                             ?>
@@ -100,8 +98,7 @@ $pages = 'dashboard/index';
         <div class="modal-dialog ">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
+              
               <h4 class="modal-title">Request Schedule</h4>
             </div>
             
@@ -147,14 +144,14 @@ $pages = 'dashboard/index';
                               <select class="form-control" name="select_service[]" required>
                                <option selected disabled value="">Select Service</option>
                                <?php 
-                               $sql = "SELECT id,name FROM tbl_service";
+                               $sql = "SELECT id,name,price FROM tbl_service";
                                $qry = $connection->prepare($sql);
                                $qry->execute();
-                               $qry->bind_result($id2,$dbn2);
+                               $qry->bind_result($id2,$dbn2,$dbp);
                                $qry->store_result();
                                while($qry->fetch ()) {
                                    echo"<option value='".$id2."'>";
-                                   echo $dbn2;
+                                   echo $dbn2.' (Php '.$dbp.')';
                                    echo"</option>";
                                  }
                                ?>
@@ -219,7 +216,7 @@ $pages = 'dashboard/index';
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default pull-left btnclose" data-dismiss="modal">Close</button>
               <button type="submit" id="btnconfirm" class="btn btn-primary">Confirm Request</button>
               </form>
             </div>
@@ -263,20 +260,19 @@ $pages = 'dashboard/index';
                                  }
                                ?>
                               </select></td><td><select class='form-control' name='select_service[]' required><option selected disabled value=''>Select Service</option><?php 
-                               $sql = "SELECT id,name FROM tbl_service";
+                               $sql = "SELECT id,name,price FROM tbl_service";
                                $qry = $connection->prepare($sql);
                                $qry->execute();
-                               $qry->bind_result($id5,$dbn2);
+                               $qry->bind_result($id5,$dbn2,$dbp);
                                $qry->store_result();
                                while($qry->fetch ()) {
                                    echo"<option value='".$id5."'>";
-                                   echo $dbn2;
+                                   echo $dbn2.' (Php '.$dbp.')';
                                    echo"</option>";
                                  }
                                ?>
                               </select></td><td><button class='delpet btn btn-danger btn-sm'><i class='fa fa-remove'></i></button></td></tr>");
-    $('#form1').data('validator', null);
-    $.validator.unobtrusive.parse($('#form1'));
+
   });
    $('#tblpet').on('click', '.delpet', function () { 
        $(this).closest('tr').remove();
@@ -285,6 +281,10 @@ $pages = 'dashboard/index';
    $(document).on('click', '.btn_details', function () { 
        var id = $(this).attr('id');
        alert(id);
+    });
+     $(document).on('click', '.btnclose', function () { 
+       
+       $('#form1').trigger("reset");
     });
   $(document).ready(function(){
     $( "#form1" ).submit(function( event ){
@@ -307,16 +307,16 @@ $pages = 'dashboard/index';
              success:function(data){
                 $('#table1').DataTable().destroy();
                 $("#table1").load(location.href + " #table1");
-                $("#form1").load(location.href + " #form1");
                 $('#table1').DataTable({
-                      'paging'      : true,
-                      'lengthChange': true,
-                      'searching'   : true,
-                      'ordering'    : true,
-                      'info'        : true,
-                      'autoWidth'   : true
-                    })
+                  'paging'      : true,
+                  'lengthChange': true,
+                  'searching'   : true,
+                  'ordering'    : true,
+                  'info'        : true,
+                  'autoWidth'   : true
+                })
 
+                $('#form1').trigger("reset");
                 $('#modal-default').modal('hide');
 
                 alert('Appointment Successfully Requested');

@@ -103,12 +103,47 @@ $pages ='dashboard/index';
                     <th>Client</th>
                     <th>Type</th>
                     <th>Date of Appointment</th>
+                    <th>Veterinarian</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                  <?php 
                   
+                  $sql = "SELECT ap.id,cl.firstname,cl.lastname,ap.type,ap.appointment_date,ap.status,ap.timestamp,em.firstname,em.lastname FROM tbl_appointment as ap INNER JOIN tbl_client as cl ON ap.client_id = cl.id INNER JOIN tbl_employee as em ON ap.veterinarian_id = em.id WHERE status != 'Pending'";
+                  $qry = $connection->prepare($sql);
+                  $qry->execute();
+                  $qry->bind_result($id,$dbf,$dbl,$dbt,$dba,$dbs,$dbtimestamp,$dbf2,$dbl2);
+                  $qry->store_result();
+                  while($qry->fetch ()) {
+                      echo"<tr>";
+                      echo"<td>";
+                      echo $dbf." ".$dbl;
+                      echo"</td>"; 
+                      echo"<td>";
+                      echo $dbt;
+                      echo"</td>";  
+                      echo"<td>";
+                      if($dba == ''){
+                        echo '-';
+                      }else{
+                        echo $dba;
+                      }
+                      echo"</td>";  
+                      echo"<td>";
+                      echo "Dr. ".$dbf2." ".$dbl2;
+                      echo"</td>";
+                      echo"<td>";
+                      echo $dbs;
+                      echo"</td>";
+                      
+                      echo"<td>";
+                      echo "<button id=".$id." class='btn btn-default btn-sm btn_details' data-toggle='modal' data-target='#modal-default'><i class='fa fa-list'></i></button>";
+                      echo"</td>";   
+                      echo"</tr>";   
+                    }
+                  ?>
                 </tbody>
               </table>
             </div>
@@ -135,7 +170,7 @@ $pages ='dashboard/index';
                 <tbody>
                   <?php 
                   
-                  $sql = "SELECT ap.id,cl.firstname,cl.lastname,ap.type,ap.appointment_date,ap.status,ap.timestamp,em.firstname,em.lastname FROM tbl_appointment as ap INNER JOIN tbl_client as cl ON ap.client_id = cl.id INNER JOIN tbl_employee as em ON ap.veterinarian_id = em.id";
+                  $sql = "SELECT ap.id,cl.firstname,cl.lastname,ap.type,ap.appointment_date,ap.status,ap.timestamp,em.firstname,em.lastname FROM tbl_appointment as ap INNER JOIN tbl_client as cl ON ap.client_id = cl.id INNER JOIN tbl_employee as em ON ap.veterinarian_id = em.id WHERE status = 'Pending'";
                   $qry = $connection->prepare($sql);
                   $qry->execute();
                   $qry->bind_result($id,$dbf,$dbl,$dbt,$dba,$dbs,$dbtimestamp,$dbf2,$dbl2);
@@ -182,16 +217,57 @@ $pages ='dashboard/index';
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Default Modal</h4>
+          
+            <h4 class="modal-title">Appointment Request</h4>
           </div>
           <div class="modal-body">
-            <p>One fine body&hellip;</p>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="box">
+                  <div class="box-body">
+                    <label>Client Name:</label><br>
+                    <div id="client">
+                      
+                    </div>
+                    <label>Requested Services: </label><br>
+                    <div class="row">
+                    <div id="service">
+                      
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form id="form2" method="POST" action="#">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="box">
+                  <div class="box-body">
+                    <input type="hidden" class="form-control appid" vale="" name="app_id">
+                    <label>Status <i style="color:red">*</i></label>
+                    <select class="form-control stat" name="status" required>
+                      <option value="" selected disabled>Select Status</option>
+                      <option selected>Pending</option>
+                      <option>Approved</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="box">
+                  <div class="box-body">
+                    <label>Date of Appointment <i style="color:red">*</i></label>
+                    <input type="date" class="form-control input_date" name="date" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-default pull-left btnclose" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Confirm</button>
+            </form>
           </div>
         </div>
         <!-- /.modal-content -->
@@ -213,3 +289,94 @@ $pages ='dashboard/index';
 <!-- ./wrapper -->
 
 <?php include('footer.php') ?>
+
+<script type="text/javascript">
+  $('.stat').on('change', function() {
+    if(this.value =='Approved'){
+      $('.input_date').prop("required", true);
+      $('.input_date').prop("disabled", false);
+    }else{
+      $('.input_date').prop("disabled", true);
+      $('.input_date').prop("required", false);
+    }
+  });
+  $(document).on('click', '.btnclose', function () { 
+   $('#form2').trigger("reset");
+  });
+
+  $(document).on('click', '.btn_details', function () {
+    
+    var appid = $(this).attr('id'); 
+    $('.appid').val(appid);
+    
+    $.ajax({
+      url:'get_client.php',
+      method:'POST',
+      data:{
+          appid:appid
+      },
+      dataType: "html",
+     success:function(data){
+        $('#client').html(data);
+     }
+    });
+    $.ajax({
+      url:'get_service.php',
+      method:'POST',
+      data:{
+          appid:appid
+      },
+      dataType: "html",
+     success:function(data){
+        $('#service').html(data);
+     }
+    });
+
+  });
+
+  $(document).ready(function(){
+    $( "#form2" ).submit(function( event ){
+      event.preventDefault();
+      var status = $('select[name="status"]').val();
+      var date = $('input[name="date"]').val();
+      var appid = $('.appid').val();
+     
+      $.ajax({
+        url:'request_process.php',
+        method:'POST',
+        data:{
+            status:status,date:date,appid:appid
+        },
+       success:function(data){
+          $('#table11').DataTable().destroy();
+          $("#table11").load(location.href + " #table11");
+          $('#table11').DataTable({
+            'paging'      : true,
+            'lengthChange': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true
+          });
+          $('#table1').DataTable().destroy();
+          $("#table1").load(location.href + " #table1");
+          $('#table1').DataTable({
+            'paging'      : true,
+            'lengthChange': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true
+          });
+
+          $('#form1').trigger("reset");
+          $('#modal-default').modal('hide');
+
+          alert('Appointment Successfully Updated');
+
+       }
+      });
+
+    });
+  });
+</script>
