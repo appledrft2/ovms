@@ -12,6 +12,39 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
+// today
+$sql = "SELECT SUM(total) FROM tbl_stockout WHERE timestamp >= CURDATE()";
+$qry = $connection->prepare($sql);
+$qry->execute();
+$qry->bind_result($today);
+$qry->store_result();
+$qry->fetch ();
+// this week
+$sql = "SELECT SUM(total) FROM tbl_stockout WHERE timestamp BETWEEN DATE_ADD(CURDATE(), INTERVAL - WEEKDAY(CURDATE()) DAY) AND NOW()";
+$qry = $connection->prepare($sql);
+$qry->execute();
+$qry->bind_result($week);
+$qry->store_result();
+$qry->fetch ();
+// this month
+$sql = "SELECT SUM(total) FROM tbl_stockout WHERE timestamp >= DATE_SUB(CURDATE(), INTERVAL DAYOFMONTH(CURDATE())-1 DAY)";
+$qry = $connection->prepare($sql);
+$qry->execute();
+$qry->bind_result($month);
+$qry->store_result();
+$qry->fetch ();
+// this year
+$sql = "SELECT SUM(total) FROM tbl_stockout WHERE YEAR(timestamp) = YEAR(CURDATE())";
+$qry = $connection->prepare($sql);
+$qry->execute();
+$qry->bind_result($year);
+$qry->store_result();
+$qry->fetch ();
+
+
+
+
+
 $pages ='dashboard/index';
 ?>
 <?php include('header.php'); ?>
@@ -41,7 +74,7 @@ $pages ='dashboard/index';
 
                   <div class="info-box-content">
                     <span class="info-box-text">Daily Income</span>
-                    <span class="info-box-number">&#8369; 0.00</span>
+                    <span class="info-box-number">&#8369; <?php echo number_format($today,2);  ?></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -54,7 +87,7 @@ $pages ='dashboard/index';
 
                   <div class="info-box-content">
                     <span class="info-box-text">Weekly Income</span>
-                    <span class="info-box-number">&#8369; 0.00</span>
+                    <span class="info-box-number">&#8369; <?php echo number_format($week,2);  ?></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -67,7 +100,7 @@ $pages ='dashboard/index';
 
                   <div class="info-box-content">
                     <span class="info-box-text">Monthly Income</span>
-                    <span class="info-box-number">&#8369; 0.00</span>
+                    <span class="info-box-number">&#8369; <?php echo number_format($month,2);  ?></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -80,7 +113,7 @@ $pages ='dashboard/index';
 
                   <div class="info-box-content">
                     <span class="info-box-text">Annual Income</span>
-                    <span class="info-box-number">&#8369; 0.00</span>
+                    <span class="info-box-number">&#8369; <?php echo number_format($year,2);  ?></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -139,7 +172,7 @@ $pages ='dashboard/index';
                       echo"</td>";
                       
                       echo"<td>";
-                      echo "<button id=".$id." class='btn btn-default btn-sm btn_details' data-toggle='modal' data-target='#modal-default'><i class='fa fa-list'></i></button>";
+                      echo "<button id=".$id." class='btn btn-primary btn-sm ' ><i class='fa fa-list'></i></button>";
                       echo"</td>";   
                       echo"</tr>";   
                     }

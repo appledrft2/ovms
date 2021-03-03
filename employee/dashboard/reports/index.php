@@ -12,7 +12,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages = 'employee/index';
+$pages = 'reports/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -23,7 +23,7 @@ $pages = 'employee/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Employee List</span>
+            <span class="text-left">Stock In List</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -62,50 +62,42 @@ $pages = 'employee/index';
 
           <div class="box">
             <div class="box-header">
-              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-plus-circle"></i> Add Employee</a>
+             
             </div>
             <div class="box-body">
               <table id="table1" class="table table-bordered">
                 <thead style="background-color: #222d32;color:white;">
                   <tr>
-                    <th>Type</th>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
-                    <th>Gender</th>
-                    <th>Phone</th>
-                    <th>Date Added</th>
+                    <th>Code</th>
+                    <th>Total</th>
+ 
+                    <th>Transaction Date</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,employee_type,firstname,lastname,gender,phone,timestamp FROM tbl_employee ORDER BY timestamp ASC";
+                    $sql = "SELECT id,invoicecode,total,timestamp FROM tbl_stockout ORDER BY timestamp ASC";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbt, $dbf, $dbl, $dbg,$dbp,$dbtimestamp);
+                    $qry->bind_result($id,$dbic, $dbt, $dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
                       echo"<tr>";
                       echo"<td>";
-                      echo $dbt;
+                      echo $dbic;
                       echo"</td>";
-                      echo"<td>";
-                      echo $dbf;
+                      echo"<td class='text-right'>&#8369;";
+                      echo number_format($dbt,2);
                       echo"</td>";
-                      echo"<td>";
-                      echo $dbl;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbg;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbp;
+         
+                    
                       echo"</td>";
                       echo"<td class='text-right' width='15%'>";
                       echo $dbtimestamp;
                       echo"</td>";
                       echo"<td width='10%'>";
-                      echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
+                      echo '<a class="btn btn-default btn-sm" href="invoice.php?id='.$id.'"><i class="fa fa-print"></i></a>
                         <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
                       echo"</td>";
                       echo"</tr>";
@@ -113,6 +105,7 @@ $pages = 'employee/index';
 
                   ?>
                 </tbody>
+                
               </table>
             </div>
           </div>

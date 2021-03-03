@@ -29,6 +29,14 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style type="text/css">
+    .swal2-popup {
+      font-size: 1.6rem !important;
+    }
+  </style>
+  <!-- Select2 -->
+  <link rel="stylesheet" href="<?php echo $baseurl; ?>template/bower_components/select2/dist/css/select2.min.css">
+
 </head>
 
 <body class="hold-transition skin-green sidebar-mini">
@@ -142,7 +150,7 @@
          </li>
         <li class="treeview <?php if($pages == 'product/index'|| $pages == 'product/add'){echo 'active'; } ?>">
           <a href="#">
-            <i class="fa fa-archive"></i> <span>Manage Product</span>
+            <i class="fa fa-archive"></i> <span>Manage Products</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -152,8 +160,33 @@
             <li class="<?php if($pages == 'product/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/products"><i class="fa fa-list"></i> View Products</a></li>
           </ul>
         </li>
-        
-      
+         <li class="treeview <?php if($pages == 'receiving/index'|| $pages == 'receiving/add'){echo 'active'; } ?>">
+           <a href="#">
+             <i class="fa fa-truck"></i> <span>Receiving</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+             <li class="<?php if($pages == 'receiving/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/receiving/add.php"><i class="fa fa-plus-circle"></i> Stock In</a></li>
+             <li class="<?php if($pages == 'receiving/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/receiving"><i class="fa fa-list"></i> Stock In List</a></li>
+           </ul>
+         </li>
+         <li class="<?php if($pages == 'pos/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/pos"><i class="fa fa-shopping-cart"></i> <span>Point of Sales</span></a></li>
+
+         <li class="treeview <?php if($pages == 'reports/index'|| $pages == 'reports/add'){echo 'active'; } ?>">
+           <a href="#">
+             <i class="fa fa-file"></i> <span>Manage Reports</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+             <li class="<?php if($pages == 'reports/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/reports/index.php"><i class="fa fa-file"></i> Sales Report</a></li>
+             
+           </ul>
+         </li>
+
         
       </ul>
     </section>

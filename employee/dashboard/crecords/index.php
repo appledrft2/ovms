@@ -100,10 +100,10 @@ $pages = 'crecord/index';
                       echo"<td>";
                       echo $dbp;
                       echo"</td>";
-                      echo"<td>";
+                      echo"<td class='text-right' width='15%'>";
                       echo $dbtimestamp;
                       echo"</td>";
-                      echo"<td>";
+                      echo"<td width='10%'>";
                       echo '<a class="btn btn-default btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-calendar"></i>&nbsp;&nbsp;View History</a>
                       ';
                       echo"</td>";

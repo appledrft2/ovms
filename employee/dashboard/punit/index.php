@@ -89,10 +89,10 @@ $pages = 'punit/index';
                       echo"<td>";
                       echo $dbd;
                       echo"</td>";
-                      echo"<td>";
+                      echo"<td class='text-right' width='15%'>";
                       echo $dbtimestamp;
                       echo"</td>";
-                      echo"<td>";
+                      echo"<td width='10%'>";
                       echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
                         <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
                       echo"</td>";

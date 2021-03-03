@@ -34,6 +34,17 @@ $pages ='product/add';
 
     <!-- Main content -->
     <section class="content">
+      <?php 
+        if(isset($_GET['status'])){
+         if($_GET['status'] == 'error'){
+            echo '<div class="alert alert-danger alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      <p><i class="icon fa fa-remove"></i>  There was an error adding your product.</p>
+                     
+                    </div>';
+          }
+        }
+      ?>
       <div class="row">
         <div class="col-md-12">
           <div class="box">
@@ -118,9 +129,10 @@ $pages ='product/add';
 
 <?php 
 if(isset($_POST['btnSave'])){
-    $sql = "INSERT INTO tbl_product(name,category,unit,original,selling,quantity) VALUES(?,?,?,?,?,?)";
+  $st = 'Available';
+    $sql = "INSERT INTO tbl_product(name,category,unit,original,selling,quantity,status) VALUES(?,?,?,?,?,?,?)";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("sssssi",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$_POST['quantity']);
+    $qry->bind_param("sssssis",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$_POST['quantity'],$st);
 
     if($qry->execute()) {
     

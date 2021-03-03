@@ -74,16 +74,17 @@ $pages = 'product/index';
                     <th>Supplier Price</th>
                     <th>Selling Price</th>
                     <th>Quantity</th>
+                    <th>Status</th>
                     <th>Date Added</th>
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="tbod">
                   <?php 
-                    $sql = "SELECT id,name,category,unit,original,selling,quantity,timestamp FROM tbl_product ORDER BY timestamp ASC";
+                    $sql = "SELECT id,name,category,unit,original,selling,quantity,status,timestamp FROM tbl_product ORDER BY timestamp ASC";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbn, $dbc, $dbu,$dbo,$dbs,$dbq,$dbtimestamp);
+                    $qry->bind_result($id,$dbn, $dbc, $dbu,$dbo,$dbs,$dbq,$dbst,$dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
                       echo"<tr>";
@@ -96,16 +97,36 @@ $pages = 'product/index';
                       echo"<td>";
                       echo $dbu;
                       echo"</td>";
-                      echo"<td>";
-                      echo $dbo;
+                      echo"<td class='text-right'>&#8369;";
+                      echo number_format($dbo,2);
                       echo"</td>";
-                      echo"<td>";
-                      echo $dbs;
+                      echo"<td class='text-right'>&#8369;";
+                      echo number_format($dbs,2);
                       echo"</td>";
-                      echo"<td>";
+                      echo"<td class='text-center'>";
                       echo $dbq;
                       echo"</td>";
-                      echo"<td>";
+                      echo"<td class='text-center'>";
+                      echo "<form method='POST' action='update_stat.php'  >";
+                      if($dbst == 'Available'){
+                        echo '<input type="hidden" name="id" value="'.$id.'">';
+                        echo "<select name='chngstatus' class='form-control form-control-sm' onchange='this.form.submit()'>
+                        <option value='' disabled>Select Status</option>
+                        <option selected>Available</option>
+                        <option>Not Available</option>
+                        </select>";
+                      }else{
+                        echo '<input type="hidden" name="id" value="'.$id.'">';
+                        echo "<select name='chngstatus' class='form-control form-control-sm' onchange='this.form.submit()'>
+                        <option value='' disabled>Select Status</option>
+                        <option>Available</option>
+                        <option selected>Not Available</option>
+                        </select>";
+                      }
+                     echo "</form>";
+
+                      echo"</td>";
+                      echo"<td class='text-center'>";
                       echo $dbtimestamp;
                       echo"</td>";
                       echo"<td>";
@@ -138,3 +159,4 @@ $pages = 'product/index';
 <!-- ./wrapper -->
 
 <?php include('footer.php') ?>
+

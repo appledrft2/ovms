@@ -71,7 +71,7 @@ $pages = 'service/index';
                     <th>Name</th>
                     <th>Price</th>
                     <th>Description</th>
-                    <th>Date Added</th>
+                    <th >Date Added</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -87,17 +87,16 @@ $pages = 'service/index';
                       echo"<td>";
                       echo $dbn;
                       echo"</td>";
-                      echo"<td>";
-                      echo $dbp;
+                      echo"<td class='text-right'>&#8369;";
+                      echo number_format($dbp,2);
                       echo"</td>";
                       echo"<td>";
                       echo $dbd;
                       echo"</td>";
- ;
-                      echo"<td>";
+                      echo"<td class='text-right' width='15%'>";
                       echo $dbtimestamp;
                       echo"</td>";
-                      echo"<td>";
+                      echo"<td width='10%'>";
                       echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
                         <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
                       echo"</td>";
