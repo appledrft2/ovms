@@ -106,7 +106,7 @@ $pages = 'pet/index';
                       echo $dbtimestamp;
                       echo"</td>";
                       echo"<td>";
-                      echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
+                      echo '<a class="btn btn-default btn-sm" href="history.php?id='.$id.'"><i class="fa fa-list"></i>&nbsp;View History</a>&nbsp;<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
                         <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
                       echo"</td>";
                       echo"</tr>";

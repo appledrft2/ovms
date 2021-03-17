@@ -36,6 +36,11 @@
     -webkit-transform: translate(0, 50%) !important; /* Safari and Chrome */
     }
   </style>
+  <style type="text/css">
+    .swal2-popup {
+      font-size: 1.6rem !important;
+    }
+  </style>
 </head>
 
 <body class="hold-transition skin-green sidebar-mini">
@@ -110,18 +115,34 @@
           </ul>
         </li>
 
-        <li class="treeview <?php if($pages == 'product/index' || $pages == 'product/buy'){echo 'active'; } ?>">
-          <a href="#">
-            <i class="fa fa-shopping-cart"></i> <span>Bath & Bark Products</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="<?php if($pages == 'product/buy'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/pets/add.php"><i class="fa fa-shopping-bag"></i> Buy Products</a></li>
-            <li class="<?php if($pages == 'product/invoice'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/pets"><i class="fa fa-file"></i> My Invoices</a></li>
-          </ul>
-        </li>
+        <li class="<?php if($pages == 'product/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/products"><i class="fa fa-archive"></i> <span>Buy Products</span></a></li>
+
+
+        <li class="<?php if($pages == 'product/cart'){echo 'active'; } ?>">
+         <a href="<?php echo $baseurl; ?>client/dashboard/products/cart.php">
+           <i class="fa fa-calendar"></i> <span>Cart</span>
+           <span id="cartcounter" class="pull-right-container">
+
+            <?php 
+
+              $sql = "SELECT COUNT(id) FROM tbl_client_cart WHERE order_code = '' AND client_id = ?";
+
+              $qry = $connection->prepare($sql);
+              $qry->bind_param('i',$_SESSION['dbu']);
+              $qry->execute();
+              $qry->bind_result($citems);
+              $qry->store_result();
+              $qry->fetch();
+              
+             ?>
+             <small class="label pull-right bg-red"><?php if($citems != 0){echo $citems
+;} ?></small>
+            
+           </span>
+         </a>
+       </li>
+
+        <li class="<?php if($pages == 'order/list'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/order/index.php"><i class="fa fa-file"></i> <span>Order List</span></a></li>
        
       </ul>
     </section>
