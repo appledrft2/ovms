@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="<?php echo $baseurl ?>template/plugins/pace/pace.min.css">
     <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo $baseurl ?>template/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <link rel="icon" type="image/png" href="<?php echo $baseurl ?>/logo.jpg"/>
 
     <!-- fullCalendar -->
   <link rel="stylesheet" href="<?php echo $baseurl; ?>template/bower_components/fullcalendar/dist/fullcalendar.min.css">
@@ -30,8 +31,32 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <style type="text/css">
+    
+    @media print {
+      #printPageButton {
+        display: none;
+      }
+    }
     .swal2-popup {
       font-size: 1.6rem !important;
+    }
+    .modal {
+      text-align: center;
+    }
+
+    @media screen and (min-width: 768px) { 
+      .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+      }
+    }
+
+    .modal-dialog {
+      display: inline-block;
+      text-align: left;
+      vertical-align: middle;
     }
   </style>
   <!-- Select2 -->
@@ -66,7 +91,7 @@
         <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="hidden-xs"><?php echo 'Welcome, '.$_SESSION['dbg'].' '.$_SESSION['dbf'].' '.$_SESSION['dbl'] ?></span>
+              <span class="hidden-xs"><?php echo 'Welcome, '.$_SESSION['dbg'].' '.$_SESSION['dbl'].' ('.$_SESSION['dbet'].')' ?></span>
             </a>
             <ul class="dropdown-menu">
              
@@ -74,6 +99,8 @@
               <li class="user-footer">
                 
                 <div >
+                  <a href="<?php echo $baseurl; ?>employee/dashboard/settings.php" class="btn btn-block btn-default btn-flat">User Settings</a>
+
                   <form method="POST" action="#">
                       <button name="btnLogout" class="btn btn-block btn-default btn-flat">Sign out</button>
                   </form>
@@ -98,6 +125,8 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header text-center">MAIN NAVIGATION</li>
         <li class="<?php if($pages == 'dashboard/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+       <?php if($_SESSION['dbet'] == 'Admin'){ ?>
+
         <li class="treeview <?php if($pages == 'employee/index' || $pages == 'employee/add'){echo 'active'; } ?>">
           <a href="#">
             <i class="fa fa-users"></i> <span>Manage Employee</span>
@@ -110,6 +139,8 @@
             <li class="<?php if($pages == 'employee/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees"><i class="fa fa-list"></i> View Employees</a></li>
           </ul>
         </li>
+
+       <?php } ?>
         <li class="treeview <?php if($pages == 'service/index' || $pages == 'service/add'){echo 'active'; } ?>">
           <a href="#">
             <i class="fa fa-heart"></i> <span>Manage Services</span>
@@ -122,6 +153,8 @@
             <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list"></i> View Services</a></li>
           </ul>
         </li>
+
+        <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/appointment"><i class="fa fa-calendar"></i> <span>Completed Appointments</span></a></li>
         <li class="<?php if($pages == 'crecord/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/crecords"><i class="fa fa-book"></i> <span>View Client Records</span></a></li>
          <li class="header text-center">INVENTORY</li>
          <li class="treeview <?php if($pages == 'pcategory/index'|| $pages == 'pcategory/add'){echo 'active'; } ?>">
@@ -186,6 +219,8 @@
              
            </ul>
          </li>
+         <li class="<?php if($pages == 'order/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/order"><i class="fa fa-gavel"></i> <span>Manage Orders</span></a></li>
+
 
         
       </ul>

@@ -39,7 +39,12 @@
       'autoWidth'   : false
     })
     $('#table3').DataTable({
-      "order": [[ 3, 'asc' ]]
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : false,
+      'autoWidth'   : false
     })
     $('#table4').DataTable({
       'paging'      : true,

@@ -38,10 +38,7 @@
         <input type="text" class="form-control" name="lastname" placeholder="Last name" required>
         
       </div>
-      <div class="form-group has-feedback">
-        <input type="email" name="email" class="form-control" placeholder="Email" autocomplete="off" required>
-
-      </div>
+      
       <div class="form-group has-feedback">
         <select class="form-control" name="gender" required>
           <option value="" selected disabled="">Select Gender</option>
@@ -57,6 +54,14 @@
       <div class="form-group has-feedback">
         <input type="number" class="form-control" name="phone" placeholder="Phone number (09123456789)" required>
     
+      </div>
+
+      <hr>
+       <label>User Account</label>
+       <hr>
+      <div class="form-group has-feedback">
+        <input type="text" name="username" class="form-control" placeholder="Username" autocomplete="off" required>
+
       </div>
       <div class="form-group has-feedback">
         <input type="password" class="form-control" name="password" placeholder="Password (at least 8 characters)" autocomplete="off" required>

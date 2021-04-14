@@ -23,7 +23,7 @@ $pages = 'reports/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Stock In List</span>
+            <span class="text-left">Manage Reports</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -62,7 +62,15 @@ $pages = 'reports/index';
 
           <div class="box">
             <div class="box-header">
-             
+             <form target="_blank" method="POST" action="print.php">
+               <div class="form-inline">
+               <label>Date From :<i style="color:red"></i></label>
+               <input type="date" class="form-control" name="dfrom" required>
+               <label>To :<i style="color:red"></i></label>
+               <input type="date" class="form-control" name="dto" required>
+
+               <button type="submit" name="print" class="btn btn-success btn-md"><i class="fa fa-print"></i> Print</button> 
+             </form>
             </div>
             <div class="box-body">
               <table id="table1" class="table table-bordered">

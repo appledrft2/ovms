@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Dashboard | Bath & Bark</title>
+  <title>Welcome to Bath & Bark</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="<?php echo $baseurl ?>template/plugins/pace/pace.min.css">
     <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo $baseurl ?>template/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <link rel="icon" type="image/png" href="<?php echo $baseurl ?>/logo.jpg"/>
 
     <!-- fullCalendar -->
   <link rel="stylesheet" href="<?php echo $baseurl; ?>template/bower_components/fullcalendar/dist/fullcalendar.min.css">
@@ -70,7 +71,7 @@
         <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="hidden-xs"><?php echo 'Welcome, '.$_SESSION['dbg'].' '.$_SESSION['dbf'].' '.$_SESSION['dbl'] ?></span>
+              <span class="hidden-xs"><?php echo 'Welcome, '.$_SESSION['dbg'].' '.$_SESSION['dbf'].' '.$_SESSION['dbl'].' ('.$_SESSION['dbcn'].')' ?></span>
             </a>
             <ul class="dropdown-menu">
              
@@ -78,7 +79,9 @@
               <li class="user-footer">
                 
                 <div >
+                  <a href="<?php echo $baseurl; ?>client/dashboard/settings.php" class="btn btn-block btn-default btn-flat">User Settings</a>
                   <form method="POST" action="#">
+                      
                       <button name="btnLogout" class="btn btn-block btn-default btn-flat">Sign out</button>
                     </form>
                 </div>
@@ -101,7 +104,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="<?php if($pages == 'dashboard/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li class="<?php if($pages == 'dashboard/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard"><i class="fa fa-calendar"></i> <span>My Appointments</span></a></li>
         <li class="treeview <?php if($pages == 'pet/index' || $pages == 'pet/add'){echo 'active'; } ?>">
           <a href="#">
             <i class="fa fa-paw"></i> <span>Manage Pets</span>
@@ -120,7 +123,7 @@
 
         <li class="<?php if($pages == 'product/cart'){echo 'active'; } ?>">
          <a href="<?php echo $baseurl; ?>client/dashboard/products/cart.php">
-           <i class="fa fa-calendar"></i> <span>Cart</span>
+           <i class="fa fa-shopping-cart"></i> <span>Cart</span>
            <span id="cartcounter" class="pull-right-container">
 
             <?php 
@@ -142,7 +145,25 @@
          </a>
        </li>
 
-        <li class="<?php if($pages == 'order/list'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/order/index.php"><i class="fa fa-file"></i> <span>Order List</span></a></li>
+        <li class="<?php if($pages == 'order/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/order/index.php"><i class="fa fa-file"></i> 
+        <span>Order List
+
+        <?php 
+
+          $sql = "SELECT COUNT(id) FROM tbl_order WHERE client_id = ? AND status != 'Completed'";
+          $qry = $connection->prepare($sql);
+          $qry->bind_param('i',$_SESSION['dbu']);
+          $qry->execute();
+          $qry->bind_result($dbo);
+          $qry->store_result();
+          $qry->fetch();
+          
+         ?>
+          <small class="label pull-right bg-red"><?php if($dbo != 0){echo $dbo
+          ;} ?></small>
+
+
+        </span></a></li>
        
       </ul>
     </section>

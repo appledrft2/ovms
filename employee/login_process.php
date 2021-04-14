@@ -15,15 +15,15 @@ include('../includes/autoload.php');
              return ($find1 !== false && $find2 !== false && $find2 > $find1);
           }
           if(checkEmail($username)){
-            $sql = "SELECT id,firstname,lastname,gender,password FROM tbl_employee WHERE email=?";
+            $sql = "SELECT id,firstname,lastname,gender,password,employee_type FROM tbl_employee WHERE email=?";
           }else{
-            $sql = "SELECT id,firstname,lastname,gender,password FROM tbl_employee WHERE username=?";
+            $sql = "SELECT id,firstname,lastname,gender,password,employee_type FROM tbl_employee WHERE username=?";
           }
           
           $qry = $connection->prepare($sql);
           $qry->bind_param('s', $username);
           $qry->execute();
-          $qry->bind_result($id,$dbf,$dbl,$dbg,$dbp);
+          $qry->bind_result($id,$dbf,$dbl,$dbg,$dbp,$dbet);
           $qry->store_result();
           $qry->fetch();
 
@@ -32,6 +32,7 @@ include('../includes/autoload.php');
               $_SESSION['dbu'] = $id;
               $_SESSION['dbf'] = $dbf;
               $_SESSION['dbl'] = $dbl;
+              $_SESSION['dbet'] = $dbet;
               // dbc = false - employee side access only - cannot login to client
               $_SESSION['dbc'] = false;
               $dbg = ($dbg == 'Male') ? 'Mr.' : "Ms.";

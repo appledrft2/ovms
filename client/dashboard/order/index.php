@@ -12,7 +12,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages = 'pet/index';
+$pages = 'order/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -23,7 +23,7 @@ $pages = 'pet/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Pet List</span>
+            <span class="text-left">Order List</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -36,22 +36,10 @@ $pages = 'pet/index';
     <section class="content">
       <?php 
         if(isset($_GET['status'])){
-          if($_GET['status'] == 'created'){
-            echo '<div class="alert alert-success alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-check"></i>  Record Successfully Added.</p>
-                     
-                    </div>';
-          }if($_GET['status'] == 'updated'){
-            echo '<div class="alert alert-info alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-info"></i>  Record Successfully Updated.</p>
-                     
-                    </div>';
-          }if($_GET['status'] == 'deleted'){
+          if($_GET['status'] == 'cancelled'){
             echo '<div class="alert alert-danger alert-dismissible">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-remove"></i>  Record Successfully Deleted.</p>
+                      <p><i class="icon fa fa-remove"></i>  The order has been cancelled.</p>
                      
                     </div>';
           }
@@ -61,53 +49,56 @@ $pages = 'pet/index';
         <div class="col-md-12">
 
           <div class="box">
-            <div class="box-header">
-              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-paw"></i>&nbsp;&nbsp;Add Pet</a>
-            </div>
+          
             <div class="box-body">
               <table id="table1" class="table table-bordered">
                 <thead style="background-color: #222d32;color:white;">
                   <tr>
-                    <th>Name</th>
-                    <th>Breed</th>
-                    <th>Gender</th>
-                    <th>Specie</th>
-                    <th>Date of Birth</th>
-                    <th>Date Added</th>
+                    <th>Order Code</th>
+                    <th>Status</th>
+                    <th>Total Amount</th>
+                    <th>Date Processed</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,name,breed,gender,specie,dob,timestamp FROM tbl_pet WHERE client_id = ?";
+                    $sql = "SELECT id,order_code,status,total,timestamp,iscancelled FROM tbl_order WHERE client_id = ?";
                     $qry = $connection->prepare($sql);
                     $qry->bind_param("i",$_SESSION['dbu']);
                     $qry->execute();
-                    $qry->bind_result($id,$dbn, $dbb, $dbg, $dbs,$dbdob,$dbtimestamp);
+                    $qry->bind_result($id,$dboc, $dbstat, $dbtotal,$dbtimestamp,$dbisc);
                     $qry->store_result();
                     while($qry->fetch()){
                       echo"<tr>";
                       echo"<td>";
-                      echo $dbn;
+                      echo $dboc;
                       echo"</td>";
                       echo"<td>";
-                      echo $dbb;
+                      echo $dbstat;
                       echo"</td>";
-                      echo"<td>";
-                      echo $dbg;
+                      echo"<td class='text-right'>";
+                      echo '&#8369;'.number_format($dbtotal,2);
                       echo"</td>";
-                      echo"<td>";
-                      echo $dbs;
-                      echo"</td>";
-                      echo"<td>";
-                      echo date("M d, Y", strtotime($dbdob));
-                      echo"</td>";
-                      echo"<td>";
+                      echo"<td class='text-right'>";
                       echo $dbtimestamp;
                       echo"</td>";
                       echo"<td width='15%'>";
-                      echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
-                        <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
+
+                      if($dbstat == 'Pending'){
+                        if($dbisc == 'true'){
+                         echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i>&nbsp;View</a>&nbsp;<a class="btn btn-danger btn-sm" disabled ><i class="fa fa-remove"></i> Order Cancelled</a>';
+                        }else{
+                         echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i>&nbsp;View</a>&nbsp;<a href="cancel.php?id='.$id.'" ';?>onclick="return confirm('Are you sure you want to cancel this order?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i> Cancel Order</a>';
+                        }
+                      }else{
+                        if($dbisc == 'true'){
+                         echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i>&nbsp;View</a>&nbsp;<a class="btn btn-danger btn-sm" disabled ><i class="fa fa-remove"></i> Order Cancelled</a>';
+                        }else{
+                         echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i>&nbsp;View</a>&nbsp;<a href="#" class="btn btn-danger btn-sm" disabled><i class="fa fa-remove"></i> Cancel Order</a>';
+                        }
+                      }
+                     
                       echo"</td>";
                       echo"</tr>";
                     }

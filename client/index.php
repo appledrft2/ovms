@@ -22,7 +22,7 @@ if(isset($_SESSION['dbu'])){
 
     <form action="login_process.php" method="post">
       <div class="form-group has-feedback">
-        <input type="text" name="email-id" class="form-control" placeholder="Email / ID Number" required>
+        <input type="text" name="username" class="form-control" placeholder="Username / ID Number" required>
         <span class="glyphicon glyphicon-user form-control-feedback" autocomplete="off"></span>
       </div>
       <div class="form-group has-feedback">
@@ -41,7 +41,6 @@ if(isset($_SESSION['dbu'])){
            <a href="<?php echo $baseurl ?>client/register" style="float: left">Create an account</a>
          </div>
          <div class="col-md-6">
-           <a href="<?php echo $baseurl ?>client/reset" style="float: right">Forgot Password?</a>
          </div>
       </div>
       <div class="col-md-12">

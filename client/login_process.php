@@ -5,25 +5,17 @@ include('../includes/autoload.php');
 <?php
 
       if(isset($_POST['btnLogin'])){
-          $username = $_POST['email-id'];
+          $username = $_POST['username'];
           $password = $_POST['password'];
 
-          // condition for checking email or id number
-          function checkEmail($email) {
-             $find1 = strpos($email, '@');
-             $find2 = strpos($email, '.');
-             return ($find1 !== false && $find2 !== false && $find2 > $find1);
-          }
-          if(checkEmail($username)){
-            $sql = "SELECT id,firstname,lastname,gender,password,phone FROM tbl_client WHERE email=?";
-          }else{
-            $sql = "SELECT id,firstname,lastname,gender,password,phone FROM tbl_client WHERE client_num=?";
-          }
+
+            $sql = "SELECT id,firstname,lastname,gender,password,phone,client_num FROM tbl_client WHERE username=? OR  client_num=?";
+
           
           $qry = $connection->prepare($sql);
-          $qry->bind_param('s', $username);
+          $qry->bind_param('ss', $username, $username);
           $qry->execute();
-          $qry->bind_result($id,$dbf,$dbl,$dbg,$dbp,$dbphone);
+          $qry->bind_result($id,$dbf,$dbl,$dbg,$dbp,$dbphone,$dbcn);
           $qry->store_result();
           $qry->fetch();
 
@@ -33,6 +25,7 @@ include('../includes/autoload.php');
               $_SESSION['dbf'] = $dbf;
               $_SESSION['dbl'] = $dbl;
               $_SESSION['dbphone'] = $dbphone;
+              $_SESSION['dbcn'] = $dbcn;
               // dbc = true - client side access only - cannot login to employee
               $_SESSION['dbc'] = true;
               $dbg = ($dbg == 'Male') ? 'Mr.' : "Ms.";

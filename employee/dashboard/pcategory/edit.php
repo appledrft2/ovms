@@ -32,7 +32,7 @@ $pages = 'pcategory/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Edit Employee</span>
+            <span class="text-left">Edit Category</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
