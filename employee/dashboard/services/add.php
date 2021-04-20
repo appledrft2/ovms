@@ -39,17 +39,21 @@ $pages ='service/add';
           <div class="box">
             <div class="box-header"></div>
             <div class="box-body">
-              <form method="POST" action="#">
+              <form method="POST" action="#" enctype="multipart/form-data">
               <div class="col-md-6">
+                <div class="form-group">
+                  <label>Upload Image</label><br>
+                  <img src="images/placeholder.jpg" id="serviceDisplay" onclick="triggerClick()" style="width: 200px;height: 100px;">
+                  <input type="file" name="serviceimage" onchange="displayImage(this)" id="serviceimage" style="display:none" class="form-control" accept="image/x-png,image/gif,image/jpeg">
+                </div>
                 <label>Name <i style="color:red">*</i></label>
                 <input type="text" class="form-control" name="name" required>
                 <label>Price <i style="color:red">*</i></label>
-                <input type="text" class="form-control" name="price" required>
+                <input type="number" class="form-control" name="price" required>
               </div>
               <div class="col-md-6">
                
-                <label>Description <i style="color:red"></i></label>
-                <textarea class="form-control" name="description"></textarea>
+               
               </div>
               
             </div>
@@ -79,15 +83,36 @@ $pages ='service/add';
 <!-- ./wrapper -->
 
 <?php include('footer.php') ?>
-
+<script type="text/javascript">
+  function triggerClick(){
+    $("#serviceimage").click();
+  }
+  function displayImage(e){
+    if(e.files[0]){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        $('#serviceDisplay').attr('src',e.target.result);
+      }
+      reader.readAsDataURL(e.files[0]);
+    }
+  }
+</script>
 <?php 
 if(isset($_POST['btnSave'])){
-    $sql = "INSERT INTO tbl_service(name,price,description) VALUES(?,?,?)";
-    $qry = $connection->prepare($sql);
-    $qry->bind_param("sss",$_POST['name'],$_POST['price'],$_POST['description']);
 
-    if($qry->execute()) {
+    if(!empty($_FILES['serviceimage']['name'])){
+      $imagename = time() .'-'.$_FILES['serviceimage']['name'];
+      $target = 'images/'.$imagename;
+      move_uploaded_file($_FILES['serviceimage']['tmp_name'], $target);
+    }else{
+      $target = "images/placeholder.jpg";    
+    }
     
+    $sql = "INSERT INTO tbl_service(name,price,description,image_path) VALUES(?,?,?,?)";
+    $qry = $connection->prepare($sql);
+    $qry->bind_param("ssss",$_POST['name'],$_POST['price'],$_POST['description'],$target);
+    if($qry->execute()) { 
+
       echo '<meta http-equiv="refresh" content="0; URL=index.php?status=created">';
     }else{
       

@@ -1,4 +1,5 @@
 <?php include('../../includes/autoload.php'); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,30 +16,30 @@
   <link rel="stylesheet" href="<?php echo $baseurl ?>template/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo $baseurl ?>template/dist/css/AdminLTE.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="<?php echo $baseurl ?>template/plugins/iCheck/square/blue.css">
   <!-- Pace style -->
   <link rel="stylesheet" href="<?php echo $baseurl; ?>template/plugins/pace/pace.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="<?php echo $baseurl ?>template/plugins/iCheck/square/blue.css">
   <link rel="icon" type="image/png" href="<?php echo $baseurl ?>/logo.jpg"/>
-  <!-- Google Font -->
+  <!-- Google Font -->  
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <style type="text/css">
     #topstrip{
-        background: #008d4c;
-        padding: 10px;
+        background: #18BDDB;
+        padding: 20px;
         font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
         font-size: 15px;
         color: #ffffff;
         text-transform: uppercase;
+        border-bottom: 2px solid grey;
     }
     #topstrip a{
         text-decoration: none;
         color: #ffffff;
     }
-    .register-box {
-        position: relative;
-        z-index: 99;
-        margin: 2% auto !important;
+    .btn-skyblue{
+      background-color: #18BDDB !important;
+      color:white;
     }
   </style>
 </head>

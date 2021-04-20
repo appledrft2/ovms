@@ -70,7 +70,6 @@ $pages = 'service/index';
                   <tr>
                     <th>Name</th>
                     <th>Price</th>
-                    <th>Description</th>
                     <th >Date Added</th>
                     <th>Action</th>
                   </tr>
@@ -89,9 +88,6 @@ $pages = 'service/index';
                       echo"</td>";
                       echo"<td class='text-right'>&#8369;";
                       echo number_format($dbp,2);
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbd;
                       echo"</td>";
                       echo"<td class='text-right' width='15%'>";
                       echo $dbtimestamp;

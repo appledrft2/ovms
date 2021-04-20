@@ -69,12 +69,12 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <button type="submit" name="btnRegister" class="btn btn-success btn-block btn-flat">Register</button>
+          <button type="submit" name="btnRegister" class="btn btn-skyblue btn-block btn-flat">Register</button>
         </div>
       </div>
     </form>
     <br>
-    <a href="<?php echo $baseurl ?>client" class="tex-center">&lArr; Go back</a>
+    <a href="<?php echo $baseurl ?>login.php" class="tex-center">&lArr; Go back</a>
   </div>
   <br>
   <!-- /.form-box -->

@@ -50,8 +50,16 @@ $pages ='product/add';
           <div class="box">
             <div class="box-header"></div>
             <div class="box-body">
-              <form method="POST" action="#">
+              <form method="POST" action="#" enctype="multipart/form-data">
+
+              <div class="col-md-12">
+                <label>Upload Image</label><br>
+                <img src="images/placeholder.jpg" id="productDisplay" onclick="triggerClick()" style="width: 200px;height: 100px;">
+                <input type="file" name="productimage" onchange="displayImage(this)" id="productimage" style="display:none" class="form-control" accept="image/x-png,image/gif,image/jpeg">
+              </div>
+
               <div class="col-md-6">
+
                 <label>Name <i style="color:red">*</i></label>
                 <input type="text" class="form-control" name="name" required>
 
@@ -126,13 +134,37 @@ $pages ='product/add';
 <!-- ./wrapper -->
 
 <?php include('footer.php') ?>
-
+<script type="text/javascript">
+  function triggerClick(){
+    $("#productimage").click();
+  }
+  function displayImage(e){
+    if(e.files[0]){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        $('#productDisplay').attr('src',e.target.result);
+      }
+      reader.readAsDataURL(e.files[0]);
+    }
+  }
+</script>
 <?php 
 if(isset($_POST['btnSave'])){
-  $st = 'Available';
-    $sql = "INSERT INTO tbl_product(name,category,unit,original,selling,quantity,status) VALUES(?,?,?,?,?,?,?)";
+
+    $st = 'Available';
+    if(!empty($_FILES['productimage']['name'])){
+      $imagename = time() .'-'.$_FILES['productimage']['name'];
+      $target = 'images/'.$imagename;
+      move_uploaded_file($_FILES['productimage']['tmp_name'], $target);
+  
+    }else{
+      $target = "images/placeholder.jpg";
+    }
+
+    $sql = "INSERT INTO tbl_product(name,category,unit,original,selling,quantity,status,image_path) VALUES(?,?,?,?,?,?,?,?)";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("sssssis",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$_POST['quantity'],$st);
+    $qry->bind_param("sssssiss",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$_POST['quantity'],$st,$target);
+
 
     if($qry->execute()) {
     

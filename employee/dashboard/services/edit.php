@@ -13,11 +13,11 @@ if(isset($_SESSION['dbu'])){
   header('location:'.$baseurl.'');
 } 
 if(isset($_GET['id'])){
-  $sql = "SELECT id,name,price,description FROM tbl_service WHERE id=?";
+  $sql = "SELECT id,name,price,description,image_path FROM tbl_service WHERE id=?";
   $qry = $connection->prepare($sql);
   $qry->bind_param("i",$_GET['id']);
   $qry->execute();
-  $qry->bind_result($id,$dbn,$dbp,$dbd);
+  $qry->bind_result($id,$dbn,$dbp,$dbd,$image_path);
   $qry->store_result();
   $qry->fetch ();
 }
@@ -48,8 +48,13 @@ $pages = 'service/index';
           <div class="box">
             <div class="box-header"></div>
             <div class="box-body">
-              <form method="POST" action="#">
+              <form method="POST" action="#" enctype="multipart/form-data">
               <div class="col-md-6">
+                <div class="form-group">
+                  <label>Upload Image</label><br>
+                  <img src="<?php echo $image_path; ?>" id="serviceDisplay" onclick="triggerClick()" style="width: 200px;height: 100px;">
+                  <input type="file" name="serviceimage" onchange="displayImage(this)" id="serviceimage" style="display:none" class="form-control" accept="image/x-png,image/gif,image/jpeg">
+                </div>
                 <label>Name <i style="color:red">*</i></label>
                 <input type="text" class="form-control" name="name" value="<?php echo $dbn ?>" required>
                 <label>Price <i style="color:red">*</i></label>
@@ -57,8 +62,7 @@ $pages = 'service/index';
               </div>
               <div class="col-md-6">
                
-                <label>Description <i style="color:red"></i></label>
-                <textarea class="form-control" name="description"><?php echo $dbd ?></textarea>
+              
               </div>
               
             </div>
@@ -88,12 +92,36 @@ $pages = 'service/index';
 <!-- ./wrapper -->
 
 <?php include('footer.php') ?>
-
+<script type="text/javascript">
+  function triggerClick(){
+    $("#serviceimage").click();
+  }
+  function displayImage(e){
+    if(e.files[0]){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        $('#serviceDisplay').attr('src',e.target.result);
+      }
+      reader.readAsDataURL(e.files[0]);
+    }
+  }
+</script>
 <?php 
 if(isset($_POST['btnSave'])){
-    $sql = "UPDATE tbl_service SET name=?,price=?,description=? WHERE id=?";
-    $qry = $connection->prepare($sql);
-    $qry->bind_param("sssi",$_POST['name'],$_POST['price'],$_POST['description'],$_GET['id']);
+
+    if(!empty($_FILES['serviceimage'])){
+      $imagename = time() .'-'.$_FILES['serviceimage']['name'];
+      $target = 'images/'.$imagename;
+      move_uploaded_file($_FILES['serviceimage']['tmp_name'], $target);
+      $sql = "UPDATE tbl_service SET name=?,price=?,description=?,image_path=? WHERE id=?";
+      $qry = $connection->prepare($sql);
+      $qry->bind_param("ssssi",$_POST['name'],$_POST['price'],$_POST['description'],$target,$_GET['id']);
+    }else{
+      $sql = "UPDATE tbl_service SET name=?,price=?,description=? WHERE id=?";
+      $qry = $connection->prepare($sql);
+      $qry->bind_param("sssi",$_POST['name'],$_POST['price'],$_POST['description'],$_GET['id']);
+    }
+    
     
     if($qry->execute()) {
       echo '<meta http-equiv="refresh" content="0; URL=index.php?status=updated">';

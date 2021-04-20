@@ -13,11 +13,11 @@ if(isset($_SESSION['dbu'])){
   header('location:'.$baseurl.'');
 } 
 if(isset($_GET['id'])){
-  $sql = "SELECT id,name,category,unit,original,selling,quantity FROM tbl_product WHERE id=?";
+  $sql = "SELECT id,name,category,unit,original,selling,quantity,image_path FROM tbl_product WHERE id=?";
   $qry = $connection->prepare($sql);
   $qry->bind_param("i",$_GET['id']);
   $qry->execute();
-  $qry->bind_result($id,$dbn, $dbc, $dbu,$dbo,$dbs,$dbq);
+  $qry->bind_result($id,$dbn, $dbc, $dbu,$dbo,$dbs,$dbq,$dbpip);
   $qry->store_result();
   $qry->fetch ();
 }
@@ -48,7 +48,14 @@ $pages = 'product/index';
           <div class="box">
             <div class="box-header"></div>
             <div class="box-body">
-              <form method="POST" action="#">
+              <form method="POST" action="#" enctype="multipart/form-data">
+              <div class="col-md-12">
+                <label>Upload Image</label><br>
+                <img src="<?php echo $dbpip ?>" id="productDisplay" onclick="triggerClick()" style="width: 200px;height: 100px;">
+                <input type="file" name="productimage" onchange="displayImage(this)" id="productimage" style="display:none" class="form-control" accept="image/x-png,image/gif,image/jpeg">
+              </div>
+
+
               <div class="col-md-6">
                 <label>Name <i style="color:red">*</i></label>
                 <input type="text" class="form-control" name="name" value="<?php echo $dbn; ?>" required>
@@ -124,12 +131,37 @@ $pages = 'product/index';
 <!-- ./wrapper -->
 
 <?php include('footer.php') ?>
-
+<script type="text/javascript">
+  function triggerClick(){
+    $("#productimage").click();
+  }
+  function displayImage(e){
+    if(e.files[0]){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        $('#productDisplay').attr('src',e.target.result);
+      }
+      reader.readAsDataURL(e.files[0]);
+    }
+  }
+</script>
 <?php 
 if(isset($_POST['btnSave'])){
+
+  if(!empty($_FILES['productimage'])){
+    $imagename = time() .'-'.$_FILES['productimage']['name'];
+    $target = 'images/'.$imagename;
+    move_uploaded_file($_FILES['productimage']['tmp_name'], $target);
+
+    $sql = "UPDATE tbl_product SET name=?,category=?,unit=?,original=?,selling=?,image_path=?,quantity=? WHERE id=?";
+    $qry = $connection->prepare($sql);
+    $qry->bind_param("ssssssii",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$target,$_POST['quantity'],$_GET['id']);
+  }else{
     $sql = "UPDATE tbl_product SET name=?,category=?,unit=?,original=?,selling=?,quantity=? WHERE id=?";
     $qry = $connection->prepare($sql);
     $qry->bind_param("sssssii",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$_POST['quantity'],$_GET['id']);
+  }
+
     
     if($qry->execute()) {
       echo '<meta http-equiv="refresh" content="0; URL=index.php?status=updated">';
