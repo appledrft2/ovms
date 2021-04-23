@@ -1,4 +1,5 @@
 <?php 
+header('location:products/index.php');
 session_start();
 include('../../includes/autoload.php');
 if(isset($_POST['btnLogout'])){

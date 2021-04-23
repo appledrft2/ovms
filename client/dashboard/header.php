@@ -26,7 +26,6 @@
     <!-- fullCalendar -->
   <link rel="stylesheet" href="<?php echo $baseurl; ?>template/bower_components/fullcalendar/dist/fullcalendar.min.css">
   <link rel="stylesheet" href="<?php echo $baseurl; ?>template/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
-
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -41,16 +40,21 @@
     .swal2-popup {
       font-size: 1.6rem !important;
     }
+    .sidebarblue{
+      background-color: #1295ad !important;
+    }.sidebarblue:hover{
+      background-color: #1295ad !important;
+    }
   </style>
 </head>
 
-<body class="hold-transition skin-green sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
-  <header class="main-header">
+  <header class="main-header ">
     <!-- Logo -->
-    <a href="#" class="logo">
+    <a href="#" class="logo sidebarblue">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>V</b>MS</span>
       <!-- logo for regular state and mobile devices -->
@@ -104,26 +108,29 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="<?php if($pages == 'dashboard/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard"><i class="fa fa-calendar"></i> <span>My Appointments</span></a></li>
+     
+        <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/appointments"><i class="fa fa-calendar"></i> <span>My Appointments</span></a></li>
+        
         <li class="treeview <?php if($pages == 'pet/index' || $pages == 'pet/add'){echo 'active'; } ?>">
           <a href="#">
-            <i class="fa fa-paw"></i> <span>Manage Pets</span>
+            <i class="fa fa-paw"></i> <span>Pets</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="<?php if($pages == 'pet/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/pets/add.php"><i class="fa fa-plus-circle"></i> Add Pet</a></li>
+
             <li class="<?php if($pages == 'pet/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/pets"><i class="fa fa-list"></i> View Pets</a></li>
+           
           </ul>
         </li>
-
+        <li class="header" style="text-transform: uppercase;">Bath & Bark Products</li>
         <li class="<?php if($pages == 'product/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/products"><i class="fa fa-archive"></i> <span>Buy Products</span></a></li>
 
 
         <li class="<?php if($pages == 'product/cart'){echo 'active'; } ?>">
          <a href="<?php echo $baseurl; ?>client/dashboard/products/cart.php">
-           <i class="fa fa-shopping-cart"></i> <span>Cart</span>
+           <i class="fa fa-shopping-cart"></i> <span>My Cart</span>
            <span id="cartcounter" class="pull-right-container">
 
             <?php 
@@ -146,7 +153,7 @@
        </li>
 
         <li class="<?php if($pages == 'order/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/order/index.php"><i class="fa fa-file"></i> 
-        <span>Order List
+        <span>My Invoice
 
         <?php 
 

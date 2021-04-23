@@ -77,27 +77,27 @@ if($dbfn == ''){
                     <div class="col-md-6">
                       
                         <label>Fullname: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="fullname" value="<?php echo $dbfn; ?>">
+                        <input type="text" class="form-control" required name="fullname" value="<?php echo $dbfn; ?>">
                         <label>Phone Number: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="phone" value="<?php echo $dbp; ?>">
+                        <input type="text" class="form-control" required name="phone" value="<?php echo $dbp; ?>">
                        
                         <label>Special Notes: <i class="text-red"></i></label>
-                        <textarea class="form-control" rows="3" name="message" placeholder="(Optional)"><?php echo $dbm; ?></textarea>
+                        <textarea class="form-control" rows="3"  name="message" placeholder="(Optional)"><?php echo $dbm; ?></textarea>
                       
                     </div>
                     <div class="col-md-6">
         
                         
                         <label>Province: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="province" value="<?php echo $dbpr; ?>">
+                        <input type="text" class="form-control" required name="province" value="<?php echo $dbpr; ?>">
                         <label>City: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="city" value="<?php echo $dbc; ?>">
+                        <input type="text" class="form-control" required name="city" value="<?php echo $dbc; ?>">
                         <label>Barangay: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="barangay" value="<?php echo $dbb; ?>">
+                        <input type="text" class="form-control" required name="barangay" value="<?php echo $dbb; ?>">
                         <label>Purok/Street: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="street" value="<?php echo $dbs; ?>">
+                        <input type="text" class="form-control" required name="street" value="<?php echo $dbs; ?>">
                         <label>Postal Code: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="postal" value="<?php echo $dbpt; ?>">
+                        <input type="text" class="form-control" required name="postal" value="<?php echo $dbpt; ?>">
                    
                     </div>
                     <div class="col-md-12">

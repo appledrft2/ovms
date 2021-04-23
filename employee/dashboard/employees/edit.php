@@ -78,7 +78,7 @@ $pages = 'employee/index';
                 <hr>
                 <label>Employee Account</label><hr>
                 <label>Username <i style="color:red">*</i></label>
-                <input type="text" class="form-control" name="username" value="<?php echo $dbu ?>" required>
+                <input type="text" readonly class="form-control" name="username" value="<?php echo $dbu ?>" required>
                 <label>Password </label> (Leave empty if you dont want to change)
                 <input type="password" value='' class="form-control" name="password" >
               </div>

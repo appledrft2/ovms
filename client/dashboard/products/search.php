@@ -27,7 +27,7 @@ if (mysqli_connect_errno())
 echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 //////////////  QUERY THE MEMBER DATA INITIALLY LIKE YOU NORMALLY WOULD
-$sql = "SELECT id,name,category,selling FROM tbl_product WHERE status = 'Available' AND name LIKE '%".$_GET['keyword']."%'";
+$sql = "SELECT id,name,category,selling,image_path FROM tbl_product WHERE status = 'Available' AND name LIKE '%".$_GET['keyword']."%'";
 
 if ($result=mysqli_query($con,$sql))
     {
@@ -79,7 +79,7 @@ if ($pn == 1) {
 $limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
 // Now we are going to run the same query as above but this time add $limit onto the end of the SQL syntax
 // $sql2 is what we will use to fuel our while loop statement below
-$sql2 = "SELECT id,name,category,selling FROM tbl_product WHERE status = 'Available' AND name LIKE '%".$_GET['keyword']."%' ORDER BY id ASC $limit";
+$sql2 = "SELECT id,name,category,selling,image_path FROM tbl_product WHERE status = 'Available' AND name LIKE '%".$_GET['keyword']."%' ORDER BY id ASC $limit";
 
 //////////////////////////////// END Pagination Logic ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// Pagination Display Setup /////////////////////////////////////////////////////////////////////
@@ -113,13 +113,21 @@ if(mysqli_num_rows($result)){
       $name = $row["name"];
       $category = $row["category"];
       $price = $row["selling"];
+      $dbpip = $row['image_path'];
+      $prodimg = '';
+
+      if($dbpip == 'images/placeholder.jpg'){
+        $prodimg =  "<img src='".$baseurl."employee/dashboard/products/".$dbpip."' style='width:100%;height:200px'>";
+      }else{
+        $prodimg = "<center><img src='".$baseurl."employee/dashboard/products/".$dbpip."' style='width:200px;height:200px'></center>"; 
+      }
 
 
       $outputList .= "<div class='col-md-3'>
       <form method='POST' action='#'>
       <div class='box'>
       <div class='box-header'>
-      <img src='https://steemitimages.com/DQmVBSuY7wWa983U8vf9RcyF4vwEB2WBd72pj8Uh9wW3eyG/pets.jpg' style='width:100%;'>
+      ".$prodimg."
       </div>
       <div class='box-body'>
       <h3>
@@ -131,7 +139,7 @@ if(mysqli_num_rows($result)){
       <div class='box-footer'>
       <div class='pull-right'>
       <input type='hidden' name='pid' value='".$id."'>
-      <button type='submit' name='btnAddCart' class='btn btn-success '>Add to Cart</button>&nbsp;
+      <button type='submit' name='btnAddCart' class='btn btn-primary '>Add to Cart</button>&nbsp;
       <button type='submit' name='btnBuy' class='btn btn-default '>Buy Now</button>
       </div>
       </div>

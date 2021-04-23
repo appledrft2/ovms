@@ -62,7 +62,7 @@ $pages = 'pet/index';
 
           <div class="box">
             <div class="box-header">
-              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-paw"></i>&nbsp;&nbsp;Add Pet</a>
+              <a href="add.php" class="btn btn-primary btn-md"><i class="fa fa-paw"></i>&nbsp;&nbsp;Add Pet</a>
             </div>
             <div class="box-body">
               <table id="table1" class="table table-bordered">

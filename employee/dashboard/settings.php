@@ -92,8 +92,8 @@ $pages = 'dashboard/index';
                 <hr>
                 <label>User Account</label>
                 <hr>
-                <label>Username <i style="color:red">*</i></label>
-                <input type="text" class="form-control" name="username" value="<?php echo $dbuser; ?>"  required>
+                <label >Username <i style="color:red">*</i></label>
+                <input type="text" readonly class="form-control" name="username" value="<?php echo $dbuser; ?>"  required>
                 <label>Password </label> (Leave empty if you dont want to change)
                 <input type="password" class="form-control" name="password" >
               </div>

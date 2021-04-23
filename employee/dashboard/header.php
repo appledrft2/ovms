@@ -31,6 +31,12 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <style type="text/css">
+
+    .sidebarblue{
+      background-color: #1295ad !important;
+    }.sidebarblue:hover{
+      background-color: #1295ad !important;
+    }
     
     @media print {
       #printPageButton {
@@ -64,13 +70,13 @@
 
 </head>
 
-<body class="hold-transition skin-green sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="#" class="logo">
+    <a href="#" class="logo sidebarblue">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>V</b>MS</span>
       <!-- logo for regular state and mobile devices -->

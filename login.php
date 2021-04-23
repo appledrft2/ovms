@@ -11,7 +11,7 @@ if(isset($_SESSION['dbu'])){
 ?>
 <?php include('header.php'); ?>
 <body class="hold-transition login-page">
-  <div id="topstrip"><a href="#">Bath & Bark Grooming and Veterinary Services Management System</a></div>
+  <div id="topstrip"><a href="<?php echo $baseurl; ?>">Bath & Bark Grooming and Veterinary Services Management System</a></div>
 <div class="login-box">
   <div class="login-logo">
     <a href="#"><b></b>Sign In</a>

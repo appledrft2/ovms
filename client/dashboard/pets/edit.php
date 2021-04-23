@@ -13,16 +13,19 @@ if(isset($_SESSION['dbu'])){
   header('location:'.$baseurl.'');
 } 
 if(isset($_GET['id'])){
-  $sql = "SELECT id,name,breed,gender,specie,dob,markings,considerations FROM tbl_pet WHERE id=?";
+  $sql = "SELECT id,name,breed,gender,specie,dob,markings,considerations,birth_certificate FROM tbl_pet WHERE id=?";
   $qry = $connection->prepare($sql);
   $qry->bind_param("i",$_GET['id']);
   $qry->execute();
-  $qry->bind_result($id,$dbn,$dbb,$dbg,$dbs, $dbdob,$dbm,$dbc);
+  $qry->bind_result($id,$dbn,$dbb,$dbg,$dbs, $dbdob,$dbm,$dbc,$dbbirth_certificate);
   $qry->store_result();
   $qry->fetch ();
+
 }
+
+$pages = 'pet/index';
 ?>
-<?php include('header.php'); ?>
+<?php include('../header.php'); ?>
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
@@ -51,8 +54,52 @@ if(isset($_GET['id'])){
               <div class="col-md-6">
                 <label>Name <i style="color:red">*</i></label>
                 <input type="text" class="form-control" name="name"  value="<?php echo $dbn ?>" required>
+                <label>Species <i style="color:red">*</i></label>
+                <select class="form-control" name="specie" id="species" onchange="getSpecies(this);">
+                  <option value="" selected disabled>Select Species</option>
+                  <option <?php if($dbs == 'Canine'){echo 'selected';} ?>>Canine</option>
+                  <option <?php if($dbs == 'Feline'){echo 'selected';} ?>>Feline</option>
+                </select>
                 <label>Breed <i style="color:red">*</i></label>
-                <input type="text" class="form-control" name="breed"  value="<?php echo $dbb ?>" required>
+                <select name="breed" id="breed" class="form-control">
+                  <option selected value="">Select Breed</option>
+                  <?php 
+                      $sql = "SELECT id,name,type FROM tbl_pet_breed ORDER BY name ASC";
+                      $qry = $connection->prepare($sql);
+                      $qry->execute();
+                      $qry->bind_result($id,$dbn,$dbt);
+                      $qry->store_result();
+                      while($qry->fetch()){
+                        $pbreed = $dbn." (".$dbt.")";
+                        if($dbb == $pbreed){
+                          echo '<option selected>
+                            '.$dbn.'
+                            ('.$dbt.')';               
+                          echo '</option>';
+                        }else{
+                          echo '<option>
+                            '.$dbn.'
+                            ('.$dbt.')';               
+                          echo '</option>';
+                        }
+
+                      }
+
+                    ?>
+                </select>
+             
+                <a href="breed.php" onclick="window.open('breed.php','popup','width=600,height=600'); return false;" style="margin-top:1px;" class="btn btn-primary btn-sm"><i class="fa fa-paw"></i> Breed Not In list?</a>
+                <br>
+                <br>
+
+                <div class="form-group">
+                  <label>Upload Birth Certificate (Optional)<i style="color:red"></i></label><br>
+                  <img src="<?php echo $dbbirth_certificate; ?>" id="petDisplay" onclick="triggerClick()" style="width: 200px;height: 100px;">
+                  <input type="file" name="birth_certificate" onchange="displayImage(this)" id="petimage" style="display:none" class="form-control" accept="image/x-png,image/gif,image/jpeg">
+                </div>
+                
+              </div>
+              <div class="col-md-6">
                 <label>Gender <i style="color:red">*</i></label>
                 <select class="form-control" name="gender" requred>
                   <option value="" selected disabled>Select Gender</option>
@@ -60,15 +107,6 @@ if(isset($_GET['id'])){
                   <option <?php if($dbg == 'Female'){ echo 'selected';} ?>>Female</option>
                   <option <?php if($dbg == 'Neutered'){ echo 'selected';} ?>>Neutered</option>
                   <option <?php if($dbg == 'Spayed'){ echo 'selected';} ?>>Spayed</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label>Specie <i style="color:red">*</i></label>
-                <select class="form-control" name="specie">
-                  <option value="" selected disabled>Select Specie</option>
-                  <option <?php if($dbs == 'Canine'){ echo 'selected';} ?>>Canine</option>
-                  <option <?php if($dbs == 'Feline'){ echo 'selected';} ?>>Feline</option>
-                  <option <?php if($dbs == 'Other'){ echo 'selected';} ?>>Other</option>
                 </select>
                 <label>Date of Birth <i style="color:red">*</i></label>
                 <input type="date" class="form-control" name="dob" value="<?php echo $dbdob ?>" required>
@@ -83,7 +121,7 @@ if(isset($_GET['id'])){
             <div class="box-footer">
               <div class="pull-right">
                 <a href="<?php echo $baseurl; ?>client/dashboard/pets" class="btn btn-default" > Go Back</a>
-                <button name="btnSave" class="btn btn-success" > Save Changes</button>
+                <button name="btnSave" class="btn btn-primary" > Save Changes</button>
               </form>
               </div>
             </div>
@@ -104,7 +142,50 @@ if(isset($_GET['id'])){
 
 </div>
 <!-- ./wrapper -->
+<script type="text/javascript">
 
+  function triggerClick(){
+    $("#petimage").click();
+  }
+  function displayImage(e){
+    if(e.files[0]){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        $('#petDisplay').attr('src',e.target.result);
+      }
+      reader.readAsDataURL(e.files[0]);
+    }
+  }
+
+
+  function getSpecies(species){
+    filterFunction(species.value);
+    document.getElementById("breed").disabled = false;
+  
+  }
+
+  function filterFunction(specie) { 
+    var input, filter, ul, li, a, i;
+    input = document.getElementById(specie);
+    filter = specie.toUpperCase();
+    div = document.getElementById("breed");
+    a = div.getElementsByTagName("option");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
+
+
+  var date = new Date().toISOString().slice(0,10);
+  //To restrict future date
+  var restrict = document.getElementById("dob");
+  restrict.setAttribute('max', date);
+</script>
 <?php include('footer.php') ?>
 
 <?php 

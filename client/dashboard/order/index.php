@@ -23,7 +23,7 @@ $pages = 'order/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Order List</span>
+            <span class="text-left">Invoice List</span>
 
           </h1>
           <h2 class="col-md-6 text-right">

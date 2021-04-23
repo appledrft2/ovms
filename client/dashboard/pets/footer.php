@@ -29,7 +29,7 @@
     })
   })
   $(function () {
-    $('#table1').DataTable()
+    $('#table1').DataTable();
     $('#table2').DataTable({
       'paging'      : true,
       'lengthChange': false,
@@ -37,7 +37,7 @@
       'ordering'    : true,
       'info'        : false,
       'autoWidth'   : false
-    })
+    });
     $('#table3').DataTable({
       'paging'      : true,
       'lengthChange': false,
@@ -45,15 +45,15 @@
       'ordering'    : true,
       'info'        : false,
       'autoWidth'   : false
-    })
+    });
     $('#table4').DataTable({
       'paging'      : true,
       'lengthChange': false,
-      'searching'   : false,
+      'searching'   : true,
       'ordering'    : true,
       'info'        : false,
       'autoWidth'   : false
-    })
+    });
   })
 </script>
 

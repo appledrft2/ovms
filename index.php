@@ -1,4 +1,7 @@
-<?php include('includes/autoload.php'); ?>
+<?php 
+session_start();
+
+include('includes/autoload.php'); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,7 +134,11 @@
 		        <a class="nav-link text-black" style="padding:20px"  href="#services">Products & Services</a>
 		      </div>
 		      <div class="nav-item">
+		        <?php if(isset($_SESSION['dbu'])) : ?>
+		        <a class="nav-link text-black" style="padding:20px"  href="login.php">Dashboard</a>
+		        <?php else : ?>
 		        <a class="nav-link text-black" style="padding:20px"  href="login.php">Login</a>
+		        <?php endif; ?>
 		      </div>
 		    </div>
 		  </div>  
@@ -247,7 +254,7 @@
 									echo "<div class='form-inline'><label>Price:</label>&nbsp;&#8369;".number_format($dbpp,2)."</div>";
 									echo "</div>";
 									echo "<div class='card-footer'>";
-									echo "<button type='submit' name='btnAddCart' class='btn' style='background-color:#18BDDB;color:white;float:right'><i class='fa fa-shopping-cart'></i> Add to Cart</button>";
+									echo "<button type='submit' name='btnAddCart' class='btn' style='background-color:#18BDDB;color:white;float:right'><a href='login.php' style='text-decoration:none;color:white'><i class='fa fa-shopping-cart'></i> Add to Cart</a></button>";
 									echo "</div>";
 									echo "</div>";
 									echo "</div>";
