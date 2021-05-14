@@ -53,7 +53,7 @@ $pages = 'appointment/index';
       ?>
       <div class="alert alert-success alert-dismissible">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <p><i class="icon fa fa-print"></i>Please print your booking reservation before you arrive at the clinic. thank you!</p>
+          <p><i class="icon fa fa-print"></i>Please print your booking appointment before you arrive at the clinic. thank you!</p>
          
         </div>
       <div class="row">
