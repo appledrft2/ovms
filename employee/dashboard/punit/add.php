@@ -12,7 +12,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages ='punit/add';
+$pages ='punit/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->

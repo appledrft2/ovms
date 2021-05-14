@@ -12,7 +12,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages ='receiving/add';
+$pages ='receiving/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -63,8 +63,8 @@ $pages ='receiving/add';
                   <thead>
                     <tr>
                       <th>Product name</th>
-                      <th>Update Supplier Price</th>
-                      <th>Update Selling Price</th>
+                      <!-- <th>Update Supplier Price</th> -->
+                      <th>Update Price</th>
                       <th>Qty to Add</th>
                       <th>Action</th>
                     </tr>
@@ -90,7 +90,7 @@ $pages ='receiving/add';
                       </td>
              
                       
-                      <td><input type="number" class="form-control origprice" name="original[]" placeholder="&#8369;0.00" required ></td>
+                   <!--    <td><input type="number" style="display:none" class="form-control origprice" name="original[]" placeholder="&#8369;0.00" required ></td> -->
                       <td><input type="number" class="form-control sellprice" name="selling[]" placeholder="&#8369;0.00" required ></td>
                       <td><input type="number" class="form-control quantity" name="quantity[]" placeholder="Enter Quantity" required ></td>
                       <td><button type="button" class="btn btn-danger btn-sm" disabled><i class="fa fa-remove"></i></button></td>
@@ -161,7 +161,7 @@ $pages ='receiving/add';
   });
 
   $('#moreprod').click(function(){
-    $("#tblprod").append('<tr> <td> <select type="text" class="form-control selectprod" name="prodid[]" required> <option selected disabled value="">Select Product</option> <?php $sql = "SELECT id,name,category,unit,original,selling,quantity,status,timestamp FROM tbl_product ORDER BY timestamp ASC"; $qry = $connection->prepare($sql); $qry->execute(); $qry->bind_result($id,$dbn, $dbc, $dbu,$dbo,$dbs,$dbq,$dbst,$dbtimestamp); $qry->store_result(); while($qry->fetch ()) { echo ' <option value="'.$id.'">'.$dbn.'</option> '; } ?> </select> </td> <td><input type="number" class="form-control origprice" required name="original[]" placeholder="P0.00" ></td> <td><input type="number" class="form-control sellprice" required name="selling[]" placeholder="P0.00" ></td> <td><input type="number" class="form-control quantity" required name="quantity[]" placeholder="Enter Quantity"  ></td> <td><button type="button" class="btn btn-danger btn-sm delprod" ><i class="fa fa-remove"></i></button></td> </tr>');
+    $("#tblprod").append('<tr> <td> <select type="text" class="form-control selectprod" name="prodid[]" required> <option selected disabled value="">Select Product</option> <?php $sql = "SELECT id,name,category,unit,original,selling,quantity,status,timestamp FROM tbl_product ORDER BY timestamp ASC"; $qry = $connection->prepare($sql); $qry->execute(); $qry->bind_result($id,$dbn, $dbc, $dbu,$dbo,$dbs,$dbq,$dbst,$dbtimestamp); $qry->store_result(); while($qry->fetch ()) { echo ' <option value="'.$id.'">'.$dbn.'</option> '; } ?> </select> </td>  <td><input type="number" class="form-control sellprice" required name="selling[]" placeholder="&#8369;0.00" ></td> <td><input type="number" class="form-control quantity" required name="quantity[]" placeholder="Enter Quantity"  ></td> <td><button type="button" class="btn btn-danger btn-sm delprod" ><i class="fa fa-remove"></i></button></td> </tr>');
 
   });
    $('#tblprod').on('click', '.delprod', function () { 
@@ -182,14 +182,15 @@ if(isset($_POST['btnSave'])){
       $last_id = mysqli_insert_id($connection);
       $total = $subtotal = $original = $quantity =  0;
       $prod_arr = count($_POST['prodid']);
+      $orig = 0;
 
       for($i = 0;$i < $prod_arr;$i++){
 
         $sql = "INSERT INTO tbl_stockin_product(stockin_id,product_id,original,selling,quantity) VALUES(?,?,?,?,?)";
         $qry = $connection->prepare($sql);
-        $qry->bind_param('iissi',$last_id,$_POST['prodid'][$i],$_POST['original'][$i],$_POST['selling'][$i],$_POST['quantity'][$i]);
+        $qry->bind_param('iissi',$last_id,$_POST['prodid'][$i],$orig,$_POST['selling'][$i],$_POST['quantity'][$i]);
 
-        $subtotal = $_POST['original'][$i] * $_POST['quantity'][$i];
+        $subtotal = $_POST['selling'][$i] * $_POST['quantity'][$i];
 
         $total = $total + $subtotal;
 

@@ -297,7 +297,7 @@ include('includes/autoload.php'); ?>
 							</div>
 						</div>
 		</div>
-		<div class="box mt-5" style="padding:20px;border-radius: 10px;background-color: white">
+		<div id="services2" class="box mt-5" style="padding:20px;border-radius: 10px;background-color: white">
 			<div class="box-header">
 				<h3>SERVICES</h3>
 			</div>
@@ -370,16 +370,16 @@ include('includes/autoload.php'); ?>
 
 					$prev = $page1 - 1;
 					if($prev == 0){
-						echo '<li class="page-item disabled"><a class="page-link" href="index.php?spage='.$prev.'#services">Previous</a></li>';
+						echo '<li class="page-item disabled"><a class="page-link" href="index.php?spage='.$prev.'#services2">Previous</a></li>';
 					}else{
-						echo '<li class="page-item "><a class="page-link" href="index.php?spage='.$prev.'#services">Previous</a></li>';
+						echo '<li class="page-item "><a class="page-link" href="index.php?spage='.$prev.'#services2">Previous</a></li>';
 					} 
 					for($page=1;$page <= $number_of_pages;$page++){
 					
 					if($page == $page1){
-						echo '<li class="page-item active"><a class="page-link" href="index.php?spage='.$page.'#services">'.$page.'</a></li>';
+						echo '<li class="page-item active"><a class="page-link" href="index.php?spage='.$page.'#services2">'.$page.'</a></li>';
 					}else{
-						echo '<li class="page-item"><a class="page-link"  href="index.php?spage='.$page.'#services">'.$page.'</a></li>';
+						echo '<li class="page-item"><a class="page-link"  href="index.php?spage='.$page.'#services2">'.$page.'</a></li>';
 					}
 
 					}
@@ -388,7 +388,7 @@ include('includes/autoload.php'); ?>
 						echo '<li class="page-item disabled"><a class="page-link" href="index.php?spage='.$next.'">Next</a></li>
 							';
 					}else{
-						echo '<li class="page-item "><a class="page-link" href="index.php?spage='.$next.'#services">Next</a></li>
+						echo '<li class="page-item "><a class="page-link" href="index.php?spage='.$next.'#services2">Next</a></li>
 							';
 					}
 					echo	'</ul></nav>'; 

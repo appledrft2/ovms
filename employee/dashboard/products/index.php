@@ -71,22 +71,26 @@ $pages = 'product/index';
                     <th>Name</th>
                     <th>Category</th>
                     <th>Unit</th>
-                    <th>Supplier Price</th>
-                    <th>Selling Price</th>
+                    <th>Price</th>
                     <th>Quantity</th>
                     <th>Status</th>
-                    <th>Date Added</th>
+                    <th>Employee</th>
+                    <th>Date Added/Updated</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody id="tbod">
                   <?php 
-                    $sql = "SELECT id,name,category,unit,original,selling,quantity,status,timestamp FROM tbl_product ORDER BY timestamp ASC";
+                    $sql = "SELECT p.id,p.name,p.category,p.unit,p.selling,p.quantity,p.status,p.timestamp,e.username FROM tbl_product AS p LEFT JOIN tbl_employee AS e ON e.id = p.user_id ORDER BY p.timestamp ASC";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbn, $dbc, $dbu,$dbo,$dbs,$dbq,$dbst,$dbtimestamp);
+                    $qry->bind_result($id,$dbn, $dbc, $dbu,$dbs,$dbq,$dbst,$dbtimestamp,$username);
                     $qry->store_result();
                     while($qry->fetch ()) {
+
+                      $username = ($username == '') ? '' : $username;
+                      $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
+
                       echo"<tr>";
                       echo"<td>";
                       echo $dbn;
@@ -98,14 +102,12 @@ $pages = 'product/index';
                       echo $dbu;
                       echo"</td>";
                       echo"<td class='text-right'>&#8369;";
-                      echo number_format($dbo,2);
-                      echo"</td>";
-                      echo"<td class='text-right'>&#8369;";
                       echo number_format($dbs,2);
                       echo"</td>";
                       echo"<td class='text-center'>";
                       echo $dbq;
                       echo"</td>";
+
                       echo"<td class='text-center'>";
                       echo "<form method='POST' action='update_stat.php'  >";
                       if($dbst == 'Available'){
@@ -125,6 +127,9 @@ $pages = 'product/index';
                       }
                      echo "</form>";
 
+                      echo"</td>";
+                      echo"<td class='text-center'>";
+                      echo ucwords($username);
                       echo"</td>";
                       echo"<td class='text-center'>";
                       echo $dbtimestamp;

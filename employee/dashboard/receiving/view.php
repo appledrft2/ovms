@@ -75,8 +75,8 @@ $qry->fetch ();
                   <thead>
                     <tr>
                       <th>Product name</th>
-                      <th>Update Supplier Price</th>
-                      <th>Update Selling Price</th>
+                      <!-- <th>Update Supplier Price</th> -->
+                      <th>Updated Price</th>
                       <th>Qty to Add</th>
                       <th>Subtotal</th>
                     </tr>
@@ -90,14 +90,14 @@ $qry->fetch ();
                       $qry->store_result();
                       $subtotal = 0;
                       while($qry->fetch ()){
-                        $subtotal = $dbspo * $dbspq;
+                        $subtotal = $dbsps * $dbspq;
                         echo '<tr>
                             <td>
                               '.$dbpname.'
                             </td>
                    
                             
-                            <td>'.$dbspo.'</td>
+                      
                             <td>'.$dbsps.'</td>
                             <td>'.$dbspq.'</td>
                             <td>&#8369; '.number_format($subtotal,2).'</td>
@@ -114,7 +114,7 @@ $qry->fetch ();
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td></td>
+              
                       <td ><label>Total:</label> &#8369; <?php echo number_format($dbtotal,2); ?></td>
                     </tr>
                   </tfoot>

@@ -26,11 +26,12 @@ include('../../includes/autoload.php');
         $qry->bind_param("sssssssss",$_POST['firstname'],$_POST['middlename'],$_POST['lastname'],$username,$_POST['gender'],$_POST['address'],$_POST['phone'],$hashed_password,$client_num);
 
         if($qry->execute()) {
-        
+
+          $last_id = mysqli_insert_id($connection);
           $role = "client";
-          $sql2 = "INSERT INTO tbl_user(username,password,role) VALUES(?,?,?)";
+          $sql2 = "INSERT INTO tbl_user(username,password,role,user_id) VALUES(?,?,?,?)";
           $qry2 = $connection->prepare($sql2);
-          $qry2->bind_param("sss",$_POST['username'],$hashed_password,$role);
+          $qry2->bind_param("sssi",$_POST['username'],$hashed_password,$role,$last_id);
           $qry2->execute();
 
           header('location:index.php?status=created');

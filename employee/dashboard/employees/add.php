@@ -51,6 +51,13 @@ if(isset($_POST['btnSave'])){
       $qry->bind_param("sssssssss",$_POST['firstname'],$_POST['middlename'],$_POST['lastname'],$_POST['gender'],$_POST['employee_type'],$_POST['phone'],$_POST['email'],$_POST['username'],$hashed_password);
 
       if($qry->execute()) {
+
+        $last_id = mysqli_insert_id($connection);
+        $role = $_POST['employee_type'];
+        $sql2 = "INSERT INTO tbl_user(username,password,role,user_id) VALUES(?,?,?,?)";
+        $qry2 = $connection->prepare($sql2);
+        $qry2->bind_param("sssi",$_POST['username'],$hashed_password,$role,$last_id);
+        $qry2->execute();
       
         echo '<meta http-equiv="refresh" content="0; URL=index.php?status=created">';
       }else{

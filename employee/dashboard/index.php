@@ -42,6 +42,9 @@ $pages ='dashboard/index';
 
     <!-- Main content -->
     <section class="content">
+      <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+
+
       <div class="alert alert-warning alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <p><i class="icon fa fa-dollar"></i>OVERALL TOTAL INCOME OF SALES, COMPLETED APPOINTMENTS, AND ORDERS IS DISPLAYED BELOW.</p>
@@ -102,190 +105,49 @@ $pages ='dashboard/index';
               <!-- /.col -->
 
       </div>
-      <?php 
-        if(isset($_GET['status'])){
-          if($_GET['status'] == 'approved'){
-            echo '<div class="alert alert-success alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-check"></i>  Appointment Successfully Approved.</p>
-                     
-                    </div>';
-          }if($_GET['status'] == 'completed'){
-            echo '<div class="alert alert-success alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-check"></i>  Appointment Successfully Completed.</p>
-                     
-                    </div>';
-          }if($_GET['status'] == 'followup'){
-            echo '<div class="alert alert-success alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-check"></i>  Appointment Successfully Followed Up.</p>
-                     
-                    </div>';
-          }if($_GET['status'] == 'rescheduled'){
-            echo '<div class="alert alert-info alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-info"></i>  Appointment Has Been Rescheduled.</p>
-                     
-                    </div>';
-          }if($_GET['status'] == 'declined'){
-            echo '<div class="alert alert-warning alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-info"></i>  Appointment Has Been Declined.</p>
-                     
-                    </div>';
-          }if($_GET['status'] == 'deleted'){
-            echo '<div class="alert alert-danger alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-remove"></i>  Appointment Successfully Deleted.</p>
-                     
-                    </div>';
-          }
-        }
-      ?>
+      <?php }else{ ?>
+
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p><i class="icon fa fa-dashboard"></i>Welcome Back, <?php echo $_SESSION['dbg'].''.ucwords($_SESSION['dbl']); ?>!</p>
+       
+      </div>
+
+      <?php } ?>
+
       <div class="row">
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header">
-              <label>Upcomming Appointments</label><br>
-            </div>
+        <div class="col-md-6">
+          <div class="box box-info">
             <div class="box-body">
-              <table id="table3" class="table">
-                <thead style="background-color: #222d32;color:white;">
-                  <tr>
-                    <th>Client</th>
-                    <th>Type</th>
-                    <th>Veterinarian</th>
-                    <th>Date of Appointment</th>
-
-                    <th>Status</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php 
-                  
-                  $sql = "SELECT ap.id,cl.firstname,cl.middlename,cl.lastname,ap.type,ap.appointment_date,ap.status,ap.timestamp,em.firstname,em.middlename,em.lastname,ap.total FROM tbl_appointment as ap INNER JOIN tbl_client as cl ON ap.client_id = cl.id INNER JOIN tbl_employee as em ON ap.veterinarian_id = em.id WHERE ap.status = 'Approved' ORDER BY ap.appointment_date ASC";
-                  $qry = $connection->prepare($sql);
-                  $qry->execute();
-                  $qry->bind_result($id,$dbf,$dbm,$dbl,$dbt,$dba,$dbs,$dbtimestamp,$dbf2,$dbm2,$dbl2,$dbtotal2);
-                  $qry->store_result();
-                  while($qry->fetch ()) {
-                    $dba = date_create($dba);
-                      echo"<tr>";
-                      echo"<td>";
-                      echo $dbf." ".$dbm." ".$dbl;
-                      echo"</td>"; 
-                      echo"<td>";
-                      echo $dbt;
-                      echo"</td>";
-                      echo"<td>";
-                      echo "Dr. ".$dbf2." ".$dbm2[0].". ".$dbl2;
-                      echo"</td>";  
-                      echo"<td class='text-center'>";
-                      echo date_format($dba,'M d,Y');
-                      echo"</td>";  
-                      echo"<td>";
-                      echo $dbs;
-                      echo"</td>";
-                      echo"<td class='text-right'>";
-                      echo '&#8369; '.number_format($dbtotal2,2);
-                      echo"</td>";
-                      
-                      echo"<td>";
-                      echo "<a href='finalize.php?id=".$id."' class='btn btn-default btn-sm ' ><i class='fa fa-edit'></i> Finalize</a>";
-                      echo"</td>";   
-                      echo"</tr>";   
-                    }
-                  ?>
-                </tbody>
-              </table>
+              <p class="h2" style="padding:0 10px;">Mission, Vision and Values</p>
+              <p class="text-justify" style="font-size: 1.2em;padding:0 10px">We have come together as a staff to decide why and how we do what we do.  When taking care of our clients and patients we are guided by this vision which is further defined by our clinic’s core values, our mission and our philosophies.   We then use these as a guide to help us better in our daily interactions.</p>
             </div>
           </div>
+
+
         </div>
-        <div class="col-md-12">
-          <div class="box">
+
+        <div class="col-md-6">
+          <div class="box box-info">
             <div class="box-header">
-              <label>Appointment Request</label>
+              <h2>Client Schedule</h2>
             </div>
-            <div class="box-body">
-              <table id="table12" class="table">
-                <thead style="background-color: #222d32;color:white;">
-                  <tr>
-                    <th width="20%">Client</th>
-                    <th>Type</th>
-                    <th>Veterinarian</th>
-                    <th>Date of Appoinment</th>
-                    <th>Status</th>
-                    <th>Total</th>
-                    <th>Date Requested</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php 
-                  
-                  $sql = "SELECT ap.id,cl.firstname,cl.middlename,cl.lastname,ap.type,ap.appointment_date,ap.status,ap.timestamp,em.firstname,em.middlename,em.lastname,ap.total,ap.iscancelled FROM tbl_appointment as ap INNER JOIN tbl_client as cl ON ap.client_id = cl.id LEFT JOIN tbl_employee as em ON ap.veterinarian_id = em.id WHERE status = 'Pending'";
-                  $qry = $connection->prepare($sql);
-                  $qry->execute();
-                  $qry->bind_result($id,$dbf,$dbm,$dbl,$dbt,$dba,$dbs,$dbtimestamp,$dbf2,$dbm2,$dbl2,$dbtotal,$dbisc);
-                  $qry->store_result();
-                  while($qry->fetch ()) {
-                      echo"<tr>";
-                      echo"<td >";
-                      echo $dbf." ".$dbm.' '.$dbl;
-                      echo"</td>"; 
-                      echo"<td>";
-                      echo $dbt;
-                      echo"</td>";
-                      echo"<td class='text-center'>";
-                      if($dbf2 != '' && $dbl2 != ''){
-                        echo "Dr. ".$dbf2." ".$dbm2[0].". ".$dbl2;
-                      }else{
-                        echo '-';
-                      }
-                      echo"</td>";  
-                      echo"<td class='text-center'>";
-                      if($dba == ''){
-                        echo '-';
-                      }else{
-                        echo $dba;
-                      }
-                      echo"</td>";  
-                      echo"<td >";
-                      if($dbisc == 'true'){
-                        echo 'Client Cancelled';
-                      }else{
-                        echo $dbs;
-                      }
-                      echo"</td>";
-                      echo"<td class='text-right'>";
-                      echo '&#8369; '.number_format($dbtotal,2);
-                      echo"</td>";
-                      echo"<td class='text-right'>";
-                      echo $dbtimestamp;
-                      echo"</td>";   
-                      echo"<td>";
-
-                      if($dbisc == 'true'){
-                        echo '<button type="button" class="btn btn-default btn-sm" href="#" disabled><i class="fa fa-search"></i> View</button>
-                                      &nbsp;<a href="delete_app.php?id='.$id.'" ';?>onclick="return confirm('Are you sure you want to delete this appointment?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
-                      }else{
-                        echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i> View</a>
-                                      &nbsp;<a href="delete_app.php?id='.$id.'" ';?>onclick="return confirm('Are you sure you want to delete this appointment?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
-                      }
-
-                      echo"</td>";   
-                      echo"</tr>";   
-                    }
-                  ?>
-                </tbody>
-              </table>
+            <div class="box-body no-padding ">
+              <style>
+                 .fc-day-grid-event .fc-content {
+                   white-space: normal; 
+                   text-align: center;
+                }
+              </style>
+              <!-- THE CALENDAR -->
+              <div id="calendar"></div>
             </div>
+            <!-- /.box-body -->
           </div>
+          <!-- /. box -->
         </div>
       </div>
+      
     </section>
 
   </div>

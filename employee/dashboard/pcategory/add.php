@@ -12,7 +12,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages ='pcategory/add';
+$pages ='pcategory/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->

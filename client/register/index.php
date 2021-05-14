@@ -39,11 +39,12 @@ if(isset($_POST['btnRegister'])){
 
       if($qry->execute()) {
       
-        $role = "Client";
-        $sql2 = "INSERT INTO tbl_user(username,password,role) VALUES(?,?,?)";
-        $qry2 = $connection->prepare($sql2);
-        $qry2->bind_param("sss",$_POST['username'],$hashed_password,$role);
-        $qry2->execute();
+        $last_id = mysqli_insert_id($connection);
+          $role = "client";
+          $sql2 = "INSERT INTO tbl_user(username,password,role,user_id) VALUES(?,?,?,?)";
+          $qry2 = $connection->prepare($sql2);
+          $qry2->bind_param("sssi",$_POST['username'],$hashed_password,$role,$last_id);
+          $qry2->execute();
 
         header('location:index.php?status=created');
 

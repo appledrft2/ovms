@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Welcome to Bath & Bark</title>
+  <title>Dashboard | Welcome to Bath & Bark</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -109,7 +109,20 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
      
-        <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/appointments"><i class="fa fa-calendar"></i> <span>My Appointments</span></a></li>
+        <li class="treeview <?php if($pages == 'appointment/index' || $pages == 'appointment/book'){echo 'active'; } ?>">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Appointments</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+
+            <li class="<?php if($pages == 'appointment/book'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/book"><i class="fa fa-book"></i> Book Appointment</a></li>
+            <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/appointments"><i class="fa fa-calendar"></i> My Appointments</a></li>
+           
+          </ul>
+        </li>
         
         <li class="treeview <?php if($pages == 'pet/index' || $pages == 'pet/add'){echo 'active'; } ?>">
           <a href="#">

@@ -131,37 +131,29 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header text-center">MAIN NAVIGATION</li>
         <li class="<?php if($pages == 'dashboard/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-       <?php if($_SESSION['dbet'] == 'Admin'){ ?>
 
-        <li class="treeview <?php if($pages == 'employee/index' || $pages == 'employee/add'){echo 'active'; } ?>">
-          <a href="#">
-            <i class="fa fa-users"></i> <span>Manage Employee</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="<?php if($pages == 'employee/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees/add.php"><i class="fa fa-plus-circle"></i> Add Employee</a></li>
-            <li class="<?php if($pages == 'employee/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees"><i class="fa fa-list"></i> View Employees</a></li>
-          </ul>
-        </li>
+        <li class="<?php if($pages == 'appointment/schedule'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/schedule"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a></li>
 
-       <?php } ?>
+        <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/appointments"><i class="fa fa-calendar"></i> <span>Appointments</span></a></li>
+       
+
+
         <li class="treeview <?php if($pages == 'service/index' || $pages == 'service/add'){echo 'active'; } ?>">
           <a href="#">
-            <i class="fa fa-heart"></i> <span>Manage Services</span>
+            <i class="fa fa-heart"></i> <span>Services</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="<?php if($pages == 'service/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services/add.php"><i class="fa fa-plus-circle"></i> Add Service</a></li>
-            <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list"></i> View Services</a></li>
+ 
+            <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list-alt"></i> View Services</a></li>
           </ul>
-        </li>
+        </li> 
 
-        <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/appointment"><i class="fa fa-calendar"></i> <span>Completed Appointments</span></a></li>
-        <li class="<?php if($pages == 'crecord/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/crecords"><i class="fa fa-book"></i> <span>View Client Records</span></a></li>
+
+       <!--  <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/appointment"><i class="fa fa-calendar"></i> <span>Completed Appointments</span></a></li>
+        <li class="<?php if($pages == 'crecord/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/crecords"><i class="fa fa-book"></i> <span>View Client Records</span></a></li> -->
          <li class="header text-center">INVENTORY</li>
          <li class="treeview <?php if($pages == 'pcategory/index'|| $pages == 'pcategory/add'){echo 'active'; } ?>">
            <a href="#">
@@ -171,8 +163,8 @@
              </span>
            </a>
            <ul class="treeview-menu">
-             <li class="<?php if($pages == 'pcategory/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/pcategory/add.php"><i class="fa fa-plus-circle"></i> Add Category</a></li>
-             <li class="<?php if($pages == 'pcategory/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/pcategory"><i class="fa fa-list"></i> View Categories</a></li>
+
+             <li class="<?php if($pages == 'pcategory/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/pcategory"><i class="fa fa-list-alt"></i> View Categories</a></li>
            </ul>
          </li>
          <li class="treeview <?php if($pages == 'punit/index'|| $pages == 'punit/add'){echo 'active'; } ?>">
@@ -183,20 +175,20 @@
              </span>
            </a>
            <ul class="treeview-menu">
-             <li class="<?php if($pages == 'punit/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/punit/add.php"><i class="fa fa-plus-circle"></i> Add Unit</a></li>
-             <li class="<?php if($pages == 'punit/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/punit"><i class="fa fa-list"></i> Unit List</a></li>
+
+             <li class="<?php if($pages == 'punit/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/punit"><i class="fa fa-list-alt"></i> View Unit</a></li>
            </ul>
          </li>
         <li class="treeview <?php if($pages == 'product/index'|| $pages == 'product/add'){echo 'active'; } ?>">
           <a href="#">
-            <i class="fa fa-archive"></i> <span>Manage Products</span>
+            <i class="fa fa-archive"></i> <span>Products</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="<?php if($pages == 'product/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/products/add.php"><i class="fa fa-plus-circle"></i> Add Product</a></li>
-            <li class="<?php if($pages == 'product/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/products"><i class="fa fa-list"></i> View Products</a></li>
+
+            <li class="<?php if($pages == 'product/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/products"><i class="fa fa-list-alt"></i> View Products</a></li>
           </ul>
         </li>
          <li class="treeview <?php if($pages == 'receiving/index'|| $pages == 'receiving/add'){echo 'active'; } ?>">
@@ -207,15 +199,17 @@
              </span>
            </a>
            <ul class="treeview-menu">
-             <li class="<?php if($pages == 'receiving/add'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/receiving/add.php"><i class="fa fa-plus-circle"></i> Stock In</a></li>
-             <li class="<?php if($pages == 'receiving/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/receiving"><i class="fa fa-list"></i> Stock In List</a></li>
+
+             <li class="<?php if($pages == 'receiving/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/receiving"><i class="fa fa-list-alt"></i> Stock In List</a></li>
            </ul>
          </li>
          <li class="<?php if($pages == 'pos/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/pos"><i class="fa fa-shopping-cart"></i> <span>Point of Sales</span></a></li>
+         
 
+         <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
          <li class="treeview <?php if($pages == 'reports/index'|| $pages == 'reports/add'){echo 'active'; } ?>">
            <a href="#">
-             <i class="fa fa-file"></i> <span>Manage Reports</span>
+             <i class="fa fa-file"></i> <span>Reports</span>
              <span class="pull-right-container">
                <i class="fa fa-angle-left pull-right"></i>
              </span>
@@ -225,7 +219,29 @@
              
            </ul>
          </li>
-         <li class="<?php if($pages == 'order/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/order"><i class="fa fa-gavel"></i> <span>Manage Orders</span></a></li>
+        <?php } ?>
+
+        <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+        <li class="<?php if($pages == 'order/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/order"><i class="fa fa-gavel"></i> <span>Orders</span></a></li>
+        <?php } ?>
+
+
+
+         <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+          <li class="header text-center">SETTINGS</li>
+          <li class="treeview <?php if($pages == 'employee/index' || $pages == 'employee/add'){echo 'active'; } ?>">
+            <a href="#">
+              <i class="fa fa-users"></i> <span>Employee</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+
+              <li class="<?php if($pages == 'employee/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees"><i class="fa fa-list-alt"></i> View Employees</a></li>
+            </ul>
+          </li>
+         <?php } ?>
 
 
         

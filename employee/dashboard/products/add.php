@@ -12,7 +12,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages ='product/add';
+$pages ='product/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -99,9 +99,9 @@ $pages ='product/add';
                 </select>
               </div>
               <div class="col-md-6">
-                <label>Supplier Price <i style="color:red">*</i></label>
-                <input type="text" class="form-control" name="original" required>
-                <label>Selling Price <i style="color:red">*</i></label>
+                <label style="display:none">Supplier Price <i style="color:red">*</i></label>
+                <input style="display:none" type="text" class="form-control" name="original" value="0" required>
+                <label>Price <i style="color:red">*</i></label>
                 <input type="text" class="form-control" name="selling" required>
                 <label>Quantity <i style="color:red">*</i></label>
                 <input type="number" class="form-control" name="quantity" required>
@@ -161,9 +161,9 @@ if(isset($_POST['btnSave'])){
       $target = "images/placeholder.jpg";
     }
 
-    $sql = "INSERT INTO tbl_product(name,category,unit,original,selling,quantity,status,image_path) VALUES(?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO tbl_product(name,category,unit,original,selling,quantity,status,image_path,user_id) VALUES(?,?,?,?,?,?,?,?,?)";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("sssssiss",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$_POST['quantity'],$st,$target);
+    $qry->bind_param("sssssissi",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$_POST['quantity'],$st,$target,$_SESSION['dbu']);
 
 
     if($qry->execute()) {

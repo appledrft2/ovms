@@ -96,9 +96,9 @@ $pages = 'product/index';
                 </select>
               </div>
               <div class="col-md-6">
-                <label>Supplier Price <i style="color:red">*</i></label>
-                <input type="text" class="form-control" name="original" value="<?php echo $dbo; ?>" required>
-                <label>Selling Price <i style="color:red">*</i></label>
+                <label style="display:none">Supplier Price <i style="color:red">*</i></label>
+                <input style="display:none" type="text" class="form-control" name="original" value="<?php echo $dbo; ?>" required>
+                <label>Price <i style="color:red">*</i></label>
                 <input type="text" class="form-control" name="selling" value="<?php echo $dbs; ?>" required>
                 <label>Quantity <i style="color:red">*</i></label>
                 <input type="number" class="form-control" name="quantity" value="<?php echo $dbq; ?>" required>
@@ -149,17 +149,23 @@ $pages = 'product/index';
 if(isset($_POST['btnSave'])){
 
   if(!empty($_FILES['productimage'])){
-    $imagename = time() .'-'.$_FILES['productimage']['name'];
-    $target = 'images/'.$imagename;
-    move_uploaded_file($_FILES['productimage']['tmp_name'], $target);
 
-    $sql = "UPDATE tbl_product SET name=?,category=?,unit=?,original=?,selling=?,image_path=?,quantity=? WHERE id=?";
+    if($_FILES['productimage']['name'] == ''){
+      $target = 'images/placeholder.jpg';
+    }else{
+      $imagename = time() .'-'.$_FILES['productimage']['name'];
+      $target = 'images/'.$imagename;
+      move_uploaded_file($_FILES['productimage']['tmp_name'], $target);
+    }
+
+
+    $sql = "UPDATE tbl_product SET name=?,category=?,unit=?,original=?,selling=?,image_path=?,quantity=?,user_id=? WHERE id=?";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("ssssssii",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$target,$_POST['quantity'],$_GET['id']);
+    $qry->bind_param("ssssssiii",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$target,$_POST['quantity'],$_SESSION['dbu'],$_GET['id']);
   }else{
-    $sql = "UPDATE tbl_product SET name=?,category=?,unit=?,original=?,selling=?,quantity=? WHERE id=?";
+    $sql = "UPDATE tbl_product SET name=?,category=?,unit=?,original=?,selling=?,quantity=?,user_id=? WHERE id=?";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("sssssii",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$_POST['quantity'],$_GET['id']);
+    $qry->bind_param("sssssiii",$_POST['name'],$_POST['category'],$_POST['unit'],$_POST['original'],$_POST['selling'],$_POST['quantity'],$_SESSION['dbu'],$_GET['id']);
   }
 
     
