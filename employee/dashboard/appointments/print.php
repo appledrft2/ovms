@@ -39,7 +39,7 @@ $to = date_create($_POST['dto']);
 </head>
 <body>
 	<center>
-	  <img src="http://localhost/ovms/logo.jpg" width="100px" style="border:1px solid black"><br>
+	  <img src="<?php echo $baseurl ?>logo.jpg" width="100px" style="border:1px solid black"><br>
 	  <b style="text-transform: uppercase;">Bath & Bark Grooming and Veterinary Services</b>
 	  <p>
 	    Bauan-Batangas Road<br>

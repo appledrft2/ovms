@@ -105,6 +105,10 @@ $pages = 'appointment/index';
                         echo "<span class='label label-danger'>$dbst</span>";
                       }if($dbst == 'Booked'){
                         echo "<span class='label label-warning'>$dbst</span>";
+                      }if($dbst == 'In Progress'){
+                        echo "<span class='label label-primary'>$dbst</span>";
+                      }if($dbst == 'Completed'){
+                        echo "<span class='label label-success'>$dbst</span>";
                       }
                       echo"</td>";
                       echo"<td class='text-center'>";
