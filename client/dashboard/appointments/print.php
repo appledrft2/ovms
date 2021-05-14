@@ -60,7 +60,7 @@ if(isset($_GET['id'])){
   <body>
     
     <center>
-      <img src="http://localhost/ovms/logo.jpg" width="100px" ><br>
+      <img src="<?php echo $baseurl ?>logo.jpg" width="100px" ><br>
       <b style="text-transform: uppercase;">Bath & Bark Grooming and Veterinary Services</b>
       <p>
         Bauan-Batangas Road<br>
