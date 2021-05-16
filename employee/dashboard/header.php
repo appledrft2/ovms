@@ -12,6 +12,7 @@ if(isset($_POST['btnLogout'])){
   header('location:'.$baseurl.'');
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -257,7 +258,7 @@ if(isset($_POST['btnLogout'])){
 
 
 
-       <!--   <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+         <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
           <li class="header text-center">SETTINGS</li>
           
 
@@ -273,7 +274,7 @@ if(isset($_POST['btnLogout'])){
               <li class="<?php if($pages == 'system/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/logs"><i class="fa fa-list-alt"></i> View Logs</a></li>
             </ul>
           </li>
-         <?php } ?> -->
+         <?php } ?>
 
 
         
