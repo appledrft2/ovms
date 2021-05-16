@@ -222,7 +222,7 @@ if(isset($_GET['id'])){
                   <a id="printPageButton" href="<?php echo $baseurl; ?>employee/dashboard/appointments" class="btn btn-default" > Go Back</a>
                   
                   <?php if($vet_id == $_SESSION['dbu']): ?>
-                  <?php if($dbstatus != 'Cancelled'): ?>
+                  <?php if($dbstatus != 'Cancelled' && $dbstatus != 'Booked'): ?>
                     
                   <button  type="submit" name="btnUpdate" class="btn btn-primary" ><i class="fa fa-check"></i> Update Appointment</button>
 

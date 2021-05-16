@@ -25,7 +25,7 @@ $qry->execute();
 $qry->bind_result($status);
 $qry->store_result();
 while($qry->fetch ()){
-  if($status == 'pending' || $status == 'approved'){
+  if($status == 'In Progress' || $status == 'Booked'){
     $dbstatus = true;
   }
 }
