@@ -1,10 +1,7 @@
 <?php 
 session_start();
 include('../../../includes/autoload.php');
-if(isset($_POST['btnLogout'])){
-  session_unset();
-  header('location:'.$baseurl.'');
-}
+
 if(isset($_SESSION['dbu'])){ 
   if($_SESSION['dbc'] != false){
       header("location:".$baseurl."client/dashboard");
@@ -123,7 +120,7 @@ $pages ='pos/index';
               </div>
               <div class="box-footer">
                 <div class="pull-right">
-                  <button type="submit" name="btnSave" class="btn btn-success"> Process Transaction</button>
+                  <button type="submit" id="btnprocess" name="btnSave" disabled class="btn btn-success "> Process Transaction</button>
                 </div>  
               </div>
             </div>
@@ -306,9 +303,17 @@ $(document).ready(function() {
 
       $('#change').val(change.toFixed(2));
 
+
+      if(change >= 0){
+        $('#btnprocess').attr('disabled',false);
+      }else{
+        $('#btnprocess').attr('disabled',true);
+      }
+
     }else{
       alert('Please add a product first.');
     }
+
   });
 
 
@@ -353,6 +358,13 @@ if(isset($_POST['btnSave'])){
             $qry->bind_param("ii",$dbpquantity,$_POST['prodid'][$i]);
 
             if($qry->execute()) {
+
+              $activity = "Processed Transaction with Invoice#: ".$_POST['icode'];
+              $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
+              $qryx = $connection->prepare($sqlx);
+              $qryx->bind_param("is",$_SESSION['dbu'],$activity);
+              $qryx->execute();
+
               echo '<meta http-equiv="refresh" content="0; URL=invoice.php?id='.$last_id.'">';
             }
   

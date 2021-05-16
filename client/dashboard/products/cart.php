@@ -191,7 +191,7 @@ if($dbfn == ''){
                    <div class="pull-right">
                 
                     <label>Upload Proof of Payment (.jpg/.png): <i class="text-red">*</i></label>
-                    <input type="file" class="form-control" <?php if($cempty == true){ echo 'disabled';} ?> name="proof_of_pay" accept="image/jpeg,image/png" >
+                    <input type="file" required class="form-control" <?php if($cempty == true){ echo 'disabled';} ?> name="proof_of_pay" accept="image/jpeg,image/png" >
                 
                
                   </div>

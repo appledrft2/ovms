@@ -1,10 +1,7 @@
 <?php 
 session_start();
 include('../../../includes/autoload.php');
-if(isset($_POST['btnLogout'])){
-  session_unset();
-  header('location:'.$baseurl.'');
-}
+
 if(isset($_SESSION['dbu'])){ 
   if($_SESSION['dbc'] != false){
       header("location:".$baseurl."client/dashboard");
@@ -15,11 +12,11 @@ if(isset($_SESSION['dbu'])){
 $pages = 'appointment/index';
 
 if(isset($_GET['id'])){
-  $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,c.firstname,c.lastname,c.gender,a.client_remarks FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON e.id = a.veterinarian_id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE a.id=?";
+  $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,c.firstname,c.lastname,c.gender,a.client_remarks,a.veterinarian_id FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON e.id = a.veterinarian_id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE a.id=?";
   $qry = $connection->prepare($sql);
   $qry->bind_param("i",$_GET['id']);
   $qry->execute();
-  $qry->bind_result($id,$sched,$ef,$el,$dbstatus,$cf,$cl,$cg,$cremarks);
+  $qry->bind_result($id,$sched,$ef,$el,$dbstatus,$cf,$cl,$cg,$cremarks,$vet_id);
   $qry->store_result();
   $qry->fetch();
 
@@ -105,7 +102,14 @@ if(isset($_GET['id'])){
                   <input type="text" class="form-control" value="Dr. <?= $ef.' '.$el; ?>" readonly>
                   <label for="">Status</label>
               
-                  <?php if($dbstatus == 'In Progress'): ?>
+                  <?php if($dbstatus == 'Booked'): ?>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                     
+                      <?= $dbstatus; ?>
+                    </div>
+                  <?php endif; ?>
+                   <?php if($dbstatus == 'In Progress'): ?>
                     <div class="progress">
                       <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
                      
@@ -217,10 +221,13 @@ if(isset($_GET['id'])){
               <div class="pull-right">
                   <a id="printPageButton" href="<?php echo $baseurl; ?>employee/dashboard/appointments" class="btn btn-default" > Go Back</a>
                   
-                  <?php if($dbstatus == 'In Progress'): ?>
+                  <?php if($vet_id == $_SESSION['dbu']): ?>
+                  <?php if($dbstatus != 'Cancelled'): ?>
                     
-                  <button  type="submit" name="btnUpdate" class="btn btn-primary" ><i class="fa fa-check"></i> Complete Appointment</button>
-                <?php endif; ?>
+                  <button  type="submit" name="btnUpdate" class="btn btn-primary" ><i class="fa fa-check"></i> Update Appointment</button>
+
+                 <?php endif; ?>
+                 <?php endif; ?>
                 
                   
 
@@ -270,10 +277,20 @@ if(isset($_GET['id'])){
 
 if(isset($_POST['btnUpdate'])){
 
- 
+    $service_total = 0;
     $pet_arr = count($_POST['ap_id']);
     
     for($i = 0;$i < $pet_arr;$i++){
+
+      $sql = "SELECT price FROM tbl_service WHERE id=?";
+      $qry = $connection->prepare($sql);
+      $qry->bind_param("i",$_POST['servicerendered'][$i]);
+      $qry->execute();
+      $qry->bind_result($servprice);
+      $qry->store_result();
+      $qry->fetch();
+
+      $service_total = $service_total + $servprice;    
     
       $sql = "UPDATE tbl_appointment_pet SET diagnosis=?,service_id=?,service_diagnosis=? WHERE id=?";
       $qry = $connection->prepare($sql);
@@ -283,10 +300,16 @@ if(isset($_POST['btnUpdate'])){
     }
 
     $setstatus = 'Completed';
-    $sql = "UPDATE tbl_appointment SET status=? WHERE id=?";
+    $sql = "UPDATE tbl_appointment SET status=?,total=? WHERE id=?";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("si",$setstatus,$_GET['id']);
+    $qry->bind_param("ssi",$setstatus,$service_total,$_GET['id']);
     $qry->execute();
+
+    $activity = "Updated Details of Appointment ID ".$_GET['id']; 
+    $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
+    $qryx = $connection->prepare($sqlx);
+    $qryx->bind_param("is",$_SESSION['dbu'],$activity);
+    $qryx->execute();
 
     echo '<meta http-equiv="refresh" content="0; URL=view.php?id='.$_GET['id'].'&status=completed">';
   

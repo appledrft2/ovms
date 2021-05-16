@@ -1,10 +1,7 @@
 <?php 
 session_start();
 include('../../../includes/autoload.php');
-if(isset($_POST['btnLogout'])){
-  session_unset();
-  header('location:'.$baseurl.'');
-}
+
 if(isset($_SESSION['dbu'])){ 
   if($_SESSION['dbc'] != false){
       header("location:".$baseurl."client/dashboard");
@@ -112,7 +109,12 @@ if(isset($_POST['btnSave'])){
     $qry = $connection->prepare($sql);
     $qry->bind_param("ssss",$_POST['name'],$_POST['price'],$_POST['description'],$target);
     if($qry->execute()) { 
-
+      
+      $activity = "Added Service: ".$_POST['name'];
+      $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
+      $qryx = $connection->prepare($sqlx);
+      $qryx->bind_param("is",$_SESSION['dbu'],$activity);
+      $qryx->execute();
       echo '<meta http-equiv="refresh" content="0; URL=index.php?status=created">';
     }else{
       

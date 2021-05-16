@@ -53,10 +53,20 @@
         events    : [
           <?php 
 
-            $sql = "SELECT a.id,c.firstname,c.lastname,s.schedule_date,c.gender FROM tbl_appointment AS a INNER JOIN tbl_client AS c ON c.id = a.client_id INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id";
-            $qry = $connection->prepare($sql);
-            $qry->execute();
-            $qry->bind_result($id,$dbefn,$dbeln,$dbs,$dbg);
+
+            if($_SESSION['dbet'] == 'Veterinarian'){
+              $sql = "SELECT a.id,c.firstname,c.lastname,s.schedule_date,c.gender,a.status FROM tbl_appointment AS a INNER JOIN tbl_client AS c ON c.id = a.client_id INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id WHERE a.veterinarian_id = ?";
+                $qry = $connection->prepare($sql);
+                $qry->bind_param('i',$_SESSION['dbu']);
+                $qry->execute();
+            }else{
+              $sql = "SELECT a.id,c.firstname,c.lastname,s.schedule_date,c.gender,a.status FROM tbl_appointment AS a INNER JOIN tbl_client AS c ON c.id = a.client_id INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id";
+              $qry = $connection->prepare($sql);
+              $qry->execute();
+            }
+
+
+            $qry->bind_result($id,$dbefn,$dbeln,$dbs,$dbg,$dbst);
             $qry->store_result();
             while($qry->fetch ()) {
 
@@ -64,7 +74,7 @@
 
           ?>
           {
-            title          : <?= "'$dbg {$dbefn} {$dbeln}'" ?>,
+            title          : <?= "'$dbg {$dbefn} {$dbeln} - {$dbst}'" ?>,
             start          : new Date(<?php echo date_format (new DateTime($dbs), 'Y,m - 1,d'); ?>),
             backgroundColor: '#1295ad', //red
             borderColor    : '#1295ad', //red

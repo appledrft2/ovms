@@ -9,7 +9,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages = 'crecord/index';
+$pages = 'system/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -20,7 +20,7 @@ $pages = 'crecord/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Client Records</span>
+            <span class="text-left">System Logs</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -64,45 +64,39 @@ $pages = 'crecord/index';
               <table id="table1" class="table table-bordered">
                 <thead style="background-color: #222d32;color:white;">
                   <tr>
-                    <th>CID</th>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
-                    <th>Gender</th>
-                    <th>Phone</th>
-                    <th>Date Registered</th>
-                    <th>Action</th>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Activity</th>
+                    <th>Date of Activity</th>
+                    <th >Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,client_num,firstname,lastname,gender,phone,timestamp FROM tbl_client ORDER BY timestamp ASC";
+                    $sql = "SELECT l.id,e.firstname,e.lastname,e.employee_type,l.activity,l.timestamp FROM tbl_logs AS l INNER JOIN tbl_employee AS e ON e.id = l.employee_id ORDER BY l.timestamp DESC";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbcid, $dbf, $dbl,$dbg,$dbp,$dbtimestamp);
+                    $qry->bind_result($id,$dbef,$dbel,$dbet,$dbac, $dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
+                      $name = "$dbef $dbel";
                       echo"<tr>";
                       echo"<td>";
-                      echo $dbcid;
+                      echo $dbet;
                       echo"</td>";
                       echo"<td>";
-                      echo $dbf;
+                      echo ucwords($name);
                       echo"</td>";
                       echo"<td>";
-                      echo $dbl;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbg;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbp;
+                      echo $dbac;
                       echo"</td>";
                       echo"<td class='text-right' width='15%'>";
-                      echo $dbtimestamp;
+           
+                      echo date_format(date_create($dbtimestamp),'M d, Y g:i A');
                       echo"</td>";
-                      echo"<td width='10%'>";
-                      echo '<a class="btn btn-default btn-sm" href="history.php?id='.$id.'"><i class="fa fa-calendar"></i>&nbsp;&nbsp;View App. History</a>
-                      ';
+                      echo"<td width='5%'>";
+                      echo '
+                        <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
                       echo"</td>";
                       echo"</tr>";
                     }

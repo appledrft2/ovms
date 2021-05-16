@@ -1,10 +1,7 @@
 <?php 
 session_start();
 include('../../../includes/autoload.php');
-if(isset($_POST['btnLogout'])){
-  session_unset();
-  header('location:'.$baseurl.'');
-}
+
 if(isset($_SESSION['dbu'])){ 
   if($_SESSION['dbc'] != false){
       header("location:".$baseurl."client/dashboard");
@@ -42,7 +39,7 @@ $pages ='receiving/index';
 
                 <div class="row">
                   <div class="col-md-6">
-                    <label>Delivery #: <i style="color:red">*</i></label>
+                    <label>Stockin #: <i style="color:red">*</i></label>
                     <input type="text" class="form-control dcode" value="DC<?php echo rand(199999,299999); ?>" name="dcode" required readonly>
                     
                     <label>Supplier Name: <i style="color:red">*</i></label>
@@ -51,7 +48,7 @@ $pages ='receiving/index';
                    
                   </div>
                   <div class="col-md-6">
-                    <label>Delivery Date: <i style="color:red">*</i></label>
+                    <label>Stockin Date: <i style="color:red">*</i></label>
                     <input type="date" class="form-control ddate" name="ddate" required>
                    
                   </div>
@@ -106,7 +103,7 @@ $pages ='receiving/index';
               <div class="box-footer">
                 <div class="pull-right">
                   <a href="<?php echo $baseurl; ?>employee/dashboard/receiving" class="btn btn-default" > Go Back</a>
-                  <button type="submit" name="btnSave" class="btn btn-success"> Confirm Delivery</button>
+                  <button type="submit" name="btnSave" class="btn btn-success"> Confirm Stockin</button>
                 </div>  
               </div>
             </div>
@@ -216,6 +213,13 @@ if(isset($_POST['btnSave'])){
               $qry->bind_param("si",$total,$last_id);
 
               if($qry->execute()){
+
+                $activity = "Added Stockin with Delivery Code: ".$_POST['dcode'];
+                $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
+                $qryx = $connection->prepare($sqlx);
+                $qryx->bind_param("is",$_SESSION['dbu'],$activity);
+                $qryx->execute();
+
                 echo '<meta http-equiv="refresh" content="0; URL=index.php?status=created">';
               }
 

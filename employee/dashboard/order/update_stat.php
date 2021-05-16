@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 if(isset($_POST['chngstatus'])){
   include('../../../includes/autoload.php');
@@ -35,6 +36,13 @@ if(isset($_POST['chngstatus'])){
   	      echo '<meta http-equiv="refresh" content="0; URL=index.php">';
   	}
   }
+
+
+  $activity = "Order with Order Code: ".$_POST['oc']." is set to ".$_POST['chngstatus'];
+  $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
+  $qryx = $connection->prepare($sqlx);
+  $qryx->bind_param("is",$_SESSION['dbu'],$activity);
+  $qryx->execute();
 
 }
  

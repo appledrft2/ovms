@@ -1,10 +1,7 @@
 <?php 
 session_start();
 include('../../../includes/autoload.php');
-if(isset($_POST['btnLogout'])){
-  session_unset();
-  header('location:'.$baseurl.'');
-}
+
 if(isset($_SESSION['dbu'])){ 
   if($_SESSION['dbc'] != false){
       header("location:".$baseurl."client/dashboard");
@@ -97,14 +94,28 @@ if(isset($_POST['dfrom']) && isset($_POST['dto'])){
                 <tbody>
                   <?php
                     if(isset($_POST['btnSearch'])){
-                      $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE s.schedule_date BETWEEN ? AND ? ORDER BY s.schedule_date ASC";
-                      $qry = $connection->prepare($sql);
-                      $qry->bind_param("ss",$_POST['dfrom'],$_POST['dto']);
-                      $qry->execute();
+                      if($_SESSION['dbet'] == 'Veterinarian'){
+                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE a.veterinarian_id = ? AND s.schedule_date BETWEEN ? AND ? ORDER BY s.schedule_date ASC";
+                        $qry = $connection->prepare($sql);
+                        $qry->bind_param("iss",$_SESSION['dbu'],$_POST['dfrom'],$_POST['dto']);
+                        $qry->execute();
+                      }else{
+                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE s.schedule_date BETWEEN ? AND ? ORDER BY s.schedule_date ASC";
+                        $qry = $connection->prepare($sql);
+                        $qry->bind_param("ss",$_POST['dfrom'],$_POST['dto']);
+                        $qry->execute();
+                      }
                     }else{
-                      $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id ORDER BY s.schedule_date ASC";
-                      $qry = $connection->prepare($sql);
-                      $qry->execute();
+                      if($_SESSION['dbet'] == 'Veterinarian'){
+                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE a.veterinarian_id = ? ORDER BY s.schedule_date ASC";
+                        $qry = $connection->prepare($sql);
+                        $qry->bind_param("i",$_SESSION['dbu']);
+                        $qry->execute();
+                      }else{
+                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id ORDER BY s.schedule_date ASC";
+                        $qry = $connection->prepare($sql);
+                        $qry->execute();
+                      }
                     }
                     
 
@@ -184,6 +195,20 @@ if(isset($_POST['dfrom']) && isset($_POST['dto'])){
   if(isset($_POST['btnApprove']) || isset($_POST['btnCancel'])){
 
     $stats = (isset($_POST['btnApprove'])) ? 'In Progress' : 'Cancelled';
+    $apid = $_POST['aid'];
+    
+    if($stats == 'In Progress'){
+     $activity = "Booking Appointment ID ".$apid." was approved";
+    }else{
+     $activity = "Booking Appointment ID ".$apid." was cancelled"; 
+    }
+    
+
+    $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
+    $qryx = $connection->prepare($sqlx);
+    $qryx->bind_param("is",$_SESSION['dbu'],$activity);
+    $qryx->execute();
+
 
     $sql4 = "UPDATE tbl_appointment SET status=? WHERE id=?";
     $qry4 = $connection->prepare($sql4);

@@ -1,3 +1,17 @@
+<?php
+if(isset($_POST['btnLogout'])){
+
+  $activity = "Logged Out Successfully.";
+  $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
+  $qryx = $connection->prepare($sqlx);
+  $qryx->bind_param("is",$_SESSION['dbu'],$activity);
+  $qryx->execute();
+
+  session_unset();
+
+  header('location:'.$baseurl.'');
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -149,7 +163,23 @@
  
             <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list-alt"></i> View Services</a></li>
           </ul>
-        </li> 
+        </li>
+        <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+
+         <li class="treeview <?php if($pages == 'employee/index' || $pages == 'employee/add'){echo 'active'; } ?>">
+           <a href="#">
+             <i class="fa fa-users"></i> <span>Employee</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+
+             <li class="<?php if($pages == 'employee/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees"><i class="fa fa-list-alt"></i> View Employees</a></li>
+           </ul>
+         </li>
+
+        <?php } ?> 
 
 
        <!--  <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/appointment"><i class="fa fa-calendar"></i> <span>Completed Appointments</span></a></li>
@@ -227,21 +257,23 @@
 
 
 
-         <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+       <!--   <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
           <li class="header text-center">SETTINGS</li>
-          <li class="treeview <?php if($pages == 'employee/index' || $pages == 'employee/add'){echo 'active'; } ?>">
+          
+
+          <li class="treeview <?php if($pages == 'system/index' || $pages == 'system/add'){echo 'active'; } ?>">
             <a href="#">
-              <i class="fa fa-users"></i> <span>Employee</span>
+              <i class="fa fa-pencil"></i> <span>System Logs</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
             <ul class="treeview-menu">
 
-              <li class="<?php if($pages == 'employee/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/employees"><i class="fa fa-list-alt"></i> View Employees</a></li>
+              <li class="<?php if($pages == 'system/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/logs"><i class="fa fa-list-alt"></i> View Logs</a></li>
             </ul>
           </li>
-         <?php } ?>
+         <?php } ?> -->
 
 
         

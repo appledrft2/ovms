@@ -1,10 +1,7 @@
 <?php 
 session_start();
 include('../../../includes/autoload.php');
-if(isset($_POST['btnLogout'])){
-  session_unset();
-  header('location:'.$baseurl.'');
-}
+
 if(isset($_SESSION['dbu'])){ 
   if($_SESSION['dbc'] != false){
       header("location:".$baseurl."client/dashboard");
@@ -77,10 +74,17 @@ $pages = 'appointment/schedule';
                   </tr>
                 </thead>
                 <tbody>
-                  <?php 
-                    $sql = "SELECT s.id,e.firstname,e.lastname,s.schedule_date,s.slot,s.comment,s.timestamp FROM tbl_schedule AS s INNER JOIN tbl_employee AS e ON e.id = s.veterinarian_id ORDER BY s.schedule_date DESC";
+                  <?php
+                    if($_SESSION['dbet'] == 'Veterinarian'){
+                    $sql = "SELECT s.id,e.firstname,e.lastname,s.schedule_date,s.slot,s.comment,s.timestamp FROM tbl_schedule AS s INNER JOIN tbl_employee AS e ON e.id = s.veterinarian_id WHERE s.veterinarian_id = ? ORDER BY s.schedule_date DESC";
                     $qry = $connection->prepare($sql);
+                    $qry->bind_param('i',$_SESSION['dbu']);
                     $qry->execute();
+                    }else{
+                      $sql = "SELECT s.id,e.firstname,e.lastname,s.schedule_date,s.slot,s.comment,s.timestamp FROM tbl_schedule AS s INNER JOIN tbl_employee AS e ON e.id = s.veterinarian_id ORDER BY s.schedule_date DESC";
+                      $qry = $connection->prepare($sql);
+                      $qry->execute();
+                    }
                     $qry->bind_result($id,$dbefn,$dbeln, $dbs, $dbslot,$dbcomment,$dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {

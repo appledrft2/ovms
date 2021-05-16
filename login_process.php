@@ -39,6 +39,13 @@ include('includes/autoload.php');
                 $dbg = ($dbg == 'Male') ? 'Mr.' : "Ms.";
                 $_SESSION['dbg'] = $dbg;
 
+                $activity = "Logged in Successfully.";
+                $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
+                $qryx = $connection->prepare($sqlx);
+                $qryx->bind_param("is",$id,$activity);
+                $qryx->execute();
+
+
                 header('location:'.$baseurl.'employee/dashboard/');
               }else{
                 // dbc = true - client side access only - cannot login to employee
