@@ -1,6 +1,6 @@
 <?php
 if(isset($_POST['btnLogout'])){
-
+  date_default_timezone_set('Asia/Manila');
   $activity = "Logged Out Successfully.";
   $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
   $qryx = $connection->prepare($sqlx);

@@ -1,6 +1,7 @@
 <?php 
 session_start();
-include('includes/autoload.php'); 
+include('includes/autoload.php');
+date_default_timezone_set('Asia/Manila'); 
 ?> 
 <?php
 
