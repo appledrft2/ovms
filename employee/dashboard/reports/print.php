@@ -55,7 +55,7 @@ $to = date_create($_POST['dto']);
 	    <tr>
 	      <th>Invoice #</th>
 	      <th>Subtotal</th>
-	
+		  <th>Processed By</th>
 	      <th>Transaction Date</th>
 	     
 	    </tr>
@@ -63,13 +63,14 @@ $to = date_create($_POST['dto']);
 	  <tbody>
 	    <?php 
 	      $total = 0;
-	      $sql = "SELECT id,invoicecode,total,timestamp FROM tbl_stockout WHERE timestamp BETWEEN ? AND ? ORDER BY timestamp ASC";
+	      $sql = "SELECT s.id,s.invoicecode,s.total,s.timestamp,e.firstname,e.lastname FROM tbl_stockout AS s INNER JOIN tbl_employee AS e ON e.id = s.processed_by WHERE s.timestamp BETWEEN ? AND ? ORDER BY s.timestamp ASC";
 	      $qry = $connection->prepare($sql);
 	      $qry->bind_param("ss",$_POST['dfrom'],$_POST['dto']);
 	      $qry->execute();
-	      $qry->bind_result($id,$dbic, $dbt, $dbtimestamp);
+	      $qry->bind_result($id,$dbic, $dbt, $dbtimestamp,$ef,$el);
 	      $qry->store_result();
 	      while($qry->fetch ()) {
+	      	$dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
 	      	$total = $total + $dbt;
 	        echo"<tr>";
 	        echo"<td style='text-align: center;'>";
@@ -78,8 +79,10 @@ $to = date_create($_POST['dto']);
 	        echo"<td style='text-align: right;'>&#8369;";
 	        echo number_format($dbt,2);
 	        echo"</td>";
-	
+			
 	      
+	        echo"<td width='15%' class='text-right'>";
+	        echo "$ef $el";
 	        echo"</td>";
 	        echo"<td style='text-align: right;'>";
 	        echo $dbtimestamp;
@@ -96,11 +99,11 @@ $to = date_create($_POST['dto']);
 	  	<?php 
 
 	  	if($total == 0){
-	  		echo '<tr><td colspan="3" style="text-align:center;	">No Records Available</td></tr>';
+	  		echo '<tr><td colspan="4" style="text-align:center;	">No Records Available</td></tr>';
 	  	}else{
 
 	  	 ?>
-	  	<tr><td></td><td style='text-align: right;'><b>Total Amount: </b>&#8369;<?php echo number_format($total,2); ?></td><td></td></tr>
+	  	<tr><td></td><td style='text-align: right;'><b>Total Amount: </b>&#8369;<?php echo number_format($total,2); ?></td><td></td><td></td></tr>
 	  <?php } ?>
 	  </tfoot>
 	</table>

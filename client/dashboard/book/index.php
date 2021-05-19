@@ -100,7 +100,7 @@ while($qry->fetch ()){
                     $qry->bind_result($id,$dbefn,$dbeln, $dbs, $dbslot,$dbcomment,$dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
-
+                      $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       $date_now = date("Y-m-d");
 
                       if ($date_now < $dbs) {

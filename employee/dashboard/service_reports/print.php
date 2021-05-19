@@ -46,50 +46,50 @@ $to = date_create($_POST['dto']);
 	    Poblacion, San Pascual, Philippines<br>
 	    Contact No.: 09178827552
 	  </p>
-	  <h3>LIST OF COMPLETED ORDERS</h3>
+	  <h3>LIST OF INVOICES</h3>
 	  <b><?php echo 'From '.date_format($from,'F d, Y').' To '.date_format($to,'F d, Y'); ?></b>
 	</center>
 	
 	<table id="table1" width="100%" border="1" class="table table-bordered">
 	  <thead style="color:black;">
 	    <tr>
-	      <th>Order Code</th>
-	      <th>Client Name</th>
-	      <th>Total</th>	
-	      <th>Date Processed</th>
+	      <th>Appointment #</th>
+	      <th>Subtotal</th>
+	      <th width="20%">Processed By</th>
+	
+	      <th width="20%">Transaction Date</th>
 	     
 	    </tr>
 	  </thead>
 	  <tbody>
 	    <?php 
-	      $total = 0;
-	      $sql = "SELECT o.order_code,c.firstname,c.middlename,c.lastname,o.total,o.timestamp FROM tbl_order AS o INNER JOIN tbl_client AS c ON c.id = o.client_id WHERE o.status = 'Completed' AND o.timestamp BETWEEN ? AND ? ORDER BY o.timestamp ASC";
+	    $total = 0;
+	      $sql = "SELECT a.id,a.total,e.firstname,e.lastname,a.timestamp FROM tbl_appointment AS a INNER JOIN tbl_employee AS e ON e.id = a.processed_by WHERE a.status = 'Completed' AND a.timestamp BETWEEN ? AND ? ORDER BY a.timestamp ASC";
 	      $qry = $connection->prepare($sql);
 	      $qry->bind_param("ss",$_POST['dfrom'],$_POST['dto']);
 	      $qry->execute();
-	      $qry->bind_result($dboc,$dbfn,$dbmn,$dbln, $dbt, $dbtimestamp);
+	      $qry->bind_result($id,$dbt,$ef,$el,$dbtimestamp);
 	      $qry->store_result();
 	      while($qry->fetch ()) {
 	      	$dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
 	      	$total = $total + $dbt;
+	      	
 	        echo"<tr>";
-	        echo"<td style='text-align: center;'>";
-	        echo $dboc;
+	        echo"<td>";
+	        echo $id;
 	        echo"</td>";
-	        echo"<td style='text-align: center;'>";
-	        echo $dbfn.' '.$dbmn.' '.$dbln;
-	        echo"</td>";
-	        echo"<td style='text-align: right;'>&#8369;";
+	        echo"<td class='text-right'>&#8369;";
 	        echo number_format($dbt,2);
 	        echo"</td>";
-	        echo"<td style='text-align: right;'>";
+	        echo"<td class='text-right' width='15%'>";
+	        echo"Dr. $ef $el";
+	        echo"</td>";
+	        echo"<td class='text-right' width='15%'>";
 	        echo $dbtimestamp;
 	        echo"</td>";
-	 
+
 	        echo"</tr>";
 	      }
-
-
 
 	    ?>
 	  </tbody>
@@ -97,11 +97,11 @@ $to = date_create($_POST['dto']);
 	  	<?php 
 
 	  	if($total == 0){
-	  		echo '<tr><td colspan="3" style="text-align:center;	">No Records Available</td></tr>';
+	  		echo '<tr><td colspan="4" style="text-align:center;	">No Records Available</td></tr>';
 	  	}else{
 
 	  	 ?>
-	  	<tr><td></td><td></td><td style='text-align: right;'><b>Total Amount: </b>&#8369;<?php echo number_format($total,2); ?></td><td></td></tr>
+	  	<tr><td></td><td style='text-align: right;'><b>Total Amount: </b>&#8369;<?php echo number_format($total,2); ?></td><td></td><td></td></tr>
 	  <?php } ?>
 	  </tfoot>
 	</table>

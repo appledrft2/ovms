@@ -88,6 +88,7 @@ $pages = 'appointment/schedule';
                     $qry->bind_result($id,$dbefn,$dbeln, $dbs, $dbslot,$dbcomment,$dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
+                      $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       $dbs = date("M d, Y", strtotime($dbs));
                       echo"<tr>";
                       echo"<td class='text-center'>";

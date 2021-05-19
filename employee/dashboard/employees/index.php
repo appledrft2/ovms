@@ -82,30 +82,33 @@ $pages = 'employee/index';
                     $qry->bind_result($id,$dbt, $dbf, $dbl, $dbg,$dbp,$dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
-                      echo"<tr>";
-                      echo"<td>";
-                      echo $dbt;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbf;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbl;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbg;
-                      echo"</td>";
-                      echo"<td>";
-                      echo $dbp;
-                      echo"</td>";
-                      echo"<td class='text-right' width='15%'>";
-                      echo $dbtimestamp;
-                      echo"</td>";
-                      echo"<td width='10%'>";
-                      echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
-                        <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
-                      echo"</td>";
-                      echo"</tr>";
+                      if($id != $_SESSION['dbu']){
+                        $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
+                        echo"<tr>";
+                        echo"<td>";
+                        echo $dbt;
+                        echo"</td>";
+                        echo"<td>";
+                        echo $dbf;
+                        echo"</td>";
+                        echo"<td>";
+                        echo $dbl;
+                        echo"</td>";
+                        echo"<td>";
+                        echo $dbg;
+                        echo"</td>";
+                        echo"<td>";
+                        echo $dbp;
+                        echo"</td>";
+                        echo"<td class='text-right' width='15%'>";
+                        echo $dbtimestamp;
+                        echo"</td>";
+                        echo"<td width='10%'>";
+                        echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
+                          <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
+                        echo"</td>";
+                        echo"</tr>";
+                      }
                     }
 
                   ?>

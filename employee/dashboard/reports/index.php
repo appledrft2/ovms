@@ -20,7 +20,7 @@ $pages = 'reports/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Manage Reports</span>
+            <span class="text-left">Sales Reports</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -75,19 +75,21 @@ $pages = 'reports/index';
                   <tr>
                     <th>Code</th>
                     <th>Total</th>
- 
+                    <th>Processed By</th>
                     <th>Transaction Date</th>
+                    
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,invoicecode,total,timestamp FROM tbl_stockout ORDER BY timestamp ASC";
+                    $sql = "SELECT s.id,s.invoicecode,s.total,s.timestamp,e.firstname,e.lastname FROM tbl_stockout AS s INNER JOIN tbl_employee AS e ON e.id = s.processed_by ORDER BY s.timestamp ASC";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbic, $dbt, $dbtimestamp);
+                    $qry->bind_result($id,$dbic, $dbt, $dbtimestamp,$ef,$el);
                     $qry->store_result();
                     while($qry->fetch ()) {
+                      $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       echo"<tr>";
                       echo"<td>";
                       echo $dbic;
@@ -96,8 +98,10 @@ $pages = 'reports/index';
                       echo number_format($dbt,2);
                       echo"</td>";
          
-                    
+                      echo"<td width='15%' class='text-right'>";
+                      echo "$ef $el";
                       echo"</td>";
+                      
                       echo"<td class='text-right' width='15%'>";
                       echo $dbtimestamp;
                       echo"</td>";

@@ -71,21 +71,21 @@ $pages = 'product/index';
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Status</th>
-                    <th>Employee</th>
+                    <th>Added By</th>
                     <th>Date Added/Updated</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody id="tbod">
                   <?php 
-                    $sql = "SELECT p.id,p.name,p.category,p.unit,p.selling,p.quantity,p.status,p.timestamp,e.username FROM tbl_product AS p LEFT JOIN tbl_employee AS e ON e.id = p.user_id ORDER BY p.timestamp ASC";
+                    $sql = "SELECT p.id,p.name,p.category,p.unit,p.selling,p.quantity,p.status,p.timestamp,e.firstname,e.lastname FROM tbl_product AS p LEFT JOIN tbl_employee AS e ON e.id = p.user_id ORDER BY p.timestamp ASC";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbn, $dbc, $dbu,$dbs,$dbq,$dbst,$dbtimestamp,$username);
+                    $qry->bind_result($id,$dbn, $dbc, $dbu,$dbs,$dbq,$dbst,$dbtimestamp,$ef,$el);
                     $qry->store_result();
                     while($qry->fetch ()) {
 
-                      $username = ($username == '') ? '' : $username;
+                      
                       $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
 
                       echo"<tr>";
@@ -126,7 +126,7 @@ $pages = 'product/index';
 
                       echo"</td>";
                       echo"<td class='text-center'>";
-                      echo ucwords($username);
+                      echo "$ef $el";
                       echo"</td>";
                       echo"<td class='text-center'>";
                       echo $dbtimestamp;

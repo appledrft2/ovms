@@ -323,11 +323,12 @@ $(document).ready(function() {
 <?php 
 if(isset($_POST['btnSave'])){
 
+    $processed_by = $_SESSION['dbu'];
 
-    $sql = "INSERT INTO tbl_stockout(invoicecode,total,payment,chnge) VALUES(?,?,?,?)";
+    $sql = "INSERT INTO tbl_stockout(invoicecode,total,payment,chnge,processed_by) VALUES(?,?,?,?,?)";
     $qry = $connection->prepare($sql);
 
-    $qry->bind_param("ssss",$_POST['icode'],$_POST['tamount'],$_POST['payment'],$_POST['chng']);
+    $qry->bind_param("ssssi",$_POST['icode'],$_POST['tamount'],$_POST['payment'],$_POST['chng'],$processed_by);
 
     if($qry->execute()) {
 

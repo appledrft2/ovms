@@ -79,6 +79,7 @@ $pages = 'punit/index';
                     $qry->bind_result($id,$dbn, $dbd, $dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
+                      $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       echo"<tr>";
                       echo"<td>";
                       echo $dbn;

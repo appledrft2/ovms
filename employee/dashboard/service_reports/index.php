@@ -9,7 +9,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages = 'service/index';
+$pages = 'service_reports/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -20,7 +20,7 @@ $pages = 'service/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Services List</span>
+            <span class="text-left">Service Reports</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -59,39 +59,54 @@ $pages = 'service/index';
 
           <div class="box">
             <div class="box-header">
-              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-plus-circle"></i> Add Service</a>
+             <form target="_blank" method="POST" action="print.php">
+               <div class="form-inline">
+               <label>Date From :<i style="color:red"></i></label>
+               <input type="date" class="form-control" name="dfrom" required>
+               <label>To :<i style="color:red"></i></label>
+               <input type="date" class="form-control" name="dto" required>
+
+               <button type="submit" name="print" class="btn btn-success btn-md"><i class="fa fa-print"></i> Print</button> 
+             </form>
             </div>
             <div class="box-body">
               <table id="table1" class="table table-bordered">
                 <thead style="background-color: #222d32;color:white;">
                   <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th >Date Added</th>
+                    <th>Appointment #</th>
+               
+                    <th>Total</th>
+                    <th>Processed By</th>
+                    <th>Transaction Date</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,name,price,description,timestamp FROM tbl_service ORDER BY timestamp ASC";
+                    $sql = "SELECT a.id,a.total,e.firstname,e.lastname,a.timestamp FROM tbl_appointment AS a INNER JOIN tbl_employee AS e ON e.id = a.processed_by WHERE a.status = 'Completed'";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbn, $dbp, $dbd,$dbtimestamp);
+                    $qry->bind_result($id,$dbt,$ef,$el,$dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
                       $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       echo"<tr>";
                       echo"<td>";
-                      echo $dbn;
+                      echo $id;
                       echo"</td>";
                       echo"<td class='text-right'>&#8369;";
-                      echo number_format($dbp,2);
+                      echo number_format($dbt,2);
+                      echo"</td>";
+         
+                    
+                      echo"<td class='text-right' width='15%'>";
+                      echo"Dr. $ef $el";
                       echo"</td>";
                       echo"<td class='text-right' width='15%'>";
                       echo $dbtimestamp;
                       echo"</td>";
                       echo"<td width='10%'>";
-                      echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
+                      echo '<a class="btn btn-default btn-sm" href="invoice.php?id='.$id.'"><i class="fa fa-print"></i></a>
                         <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
                       echo"</td>";
                       echo"</tr>";
@@ -99,6 +114,7 @@ $pages = 'service/index';
 
                   ?>
                 </tbody>
+                
               </table>
             </div>
           </div>

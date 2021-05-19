@@ -77,6 +77,7 @@ $pages = 'order/index';
                     $qry->bind_result($id,$dboc, $dbstat, $dbtotal,$dbtimestamp,$dbisc,$dbfn,$dbmn,$dbln);
                     $qry->store_result();
                     while($qry->fetch()){
+                      $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       echo"<tr>";
                       echo"<td>";
                       echo $dboc;

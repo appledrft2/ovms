@@ -69,18 +69,20 @@ $pages = 'receiving/index';
                     <th>Supplier</th>
                     <th>Delivery Date</th>
                     <th>Total</th>
+                    <th>Processed By</th>
                     <th>Date Added</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,delivery_code,delivery_date,supplier,timestamp,total FROM tbl_stockin ORDER BY timestamp ASC";
+                    $sql = "SELECT s.id,s.delivery_code,s.delivery_date,s.supplier,s.timestamp,s.total,e.firstname,e.lastname FROM tbl_stockin AS s INNER JOIN tbl_employee AS e ON e.id = s.processed_by ORDER BY s.timestamp ASC";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbdc, $dbd,$dbs, $dbtimestamp,$dbtotal);
+                    $qry->bind_result($id,$dbdc, $dbd,$dbs, $dbtimestamp,$dbtotal,$ef,$el);
                     $qry->store_result();
                     while($qry->fetch ()) {
+                      $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       echo"<tr>";
                       echo"<td>";
                       echo $dbdc;
@@ -93,6 +95,9 @@ $pages = 'receiving/index';
                       echo"</td>";
                       echo"<td class='text-right'>&#8369;";
                       echo number_format($dbtotal,2);
+                      echo"</td>";
+                      echo"<td class='text-right'>";
+                      echo "$ef $el";
                       echo"</td>";
                       echo"</td>";
                       echo"<td class='text-right' width='15%'>";

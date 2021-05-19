@@ -8,7 +8,7 @@ include('includes/autoload.php');
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT username,password,role FROM tbl_user WHERE username=?";
+        $sql = "SELECT username,password,role FROM tbl_user WHERE username=? AND status='Activated'";
         $qry = $connection->prepare($sql);
         $qry->bind_param('s', $username);
         $qry->execute();

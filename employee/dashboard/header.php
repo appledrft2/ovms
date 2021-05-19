@@ -180,6 +180,19 @@ if(isset($_POST['btnLogout'])){
            </ul>
          </li>
 
+         <li class="treeview <?php if($pages == 'client/index' || $pages == 'client/add'){echo 'active'; } ?>">
+           <a href="#">
+             <i class="fa fa-users"></i> <span>Client</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+
+             <li class="<?php if($pages == 'client/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/client"><i class="fa fa-list-alt"></i> View Client</a></li>
+           </ul>
+         </li>
+
         <?php } ?> 
 
 
@@ -238,7 +251,7 @@ if(isset($_POST['btnLogout'])){
          
 
          <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
-         <li class="treeview <?php if($pages == 'reports/index'|| $pages == 'reports/add'){echo 'active'; } ?>">
+         <li class="treeview <?php if($pages == 'reports/index'|| $pages == 'service_reports/index'){echo 'active'; } ?>">
            <a href="#">
              <i class="fa fa-file"></i> <span>Reports</span>
              <span class="pull-right-container">
@@ -247,6 +260,7 @@ if(isset($_POST['btnLogout'])){
            </a>
            <ul class="treeview-menu">
              <li class="<?php if($pages == 'reports/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/reports/index.php"><i class="fa fa-file"></i> Sales Report</a></li>
+             <li class="<?php if($pages == 'service_reports/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/service_reports/index.php"><i class="fa fa-file"></i> Service Report</a></li>
              
            </ul>
          </li>

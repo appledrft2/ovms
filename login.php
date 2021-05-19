@@ -55,7 +55,7 @@ if(isset($_SESSION['dbu'])){
   <?php 
   if(isset($_GET['error'])){
 
-    echo "<br><span class='alert alert-danger col-md-12 '>Login Failed: Credentials do not match our records.</span>";
+    echo "<br><span class='alert alert-danger col-md-12 '>Unable to login: Your Account Might Be Deactivated or Credentials do not match our records.</span>";
   }
 ?>
 </div>

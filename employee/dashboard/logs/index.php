@@ -79,6 +79,7 @@ $pages = 'system/index';
                     $qry->bind_result($id,$dbef,$dbel,$dbet,$dbac, $dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
+                      $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       $name = "$dbef $dbel";
                       echo"<tr>";
                       echo"<td>";

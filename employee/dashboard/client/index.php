@@ -9,7 +9,7 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages = 'service/index';
+$pages = 'client/index';
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -20,7 +20,7 @@ $pages = 'service/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Services List</span>
+            <span class="text-left">Client List</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -59,39 +59,75 @@ $pages = 'service/index';
 
           <div class="box">
             <div class="box-header">
-              <a href="add.php" class="btn btn-success btn-md"><i class="fa fa-plus-circle"></i> Add Service</a>
             </div>
             <div class="box-body">
               <table id="table1" class="table table-bordered">
                 <thead style="background-color: #222d32;color:white;">
                   <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th >Date Added</th>
+                    <th>Client Num</th>
+                    <th>Firstname</th>
+                    <th>Middlename</th>
+                    <th>Lastname</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Register Date</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
-                    $sql = "SELECT id,name,price,description,timestamp FROM tbl_service ORDER BY timestamp ASC";
+                    $sql = "SELECT id,client_num,firstname,middlename,lastname,gender,phone,status,timestamp FROM tbl_client ORDER BY timestamp ASC";
                     $qry = $connection->prepare($sql);
                     $qry->execute();
-                    $qry->bind_result($id,$dbn, $dbp, $dbd,$dbtimestamp);
+                    $qry->bind_result($id,$client_num, $dbf,$dbm, $dbl, $dbg,$dbp,$dbst,$dbtimestamp);
                     $qry->store_result();
                     while($qry->fetch ()) {
                       $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       echo"<tr>";
                       echo"<td>";
-                      echo $dbn;
+                      echo $client_num;
                       echo"</td>";
-                      echo"<td class='text-right'>&#8369;";
-                      echo number_format($dbp,2);
+                      echo"<td>";
+                      echo $dbf;
                       echo"</td>";
+                      echo"<td>";
+                      echo $dbm;
+                      echo"</td>";
+                      echo"<td>";
+                      echo $dbl;
+                      echo"</td>";
+                      echo"<td>";
+                      echo $dbg;
+                      echo"</td>";
+                      echo"<td>";
+                      echo $dbp;
+                      echo"</td>";
+                       echo"<td class='text-center'>";
+                       echo "<form method='POST' action='update_stat.php'  >";
+                       if($dbst == 'Activated'){
+                         echo '<input type="hidden" name="id" value="'.$id.'">';
+                         echo "<select name='chngstatus' class='form-control form-control-sm' onchange='this.form.submit()'>
+                         <option value='' disabled>Select Status</option>
+                         <option selected>Activated</option>
+                         <option>Deactivated</option>
+                         </select>";
+                       }else{
+                         echo '<input type="hidden" name="id" value="'.$id.'">';
+                         echo "<select name='chngstatus' class='form-control form-control-sm' onchange='this.form.submit()'>
+                         <option value='' disabled>Select Status</option>
+                         <option>Activated</option>
+                         <option selected>Deactivated</option>
+                         </select>";
+                       }
+                      echo "</form>";
+
+                       echo"</td>";
                       echo"<td class='text-right' width='15%'>";
                       echo $dbtimestamp;
                       echo"</td>";
                       echo"<td width='10%'>";
-                      echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
+                      echo '<a class="btn btn-info btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i></a>
                         <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
                       echo"</td>";
                       echo"</tr>";

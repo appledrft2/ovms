@@ -86,6 +86,7 @@ $pages = 'pet/index';
                     $qry->bind_result($id,$dbn, $dbb, $dbg, $dbs,$dbdob,$dbtimestamp,$dbbc);
                     $qry->store_result();
                     while($qry->fetch()){
+                      $dbtimestamp = date("M d, Y h:ia", strtotime($dbtimestamp));
                       echo"<tr>";
                       echo"<td>";
                       echo $dbn;
@@ -107,7 +108,7 @@ $pages = 'pet/index';
                       echo"</td>";
                       echo"<td width='15%'>";
                       if($dbbc != 'uploads/placeholder.jpg'){
-                        echo '<a href="'.$dbbc.'" title="Download Birth Certificate" class="btn btn-success btn-sm " download="birth certificate"><i class="fa fa-file"></i></a>&nbsp;';
+                        echo '<a href="'.$dbbc.'" title="Download Birth Certificate" class="btn btn-success btn-sm " download="birth certificate"><i class="fa fa-download"></i> Download BC</a>&nbsp;';
                       }
                       echo '<a class="btn btn-info btn-sm" href="edit.php?id='.$id.'"><i class="fa fa-edit"></i></a>
                         <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';

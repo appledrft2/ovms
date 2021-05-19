@@ -88,6 +88,7 @@ if(isset($_POST['dfrom']) && isset($_POST['dto'])){
                     <th>Day</th>
                     <th>Veterinarian</th>
                     <th>Status</th>
+                    <th>Total</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -95,31 +96,31 @@ if(isset($_POST['dfrom']) && isset($_POST['dto'])){
                   <?php
                     if(isset($_POST['btnSearch'])){
                       if($_SESSION['dbet'] == 'Veterinarian'){
-                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE a.veterinarian_id = ? AND s.schedule_date BETWEEN ? AND ? ORDER BY s.schedule_date ASC";
+                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender,a.total FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE a.veterinarian_id = ? AND s.schedule_date BETWEEN ? AND ? ORDER BY s.schedule_date ASC";
                         $qry = $connection->prepare($sql);
                         $qry->bind_param("iss",$_SESSION['dbu'],$_POST['dfrom'],$_POST['dto']);
                         $qry->execute();
                       }else{
-                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE s.schedule_date BETWEEN ? AND ? ORDER BY s.schedule_date ASC";
+                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender,a.total FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE s.schedule_date BETWEEN ? AND ? ORDER BY s.schedule_date ASC";
                         $qry = $connection->prepare($sql);
                         $qry->bind_param("ss",$_POST['dfrom'],$_POST['dto']);
                         $qry->execute();
                       }
                     }else{
                       if($_SESSION['dbet'] == 'Veterinarian'){
-                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE a.veterinarian_id = ? ORDER BY s.schedule_date ASC";
+                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender,a.total FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id WHERE a.veterinarian_id = ? ORDER BY s.schedule_date ASC";
                         $qry = $connection->prepare($sql);
                         $qry->bind_param("i",$_SESSION['dbu']);
                         $qry->execute();
                       }else{
-                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id ORDER BY s.schedule_date ASC";
+                        $sql = "SELECT a.id,s.schedule_date,e.firstname,e.lastname,a.status,a.iscancelled,c.firstname,c.lastname,c.gender,a.total FROM tbl_appointment AS a INNER JOIN tbl_schedule AS s ON s.id = a.schedule_id INNER JOIN tbl_employee AS e ON a.veterinarian_id = e.id INNER JOIN tbl_client AS c ON c.id = a.client_id ORDER BY s.schedule_date ASC";
                         $qry = $connection->prepare($sql);
                         $qry->execute();
                       }
                     }
                     
 
-                    $qry->bind_result($id,$ssd,$ef,$el,$dbst,$dbisc,$cfn,$cln,$cg);
+                    $qry->bind_result($id,$ssd,$ef,$el,$dbst,$dbisc,$cfn,$cln,$cg,$dbtotal);
                     $qry->store_result();
                     while($qry->fetch ()) {
                       $cg = ($cg == 'Male') ? 'Mr.' : 'Ms.';
@@ -152,12 +153,15 @@ if(isset($_POST['dfrom']) && isset($_POST['dto'])){
                         echo "<span class='label label-success'>$dbst</span>";
                       }
                       echo"</td>";
+                      echo "<td class='text-right'>";
+                      echo "&#8369; ".number_format($dbtotal,2);
+                      echo "</td>";
                       echo"<td class='text-center'>";
                       if($dbst == 'Booked'){
                         echo "<form method='POST' action='#' style='display:inline'>";
                         echo "<input type='hidden' name='aid' value='$id'>";
-                        echo "<button type='submit' name='btnApprove' class='btn btn-success btn-sm' title='Approve Booking' onclick=\"return confirm('Are you sure?')\" ><i class='fa fa-check'></i> </button>&nbsp;";
-                        echo "<button type='submit' name='btnCancel' class='btn btn-danger btn-sm' title='Cancel Booking' onclick=\"return confirm('Are you sure?')\"><i class='fa fa-remove'></i> </button>&nbsp;";
+                        echo "<button type='submit' name='btnApprove' class='btn btn-success btn-sm' title='Approve Booking' onclick=\"return confirm('Are you sure?')\" ><i class='fa fa-check'></i> Approve</button>&nbsp;";
+                        echo "<button type='submit' name='btnCancel' class='btn btn-danger btn-sm' title='Cancel Booking' onclick=\"return confirm('Are you sure?')\"><i class='fa fa-remove'></i> Cancel</button>&nbsp;";
                         echo "</form>";
                           
                       }

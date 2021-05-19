@@ -9,15 +9,15 @@ if(isset($_SESSION['dbu'])){
 }else{
   header('location:'.$baseurl.'');
 }
-$pages ='reports/index';
+$pages ='service_reports/index';
 
 
 
-$sql = "SELECT id,invoicecode,total,payment,chnge,timestamp FROM tbl_stockout WHERE id = ?";
+$sql = "SELECT a.id,a.total,a.timestamp,c.firstname,c.lastname,e.firstname,e.lastname FROM tbl_appointment AS a INNER JOIN tbl_client AS c ON c.id = a.client_id INNER JOIN tbl_employee AS e ON e.id = a.veterinarian_id WHERE a.id = ?";
 $qry = $connection->prepare($sql);
 $qry->bind_param("i",$_GET['id']);
 $qry->execute();
-$qry->bind_result($stockout_id,$dbic, $dbt,$dbp, $dbch,$dbtimestamp);
+$qry->bind_result($id,$dbt,$dbtimestamp,$cf,$cl,$ef,$el);
 $qry->store_result();
 $qry->fetch ();
 $dbtimestamp  = date_create($dbtimestamp);
@@ -63,68 +63,79 @@ $dbtimestamp  = date_create($dbtimestamp);
                 </center>
                 <div class="row">
                   <div class="col-md-6">
-                 
                     <label>Date: <?php echo date_format($dbtimestamp,"M d, Y"); ?></label><br>
-                    <label>Invoice #<?php echo $dbic; ?></label>
+                    <label>Appointment #: <?php echo $id; ?></label>
                     
+                  </div>
+                  <div class="col-md-6">
+                    <label for="">Veterinarian: Dr. <?= $ef.' '.$el ?></label>
+                    <br>
+                    <label for="">Client: <?= $cf.' '.$cl ?></label>
                   </div>
                 </div>
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th>Product name</th>
-                      <th>Category</th>
-                      <th>Unit</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
-                      <th>Subtotal</th>
+                      <th>Service Name</th>
+                      <th class="text-center" width="15%">Subtotal</th>
                       
                     </tr>
                   </thead>
                   <tbody id="tblprod">
-                    <?php $sql = "SELECT p.name,p.category,p.unit,p.selling,sp.quantity FROM tbl_stockout_product as sp INNER JOIN tbl_product AS p ON sp.product_id = p.id WHERE sp.stockout_id = ?";
-                                         $qry = $connection->prepare($sql);
-                                         $qry->bind_param("i",$_GET['id']);
-                                         $qry->execute();
-                                         $qry->bind_result($dbpname,$dbpc, $dbpu,$dbpp,$dbspq);
-                                         $qry->store_result();
-                                         $subtotal = 0;
-                                         while($qry->fetch ()){
-                                           $subtotal = $dbpp * $dbspq;
-                                           echo '<tr>
-                                               <td>
-                                                 '.$dbpname.'
-                                               </td>
-                                      
-                                               
-                                               <td>'.$dbpc.'</td>
-                                               <td>'.$dbpu.'</td>
-                                               <td>&#8369; '.number_format($dbpp,2).'</td>
-                                               <td>'.$dbspq.'</td>
-                                               <td class="text-center">&#8369; '.number_format($subtotal,2).'</td>
+                    <?php 
+                        $sql = "SELECT ap.id,s.name,s.price FROM tbl_appointment_pet AS ap INNER JOIN tbl_service AS s ON s.id = ap.service_id WHERE ap.appointment_id = ?";
+                       $qry = $connection->prepare($sql);
+                       $qry->bind_param("i",$_GET['id']);
+                       $qry->execute();
+                       $qry->bind_result($apid,$sname1,$sprice1);
+                       $qry->store_result();
+                       $subtotal = 0;
+                       while($qry->fetch ()){
+                         echo '<tr>';
+                         echo '<td>';
+                         echo $sname1;
+                         echo '</td>';
+                         echo '<td class="text-center">&#8369;';
+                         echo number_format($sprice1,2);
+                         echo '</td>';
+                         echo '</tr>';
 
-                                             </tr>';
+                         $sqlx = "SELECT aps.id,s.name,s.price FROM tbl_ap_service AS aps INNER JOIN tbl_service AS s ON s.id = aps.service_id WHERE aps.appointment_pet_id = ?";
 
-                                         }
+                        $qryx = $connection->prepare($sqlx);
+                        $qryx->bind_param("i",$apid);
+                        $qryx->execute();
+                        $qryx->bind_result($apsid,$sname,$sprice);
+                        $qryx->store_result();
+                        $subtotal = 0;
+                        while($qryx->fetch ()){
+                         
+                        echo '<td>
+                            '.$sname.'
+                            </td>
+                            <td class="text-center">&#8369;
+                            '.number_format($sprice,2).'
+                            </td>';
 
-                                       ?>
+
+                          
+                        }
+                        echo '</tr>';
+                       }
+
+                     ?>
                   </tbody >
                   <tfoot border="0">
                       
                       <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                      
+                       
                         <td >
                           
                            
                             <div class="pull-right">
                               <label class="pull-right">Total:</label><br>
                               
-                              <label class="pull-right">Payment:</label><br>
-                    
-                              <label class="pull-right">Change:</label><br>
                             
                             </div>
                      
@@ -134,9 +145,7 @@ $dbtimestamp  = date_create($dbtimestamp);
                           <div class="text-center">
                             <label style="font-weight:normal; border-top:1px solid black;">&#8369; <?php echo number_format($dbt,2) ?></label><br>
                             
-                            <label style="font-weight:normal;">&#8369; <?php echo number_format($dbp,2) ?></label><br>
-                          
-                            <label style="font-weight:normal;">&#8369; <?php echo number_format($dbch,2) ?></label><br>
+                           
                           
                           </div>
 
@@ -151,7 +160,7 @@ $dbtimestamp  = date_create($dbtimestamp);
               <div class="box-footer">
              
                 <div class="pull-right">
-                  <a href="<?php echo $baseurl; ?>employee/dashboard/reports" class="btn btn-default" > Go Back</a>
+                  <a href="<?php echo $baseurl; ?>employee/dashboard/service_reports" class="btn btn-default" > Go Back</a>
                   <button type="button" name="btnSave" onClick="printdiv('printme')" class="btn btn-primary"> <i class="fa fa-print"></i> Print</button>
                 </div>  
               </div>

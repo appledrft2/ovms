@@ -138,16 +138,45 @@ if(isset($_GET['id'])){
                 <h4>Client Details</h4>
                 <label for="">Fullname</label>
                 <input type="text" class="form-control" value="<?= $cg.' '.$cf.' '.$cl ?>" readonly>
-  
+                <?php if($dbstatus == 'Booked' || $dbstatus == 'Cancelled'): ?>
+                <label for="">Pets</label>
+                <?php
+                  echo "<ol>"; 
+                  $sql = "SELECT p.name FROM tbl_appointment_pet AS ap INNER JOIN tbl_pet AS p ON p.id = ap.pet_id WHERE ap.appointment_id = ?";
+                  $qry = $connection->prepare($sql);
+                  $qry->bind_param('i',$_GET['id']);
+                  $qry->execute();
+                  $qry->bind_result($petname);
+                  $qry->store_result();
+                  while($qry->fetch ()){
+                    
+                    echo "<li>$petname</li>";
+                    
+                  }
+                  echo "</ol>";
+                    
+                ?>
+              <?php endif;?>
                 <label for="">Client Remarks</label>
                 <textarea  class="form-control" rows="4" readonly><?= $cremarks; ?></textarea>
               </div>
               <?php if($dbstatus == 'In Progress' || $dbstatus == 'Completed'): ?>
               <div class="col-md-12">
+                <style>
+                  input[readonly] {
+                    pointer-events: none;
+                  }select[readonly] {
+                    pointer-events: none;
+                  }textarea[readonly] {
+                    pointer-events: none;
+                  }
+                </style>
                 <h4>Pet Diagnosis</h4>
                   <div class="row">
 
-                    <?php 
+                    <?php
+                      $isdisabled = ($dbstatus == 'Completed') ? "readonly" : "";
+
                       $sql = "SELECT ap.id,p.name,ap.diagnosis,ap.service_id,ap.service_diagnosis FROM tbl_appointment_pet AS ap INNER JOIN tbl_pet AS p ON p.id = ap.pet_id WHERE ap.appointment_id = ?";
                       $qry = $connection->prepare($sql);
                       $qry->bind_param('i',$_GET['id']);
@@ -161,41 +190,150 @@ if(isset($_GET['id'])){
                     <div class="col-md-6">
                       <div class="box">
                         <div class="box-body">
+
                           <h4><?= $name; ?></h4>
                           <div class="form-group">
                             <input type="hidden" name="ap_id[]" class="form-control" value="<?= $ap_id; ?>">
                             <label for="">General Diagnosis (Temp,Weight,etc.) <i style="color:red">*</i></label>
-                            <textarea name="gendiagnosis[]" class="form-control" rows="4"><?= $gendiagnosis ?></textarea>
+                            <textarea required name="gendiagnosis[]" <?= $isdisabled ?> class="form-control" rows="4"><?= $gendiagnosis ?></textarea>
                           </div>
-                          <div class="form-group" style="border-top:5px solid #f8f8f8;">
-                            <label for="" style="margin-top:10px;">Service Rendered</label>
-                            <select name="servicerendered[]" class="form-control">
-                              <option value="">Select Service</option>
-                              <?php 
-                                $sql3 = "SELECT id,name,price FROM tbl_service";
-                                $qry3 = $connection->prepare($sql3);
-                                $qry3->execute();
-                                $qry3->bind_result($sid,$sname,$sprice);
-                                $qry3->store_result();
-                                while($qry3->fetch ()){
-                                  $sprice = number_format($sprice,2);
-                                  if($serv_id == $sid){
-                                    echo "<option value='$sid' selected>$sname (&#8369; $sprice)</option>";
-                                  }else{
-                                    echo "<option value='$sid'>$sname (&#8369; $sprice)</option>";
+
+                          <div class="form-group">
+                            <table border="0" width="100%">
+                              <tbody id="tblService<?= $ap_id; ?>">
+                                <tr>
+                                  <td>
+                                    <div class="form-group" style="border-top:5px solid #f8f8f8;">
+                                      <label for="" style="margin-top:10px;">Service Rendered <i class="text-red">*</i></label>
+                                      <div class="row">
+                                        <?php if($dbstatus != 'Completed'): ?>
+                                        <div class="col-md-11">
+                                        <?php else: ?>
+                                          <div class="col-md-12">
+                                        <?php endif; ?>
+                                        <select <?= $isdisabled ?>  required name="servicerendered<?= $ap_id ?>[]" class="form-control">
+                                          <option value=""  selected disabled >Select Service</option>
+                                          <?php 
+                                            $sql3 = "SELECT id,name,price FROM tbl_service";
+                                            $qry3 = $connection->prepare($sql3);
+                                            $qry3->execute();
+                                            $qry3->bind_result($sid,$sname,$sprice);
+                                            $qry3->store_result();
+                                            while($qry3->fetch ()){
+                                              $sprice = number_format($sprice,2);
+                                              if($serv_id == $sid){
+                                                echo "<option value='$sid' selected>$sname (&#8369; $sprice)</option>";
+                                              }else{
+                                                echo "<option value='$sid'>$sname (&#8369; $sprice)</option>";
+                                              }
+                                              
+                                              
+                                            }
+                                              
+                                          ?>
+                                        </select>
+                                      </div>
+                                      <?php if($dbstatus != 'Completed'): ?>
+                                      <div class="col-md-1">
+                                        <button type="button" class="btn btn-danger" disabled style="position:relative;right:20px"><i class="fa fa-remove"></i></button>
+                                      </div>
+                                     <?php endif; ?>
+                                      </div>
+                                      <label for="">Service Diagnosis</label>
+                                      <textarea required <?= $isdisabled ?>  name="servicediagnosis<?= $ap_id ?>[]" class="form-control" rows="4"><?= $serv_diag; ?></textarea>
+                                      
+                                    </div>
+                                  </td>
+                                </tr>
+
+                                <?php
+
+                                if($dbstatus == 'Completed'){
+
+                                  $sql4 = "SELECT id,service_id,diagnosis FROM tbl_ap_service WHERE appointment_pet_id = ?";
+                                  $qry4 = $connection->prepare($sql4);
+                                  $qry4->bind_param('i',$ap_id);
+                                  $qry4->execute();
+                                  $qry4->bind_result($aps_id,$srid,$apsdiag);
+                                  $qry4->store_result();
+                                  while($qry4->fetch ()){
+
+                                   ?>
+
+                                   <tr>
+                                     <td>
+                                       <div class="form-group" style="border-top:5px solid #f8f8f8;">
+                                         <label for="" style="margin-top:10px;">Service Rendered <i class="text-red">*</i></label>
+                                         <div class="row">
+                                           
+                                         <div class="col-md-12">
+                                           <select <?= $isdisabled ?>  required name="servicerendered<?= $ap_id ?>[]" class="form-control">
+                                             <option value=""  selected disabled >Select Service</option>
+                                             <?php 
+                                               $sql3 = "SELECT id,name,price FROM tbl_service";
+                                               $qry3 = $connection->prepare($sql3);
+                                               $qry3->execute();
+                                               $qry3->bind_result($sid,$sname,$sprice);
+                                               $qry3->store_result();
+                                               while($qry3->fetch ()){
+                                                 $sprice = number_format($sprice,2);
+                                                 if($srid == $sid){
+                                                   echo "<option value='$sid' selected>$sname (&#8369; $sprice)</option>";
+                                                 }else{
+                                                   echo "<option value='$sid'>$sname (&#8369; $sprice)</option>";
+                                                 }
+                                                 
+                                                 
+                                               }
+                                                 
+                                             ?>
+                                           </select>
+                                         </div>
+                                         
+                                         </div>
+                                         <label for="">Service Diagnosis</label>
+                                         <textarea required <?= $isdisabled ?>  name="servicediagnosis<?= $ap_id ?>[]" class="form-control" rows="4"><?= $apsdiag; ?></textarea>
+                                         
+                                       </div>
+                                     </td>
+                                   </tr>
+
+
+
+
+                                   <?php
+
+
                                   }
-                                  
-                                  
+
+
+
                                 }
-                                  
-                              ?>
-                            </select>
-                            <label for="">Service Diagnosis</label>
-                            <textarea name="servicediagnosis[]" class="form-control" rows="4"><?= $serv_diag; ?></textarea>
-                            <!-- <?php if($dbstatus == 'In Progress'): ?>
-                            <button type="button" class="btn btn-success btn-sm" style="float:right;margin-top: 5px">Add More</button>
-                            <?php endif; ?> -->
+
+
+
+
+
+                                ?>
+
+                              </tbody>
+                              <tfoot>
+                                <tr>
+                              
+                                  <td width="10%">
+                                    
+                                    <?php if($dbstatus == 'In Progress' && $_SESSION['dbet'] != 'Admin' && $vet_id == $_SESSION['dbu']): ?>
+                                
+                                      <button type="button" onclick="moreService(<?= $ap_id; ?>)" class="btn btn-success btn-sm" style="float:right;margin-top: 5px">Add More</button>
+                                   
+                                    <?php endif; ?>
+                                  </td>
+                                </tr>
+                              </tfoot>
+                            </table>  
                           </div>
+
+                          
                         </div>
                       </div>
                     </div>
@@ -209,6 +347,7 @@ if(isset($_GET['id'])){
                     
 
                   </div>
+
                 </div>
               <?php endif; ?>
               
@@ -222,7 +361,7 @@ if(isset($_GET['id'])){
                   <a id="printPageButton" href="<?php echo $baseurl; ?>employee/dashboard/appointments" class="btn btn-default" > Go Back</a>
                   
                   <?php if($vet_id == $_SESSION['dbu']): ?>
-                  <?php if($dbstatus != 'Cancelled' && $dbstatus != 'Booked'): ?>
+                  <?php if($dbstatus != 'Cancelled' && $dbstatus != 'Booked' && $dbstatus != 'Completed'): ?>
                     
                   <button  type="submit" name="btnUpdate" class="btn btn-primary" ><i class="fa fa-check"></i> Update Appointment</button>
 
@@ -258,20 +397,25 @@ if(isset($_GET['id'])){
 <?php include('footer.php') ?>
 <script type="text/javascript">
 
-  function printdiv(printpage)
-  {
-  var headstr = "<html><head><title></title></head><body>";
-  var footstr = "</body>";
-  var newstr = document.all.item(printpage).innerHTML;
-  var oldstr = document.body.innerHTML;
-  document.body.innerHTML = headstr+newstr+footstr;
-  window.print();
-  document.body.innerHTML = oldstr;
-  return false;
+   
+
+  function moreService(ap){
+    
+   $("#tblService"+ap).append('<tr> <td> <div class="form-group" style="border-top:5px solid #f8f8f8;"> <label for="" style="margin-top:10px;">Service Rendered <i class="text-red">*</i></label> <div class="row"> <div class="col-md-11"> <select  required name="servicerendered'+ap+'[]" class="form-control"> <option value="" selected disabled >Select Service</option> <?php $sql3 = "SELECT id,name,price FROM tbl_service"; $qry3 = $connection->prepare($sql3); $qry3->execute(); $qry3->bind_result($sid,$sname,$sprice); $qry3->store_result(); while($qry3->fetch ()){ echo "<option value=".$sid.">$sname (&#8369; $sprice)</option>"; } ?> </select> </div> <div class="col-md-1"> <button type="button" class="btn btn-danger delservice" onclick="deleteRow(this)" style="position:relative;right:20px"><i class="fa fa-remove"></i></button> </div> </div> <label for="">Service Diagnosis</label> <textarea required  name="servicediagnosis'+ap+'[]" class="form-control" rows="4"></textarea> </div> </td> </tr>');
+
+  };
+
+  function deleteRow(btn) {
+    var row = btn.parentNode.parentNode.parentNode;
+    row.parentNode.removeChild(row);
   }
 
 
+   
+   
+
 </script>
+
 
 <?php 
 
@@ -279,30 +423,74 @@ if(isset($_POST['btnUpdate'])){
 
     $service_total = 0;
     $pet_arr = count($_POST['ap_id']);
+
     
     for($i = 0;$i < $pet_arr;$i++){
+ 
+      $aap_id = $_POST['ap_id'][$i];
+      $test = "test";
+      $serv_arr = count($_POST['servicerendered'.$_POST['ap_id'][$i]]);
+      
+      $sql = "UPDATE tbl_appointment_pet SET diagnosis=? WHERE id=?";
+      $qry = $connection->prepare($sql);
+      $qry->bind_param("si",$_POST['gendiagnosis'][$i],$_POST['ap_id'][$i]);
+      $qry->execute(); 
 
       $sql = "SELECT price FROM tbl_service WHERE id=?";
       $qry = $connection->prepare($sql);
-      $qry->bind_param("i",$_POST['servicerendered'][$i]);
+      $qry->bind_param("i",$_POST['servicerendered'.$_POST['ap_id'][$i]][0]);
       $qry->execute();
       $qry->bind_result($servprice);
       $qry->store_result();
       $qry->fetch();
 
-      $service_total = $service_total + $servprice;    
-    
-      $sql = "UPDATE tbl_appointment_pet SET diagnosis=?,service_id=?,service_diagnosis=? WHERE id=?";
+      $service_total  = $service_total + $servprice;
+
+      
+      $sql = "UPDATE tbl_appointment_pet SET service_id=?,service_diagnosis=? WHERE id=?";
       $qry = $connection->prepare($sql);
-      $qry->bind_param("sssi",$_POST['gendiagnosis'][$i],$_POST['servicerendered'][$i],$_POST['servicediagnosis'][$i],$_POST['ap_id'][$i]);
+
+      $qry->bind_param("isi",$_POST['servicerendered'.$_POST['ap_id'][$i]][0],$_POST['servicediagnosis'.$_POST['ap_id'][$i]][0],$_POST['ap_id'][$i]);
       $qry->execute();
+
+
+      if($serv_arr > 1){
+
+        for($x = 1; $x < $serv_arr;$x++){
+            
+
+            $sql = "SELECT price FROM tbl_service WHERE id=?";
+            $qry = $connection->prepare($sql);
+            $qry->bind_param("i",$_POST['servicerendered'.$_POST['ap_id'][$i]][$x]);
+            $qry->execute();
+            $qry->bind_result($servprice);
+            $qry->store_result();
+            $qry->fetch();
+
+            $service_total  = $service_total + $servprice;
+
+             $sqlx = "INSERT INTO tbl_ap_service(appointment_pet_id,service_id,diagnosis) VALUES(?,?,?)";
+             $qryx = $connection->prepare($sqlx);
+             $qryx->bind_param("iis",$_POST['ap_id'][$i],$_POST['servicerendered'.$_POST['ap_id'][$i]][$x],$_POST['servicediagnosis'.$_POST['ap_id'][$i]][$x]);
+             $qryx->execute();
+
+
+
+        }
+
+      }
+      
+     
+      
+
+      
 
     }
 
     $setstatus = 'Completed';
-    $sql = "UPDATE tbl_appointment SET status=?,total=? WHERE id=?";
+    $sql = "UPDATE tbl_appointment SET status=?,total=?,processed_by=? WHERE id=?";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("ssi",$setstatus,$service_total,$_GET['id']);
+    $qry->bind_param("ssi",$setstatus,$service_total,$_SESSION['dbu'],$_GET['id']);
     $qry->execute();
 
     $activity = "Updated Details of Appointment ID ".$_GET['id']; 
@@ -312,6 +500,7 @@ if(isset($_POST['btnUpdate'])){
     $qryx->execute();
 
     echo '<meta http-equiv="refresh" content="0; URL=view.php?id='.$_GET['id'].'&status=completed">';
+    
   
 }
 

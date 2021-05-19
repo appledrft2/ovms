@@ -10,6 +10,10 @@ if(isset($_SESSION['dbu'])){
   header('location:'.$baseurl.'');
 }
 $pages ='appointment/schedule';
+
+$mindate = new DateTime(date('Y-m-d'));
+$mindate->modify('+1 day');
+
 ?>
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
@@ -115,7 +119,7 @@ $pages ='appointment/schedule';
         						</div>
         						<div class="form-group">
         							<label for="schedule">Set Schedule <i style="color:red">*</i></label>
-        							<input type="date" class="form-control" name="schedule_date" id="schedule"  required>
+        							<input type="date" class="form-control" name="schedule_date" min="<?= $mindate->format('Y-m-d'); ?>"  required>
         						</div>
                     <div class="form-group">
                       <label for="schedule">Client Slot <i style="color:red">*</i></label>
@@ -182,10 +186,7 @@ $pages ='appointment/schedule';
       reader.readAsDataURL(e.files[0]);
     }
   }
-  var date = new Date().toISOString().slice(0,10);
-  //To restrict future date
-  var restrict = document.getElementById("schedule");
-  restrict.setAttribute('min', date);
+
 
 
   $('#calendar').fullCalendar({

@@ -170,9 +170,9 @@ $pages ='receiving/index';
 <?php 
 if(isset($_POST['btnSave'])){
 
-    $sql = "INSERT INTO tbl_stockin(delivery_code,delivery_date,supplier) VALUES(?,?,?)";
+    $sql = "INSERT INTO tbl_stockin(delivery_code,delivery_date,supplier,processed_by) VALUES(?,?,?,?)";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("sss",$_POST['dcode'],$_POST['ddate'],$_POST['supplier']);
+    $qry->bind_param("sssi",$_POST['dcode'],$_POST['ddate'],$_POST['supplier'],$_SESSION['dbu']);
 
     if($qry->execute()) {
 
