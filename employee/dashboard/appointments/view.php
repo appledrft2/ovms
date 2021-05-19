@@ -490,7 +490,7 @@ if(isset($_POST['btnUpdate'])){
     $setstatus = 'Completed';
     $sql = "UPDATE tbl_appointment SET status=?,total=?,processed_by=? WHERE id=?";
     $qry = $connection->prepare($sql);
-    $qry->bind_param("ssi",$setstatus,$service_total,$_SESSION['dbu'],$_GET['id']);
+    $qry->bind_param("ssii",$setstatus,$service_total,$_SESSION['dbu'],$_GET['id']);
     $qry->execute();
 
     $activity = "Updated Details of Appointment ID ".$_GET['id']; 
