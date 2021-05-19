@@ -14,5 +14,5 @@ if($_SERVER['HTTP_HOST'] == 'localhost'){
 }
 $baseurl = $geturl;
 $connection = new mysqli($host,$user,$pass,$db);
-
+date_default_timezone_set('Asia/Manila');
 ?>
