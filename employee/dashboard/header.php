@@ -1,6 +1,5 @@
 <?php
 if(isset($_POST['btnLogout'])){
-  date_default_timezone_set('Asia/Manila');
   $activity = "Logged Out Successfully.";
   $sqlx = "INSERT INTO tbl_logs(employee_id,activity) VALUES(?,?)";
   $qryx = $connection->prepare($sqlx);
@@ -52,7 +51,7 @@ if(isset($_POST['btnLogout'])){
     }.sidebarblue:hover{
       background-color: #1295ad !important;
     }
-    
+
     @media print {
       #printPageButton {
         display: none;
@@ -65,7 +64,7 @@ if(isset($_POST['btnLogout'])){
       text-align: center;
     }
 
-    @media screen and (min-width: 768px) { 
+    @media screen and (min-width: 768px) {
       .modal:before {
         display: inline-block;
         vertical-align: middle;
@@ -115,10 +114,10 @@ if(isset($_POST['btnLogout'])){
               <span class="hidden-xs"><?php echo 'Welcome, '.$_SESSION['dbg'].' '.$_SESSION['dbl'].' ('.$_SESSION['dbet'].')' ?></span>
             </a>
             <ul class="dropdown-menu">
-             
+
               <!-- Menu Footer-->
               <li class="user-footer">
-                
+
                 <div >
                   <a href="<?php echo $baseurl; ?>employee/dashboard/settings.php" class="btn btn-block btn-default btn-flat">User Settings</a>
 
@@ -150,7 +149,7 @@ if(isset($_POST['btnLogout'])){
         <li class="<?php if($pages == 'appointment/schedule'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/schedule"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a></li>
 
         <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/appointments"><i class="fa fa-calendar"></i> <span>Appointments</span></a></li>
-       
+
 
 
         <li class="treeview <?php if($pages == 'service/index' || $pages == 'service/add'){echo 'active'; } ?>">
@@ -161,11 +160,11 @@ if(isset($_POST['btnLogout'])){
             </span>
           </a>
           <ul class="treeview-menu">
- 
+
             <li class="<?php if($pages == 'service/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/services"><i class="fa fa-list-alt"></i> View Services</a></li>
           </ul>
         </li>
-        <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+        <?php if($_SESSION['dbet'] == 'Admin'){ ?>
 
          <li class="treeview <?php if($pages == 'employee/index' || $pages == 'employee/add'){echo 'active'; } ?>">
            <a href="#">
@@ -193,7 +192,7 @@ if(isset($_POST['btnLogout'])){
            </ul>
          </li>
 
-        <?php } ?> 
+        <?php } ?>
 
 
        <!--  <li class="<?php if($pages == 'appointment/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/appointment"><i class="fa fa-calendar"></i> <span>Completed Appointments</span></a></li>
@@ -248,9 +247,9 @@ if(isset($_POST['btnLogout'])){
            </ul>
          </li>
          <li class="<?php if($pages == 'pos/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/pos"><i class="fa fa-shopping-cart"></i> <span>Point of Sales</span></a></li>
-         
 
-         <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+
+         <?php if($_SESSION['dbet'] == 'Admin'){ ?>
          <li class="treeview <?php if($pages == 'reports/index'|| $pages == 'service_reports/index'){echo 'active'; } ?>">
            <a href="#">
              <i class="fa fa-file"></i> <span>Reports</span>
@@ -261,20 +260,20 @@ if(isset($_POST['btnLogout'])){
            <ul class="treeview-menu">
              <li class="<?php if($pages == 'reports/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/reports/index.php"><i class="fa fa-file"></i> Sales Report</a></li>
              <li class="<?php if($pages == 'service_reports/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/service_reports/index.php"><i class="fa fa-file"></i> Service Report</a></li>
-             
+
            </ul>
          </li>
         <?php } ?>
 
-        <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+        <?php if($_SESSION['dbet'] == 'Admin'){ ?>
         <li class="<?php if($pages == 'order/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/order"><i class="fa fa-gavel"></i> <span>Orders</span></a></li>
         <?php } ?>
 
 
 
-         <?php if($_SESSION['dbet'] == 'Admin'){ ?>  
+         <?php if($_SESSION['dbet'] == 'Admin'){ ?>
           <li class="header text-center">SETTINGS</li>
-          
+
 
           <li class="treeview <?php if($pages == 'system/index' || $pages == 'system/add'){echo 'active'; } ?>">
             <a href="#">
@@ -291,7 +290,7 @@ if(isset($_POST['btnLogout'])){
          <?php } ?>
 
 
-        
+
       </ul>
     </section>
     <!-- /.sidebar -->

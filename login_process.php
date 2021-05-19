@@ -1,8 +1,7 @@
-<?php 
+<?php
 session_start();
 include('includes/autoload.php');
-date_default_timezone_set('Asia/Manila'); 
-?> 
+?>
 <?php
 
     if(isset($_POST['btnLogin'])){
@@ -16,7 +15,7 @@ date_default_timezone_set('Asia/Manila');
         $qry->bind_result($dbusername,$dbpassword,$dbrole);
         $qry->store_result();
         $qry->fetch();
-  
+
         if($qry->num_rows() > 0) {
 
            if(password_verify($password, $dbpassword)){
