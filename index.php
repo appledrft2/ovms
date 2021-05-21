@@ -1,6 +1,5 @@
-<?php 
+<?php
 session_start();
-
 include('includes/autoload.php'); ?>
 <!DOCTYPE html>
 <html>
@@ -12,8 +11,7 @@ include('includes/autoload.php'); ?>
 	<script src="<?php echo $baseurl ?>template/asset/jquery.min.js"></script>
 	<script src="<?php echo $baseurl ?>template/asset/popper.min.js"></script>
 	<script src="<?php echo $baseurl ?>template/asset/bootstrap.min.js"></script>
-
- 	  <link rel="stylesheet" href="<?php echo $baseurl ?>template/bower_components/font-awesome/css/font-awesome.min.css">
+ 	<link rel="stylesheet" href="<?php echo $baseurl ?>template/bower_components/font-awesome/css/font-awesome.min.css">
  	<link rel="shortcut icon" type="image/jpg" href="<?php echo $baseurl ?>template/img/logo.jpg"/>
 	<title>Bath & Bark Grooming & Veterinary Services</title>
 	<style type="text/css">
@@ -33,13 +31,12 @@ include('includes/autoload.php'); ?>
 		  0%   { opacity: 0; }
 		  100% { opacity: 1; }
 		}
-
 		body{
 			font-family: Helvetica !important;
 			animation-name: fade;
-			animation-duration: 0.5s; 
+			animation-duration: 0.5s;
 			animation-fill-mode: forwards;
-			scroll-behavior: smooth !important; 
+			scroll-behavior: smooth !important;
 		}
 		a:hover{
 			color:turquoise;
@@ -66,13 +63,13 @@ include('includes/autoload.php'); ?>
 		  width: 50%;
 		}#contactflex{
 		  	display:flex;
-		 } 
+		 }
 		@media screen and (min-width: 0px) and (max-width: 600px) {
 		  #home{ display: none; }
 		  #contactflex{
 		  	 flex-direction: column;
-		  } 
-		  #contact2{order:1;} 
+		  }
+		  #contact2{order:1;}
 		  #businesshours{order:2;}
 		}
 		#myBtn {
@@ -91,11 +88,9 @@ include('includes/autoload.php'); ?>
 		  font-size: 18px; /* Increase font size */
 		  border:1px solid white;
 		}
-
 		#myBtn:hover {
 		  background-color: #18BDDB; /* Add a dark-grey background on hover */
 		}
-	
 	</style>
 </head>
 <body>
@@ -109,7 +104,7 @@ include('includes/autoload.php'); ?>
 					  Bauan-Batangas Rd, Poblacion 4204 San Pascual, Philippines
 				</div>
 				<div class="col-md-6 col-sm-6" style="text-align: right;position: relative;top:15px;right: 20px;	">
-					 
+
 					 <b>Contact Us <i class="fa fa-mobile-phone"></i> : </b> (+63) 943-882-7552
 				</div>
 			</div>
@@ -141,21 +136,21 @@ include('includes/autoload.php'); ?>
 		        <?php endif; ?>
 		      </div>
 		    </div>
-		  </div>  
+		  </div>
 		</nav>
 	</div>
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-	 
+
 	  <div class="carousel-inner">
 	    <div class="carousel-item active">
 	      <img src="<?php echo $baseurl ?>template/img/banner.png" class="d-block img-fluid w-100" style="height: 550px;" alt="...">
-	      
+
 	    </div>
-	    
-	      
-	   
+
+
+
 	  </div>
-	
+
 	</div>
 
 	<div id="aboutus" style="border-top:3px solid grey;border-bottom:3px solid grey;background-color:#18BDDB;padding:5px; ">
@@ -163,7 +158,7 @@ include('includes/autoload.php'); ?>
 			ABOUT US
 		</h1>
 	</div>
-	
+
 		<div class="aboutus"  style="background-image: url('<?php echo $baseurl ?>template/img/aboutbg.jpg');height: 600px;overflow:auto">
 			<div class="container-fluid">
 				<div class="row">
@@ -202,16 +197,16 @@ include('includes/autoload.php'); ?>
 			<div class="box-body text-justify">
 							<div class="row">
 								<?php
-								// 
+								//
 								  $per_page = 8;
-								// 
+								//
 								  $count_service = "SELECT count(*) FROM tbl_product";
 								  $qry1 = $connection->prepare($count_service);
 								  $qry1->execute();
 								  $qry1->bind_result($dbcs);
 								  $qry1->store_result();
 								  $qry1->fetch();
-								// 
+								//
 								  $db_length = $dbcs;
 								  $number_of_pages = ceil($db_length / $per_page);
 
@@ -245,7 +240,7 @@ include('includes/autoload.php'); ?>
 									if($dbpip == 'images/placeholder.jpg'){
 										echo "<img src='".$baseurl."employee/dashboard/products/".$dbpip."' style='width:100%;height:200px'>";
 									}else{
-										echo "<img src='".$baseurl."employee/dashboard/products/".$dbpip."' style='width:200px;height:200px'>";	
+										echo "<img src='".$baseurl."employee/dashboard/products/".$dbpip."' style='width:200px;height:200px'>";
 									}
 
 									echo "</div>";
@@ -263,7 +258,7 @@ include('includes/autoload.php'); ?>
 								?>
 							</div>
 							<div class="box  mt-5" style="float:right">
-								<?php 
+								<?php
 
 								echo '<nav aria-label="Page navigation example">
 									  <ul class="pagination">';
@@ -273,9 +268,9 @@ include('includes/autoload.php'); ?>
 									echo '<li class="page-item disabled"><a class="page-link" href="index.php?ppage='.$prev.'#prod">Previous</a></li>';
 								}else{
 									echo '<li class="page-item "><a class="page-link" href="index.php?ppage='.$prev.'#prod">Previous</a></li>';
-								} 
+								}
 								for($page=1;$page <= $number_of_pages;$page++){
-								
+
 								if($page == $page1){
 									echo '<li class="page-item active"><a class="page-link" href="index.php?ppage='.$page.'#prod">'.$page.'</a></li>';
 								}else{
@@ -283,7 +278,7 @@ include('includes/autoload.php'); ?>
 								}
 
 								}
-								$next = $page1 + 1;  
+								$next = $page1 + 1;
 								if($next > $number_of_pages){
 									echo '<li class="page-item disabled"><a class="page-link" href="index.php?ppage='.$next.'">Next</a></li>
 										';
@@ -291,7 +286,7 @@ include('includes/autoload.php'); ?>
 									echo '<li class="page-item "><a class="page-link" href="index.php?ppage='.$next.'#prod">Next</a></li>
 										';
 								}
-								echo	'</ul></nav>'; 
+								echo	'</ul></nav>';
 
 								?>
 							</div>
@@ -304,16 +299,16 @@ include('includes/autoload.php'); ?>
 			<div class="box-body text-justify">
 				<div class="row">
 					<?php
-					// 
+					//
 					  $per_page = 8;
-					// 
+					//
 					  $count_service = "SELECT count(*) FROM tbl_service";
 					  $qry1 = $connection->prepare($count_service);
 					  $qry1->execute();
 					  $qry1->bind_result($dbcs);
 					  $qry1->store_result();
 					  $qry1->fetch();
-					// 
+					//
 					  $db_length = $dbcs;
 					  $number_of_pages = ceil($db_length / $per_page);
 
@@ -341,7 +336,7 @@ include('includes/autoload.php'); ?>
 					$qry2->bind_result($dbsid,$dbsn,$dbsp,$dbip);
 					$qry2->store_result();
 					while ($qry2->fetch()) {
-						
+
 						if($dbip == ''){
 							$dbip = 'images/placeholder.jpg';
 						}
@@ -355,7 +350,7 @@ include('includes/autoload.php'); ?>
 						echo "<h4>".$dbsn."</h4>";
 						echo "<div class='form-inline'><label>Price:</label>&nbsp;&#8369;".number_format($dbsp,2)."</div>";
 						echo "</div>";
-				
+
 						echo "</div>";
 						echo "</div>";
 
@@ -363,7 +358,7 @@ include('includes/autoload.php'); ?>
 					?>
 				</div>
 				<div class="box  mt-5" style="float:right">
-					<?php 
+					<?php
 
 					echo '<nav aria-label="Page navigation example">
 						  <ul class="pagination">';
@@ -373,9 +368,9 @@ include('includes/autoload.php'); ?>
 						echo '<li class="page-item disabled"><a class="page-link" href="index.php?spage='.$prev.'#services2">Previous</a></li>';
 					}else{
 						echo '<li class="page-item "><a class="page-link" href="index.php?spage='.$prev.'#services2">Previous</a></li>';
-					} 
+					}
 					for($page=1;$page <= $number_of_pages;$page++){
-					
+
 					if($page == $page1){
 						echo '<li class="page-item active"><a class="page-link" href="index.php?spage='.$page.'#services2">'.$page.'</a></li>';
 					}else{
@@ -383,7 +378,7 @@ include('includes/autoload.php'); ?>
 					}
 
 					}
-					$next = $page1 + 1;  
+					$next = $page1 + 1;
 					if($next > $number_of_pages){
 						echo '<li class="page-item disabled"><a class="page-link" href="index.php?spage='.$next.'">Next</a></li>
 							';
@@ -391,14 +386,14 @@ include('includes/autoload.php'); ?>
 						echo '<li class="page-item "><a class="page-link" href="index.php?spage='.$next.'#services2">Next</a></li>
 							';
 					}
-					echo	'</ul></nav>'; 
+					echo	'</ul></nav>';
 
 					?>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div id="contact" style="margin-top:100px;border-top:3px solid grey;border-bottom:3px solid grey;background-color:#18BDDB;padding:5px;height: 50px ">			
+	<div id="contact" style="margin-top:100px;border-top:3px solid grey;border-bottom:3px solid grey;background-color:#18BDDB;padding:5px;height: 50px ">
 	</div>
 	<div class="contact" style="width: 100%;">
 		<div id="contactflex" class="mt-5">
@@ -485,13 +480,13 @@ include('includes/autoload.php'); ?>
 							8:00AM - 6:00PM
 						</td>
 					</tr>
-					
+
 				</table>
 			</div>
 		</div>
 	</div>
 	<div id="footer" style="margin-top:50px;border-top:3px solid grey;background-color:#18BDDB;padding:5px; ">
-	<h5 style="text-align: center;color:white">Copyright 	&#169; 2021 <a href="#" style="text-decoration: none;color:white">Bath & Bark Grooming & Veterinary Services.</a></h5>			
+	<h5 style="text-align: center;color:white">Copyright 	&#169; 2021 <a href="#" style="text-decoration: none;color:white">Bath & Bark Grooming & Veterinary Services.</a></h5>
 	</div>
 
 </body>
