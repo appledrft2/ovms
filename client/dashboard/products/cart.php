@@ -69,7 +69,7 @@ if($dbfn == ''){
             <div class="box-body">
               <div class="row">
                 <div class="col-md-12" id="deladd">
-                  <form method="POST" action="#" enctype="multipart/form-data">
+                  <form method="POST" action="#">
                     <p class="form-inline"><input type="text" class="form-control"  readonly name="order_code" value="OR-<?php echo rand(199999,599999); ?>"></p>
                     <hr>
                   <h4 class=""><i class="fa fa-truck"></i> Delivery Address</h4>
@@ -108,7 +108,8 @@ if($dbfn == ''){
                     </div>
                   </div>
                   <hr>
-              
+                </form>
+                <form method="POST" action="#" enctype="multipart/form-data">
                 </div>
               
                 <div class="col-md-12">
