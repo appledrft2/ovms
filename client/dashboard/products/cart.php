@@ -73,6 +73,7 @@ if($dbfn == ''){
                     <p class="form-inline"><input type="text" class="form-control"  readonly name="order_code" value="OR-<?php echo rand(199999,599999); ?>"></p>
                     <hr>
                   <h4 class=""><i class="fa fa-truck"></i> Delivery Address</h4>
+                  <p>*Please fill out this form before you proceed to checkout.</p>
                   <div class="row">
                     <div class="col-md-6">
                       
@@ -200,8 +201,8 @@ if($dbfn == ''){
                 </div>
               </div>
               <br>
-              <div class="pull-right">
-                <button type="submit" name="btnCheckout" class="btn btn-success" <?php if($cempty == true){ echo 'disabled';} ?> > Confirm Checkout</button>
+              <div class="pull-right" id="reloadChkBtn">
+                <button type="submit" name="btnCheckout" class="btn btn-success" <?php if($cempty == true || $dbfn == '' || $dbp == '' || $dbpr == '' ||$dbc == '' || $dbb == '' ||$dbpt == '' ||$dbs == ''){ echo 'disabled';} ?> > Confirm Checkout</button>
               </form>
               </div>
             </div>
@@ -272,6 +273,7 @@ if(isset($_POST['btnUpdateAddress'])){
          title: 'Delivery Address Successfully Updated'
        })</script>";
     echo '<script>$("#deladd").load(location.href + " #deladd");</script>';
+    echo '<script>$("#reloadChkBtn").load(location.href + " #reloadChkBtn");</script>';
 
     
 }if(isset($_POST['btnCheckout'])){
