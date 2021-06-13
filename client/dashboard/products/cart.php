@@ -103,7 +103,7 @@ $qry->fetch ();
                     $cart_total = $cart_total + $sub;
                 ?>
                   <tr style="font-size: 20px;">
-                    <td><img src="http://localhost/ovms/employee/dashboard/products/<?= $dbip ?>" style="width: 100px;height:100px;border:1px solid black">
+                    <td><img src="http://<?= $baseurl ?>employee/dashboard/products/<?= $dbip ?>" style="width: 100px;height:100px;border:1px solid black">
                     </td>
                     <td class="list-center"><?= $dbpn ?></td>
                     <td class="list-center"><?= $dbcat ?></td>
