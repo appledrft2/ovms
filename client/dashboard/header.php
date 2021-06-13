@@ -166,7 +166,7 @@
        </li>
 
         <li class="<?php if($pages == 'order/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>client/dashboard/order/index.php"><i class="fa fa-file"></i> 
-        <span>My Invoice
+        <span>My Invoices
 
         <?php 
 

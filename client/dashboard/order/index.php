@@ -23,7 +23,7 @@ $pages = 'order/index';
     <section class="content-header">
         <div class="row">
           <h1 class="col-md-6 text-left">
-            <span class="text-left">Invoice List</span>
+            <span class="text-left">My Invoices</span>
 
           </h1>
           <h2 class="col-md-6 text-right">
@@ -83,21 +83,10 @@ $pages = 'order/index';
                       echo"<td class='text-right'>";
                       echo $dbtimestamp;
                       echo"</td>";
-                      echo"<td width='15%'>";
+                      echo"<td width='10%'>";
 
-                      if($dbstat == 'Pending'){
-                        if($dbisc == 'true'){
-                         echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i>&nbsp;View</a>&nbsp;<a class="btn btn-danger btn-sm" disabled ><i class="fa fa-remove"></i> Order Cancelled</a>';
-                        }else{
-                         echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i>&nbsp;View</a>&nbsp;<a href="cancel.php?id='.$id.'" ';?>onclick="return confirm('Are you sure you want to cancel this order?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i> Cancel Order</a>';
-                        }
-                      }else{
-                        if($dbisc == 'true'){
-                         echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i>&nbsp;View</a>&nbsp;<a class="btn btn-danger btn-sm" disabled ><i class="fa fa-remove"></i> Order Cancelled</a>';
-                        }else{
-                         echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-search"></i>&nbsp;View</a>&nbsp;<a href="#" class="btn btn-danger btn-sm" disabled><i class="fa fa-remove"></i> Cancel Order</a>';
-                        }
-                      }
+            
+                         echo '<a class="btn btn-default btn-sm" href="view.php?id='.$id.'"><i class="fa fa-print"></i>&nbsp;View Invoice</a>';
                      
                       echo"</td>";
                       echo"</tr>";

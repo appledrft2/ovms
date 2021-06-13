@@ -267,6 +267,7 @@ if(isset($_POST['btnLogout'])){
 
         <?php if($_SESSION['dbet'] == 'Admin'){ ?>
         <li class="<?php if($pages == 'order/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/order"><i class="fa fa-gavel"></i> <span>Orders</span></a></li>
+
         <?php } ?>
 
 
@@ -287,6 +288,8 @@ if(isset($_POST['btnLogout'])){
               <li class="<?php if($pages == 'system/index'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/logs"><i class="fa fa-list-alt"></i> View Logs</a></li>
             </ul>
           </li>
+
+          <li class="<?php if($pages == 'order/settings'){echo 'active'; } ?>"><a href="<?php echo $baseurl; ?>employee/dashboard/order/settings.php"><i class="fa fa-cog"></i> <span>Order Settings</span></a></li>
          <?php } ?>
 
 

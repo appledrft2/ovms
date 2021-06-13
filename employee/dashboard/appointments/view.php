@@ -41,25 +41,36 @@ if(isset($_GET['id'])){
           </h2>
         </div>
       </section>
-
+      
     <!-- Main content -->
     <section class="content">
       <?php 
-        if(isset($_GET['status'])){
-          if($_GET['status'] == 'completed'){
-            echo '<div class="alert alert-success alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-check"></i>  Appointment Successfully Completed.</p>
-                     
-                    </div>';
-          }if($_GET['status'] == 'error'){
-            echo '<div class="alert alert-info alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-remove"></i>  There was an error.</p>
-                     
-                    </div>';
-          }
+
+      if($_SESSION['dbet'] != 'Veterinarian' && $dbstatus != 'Completed'){
+        echo '<div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p><i class="icon fa fa-warning"></i>  Only the assigned veterinarian can process this appointment.</p>
+
+        </div>';
+      }
+
+      if(isset($_GET['status'])){
+        if($_GET['status'] == 'completed'){
+          echo '<div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <p><i class="icon fa fa-check"></i>  Appointment Successfully Completed.</p>
+
+          </div>';
+        }if($_GET['status'] == 'error'){
+          echo '<div class="alert alert-info alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <p><i class="icon fa fa-remove"></i>  There was an error.</p>
+
+          </div>';
         }
+
+
+      }
       ?>
       <div class="row">
         <div class="col-md-12">
@@ -171,8 +182,15 @@ if(isset($_GET['id'])){
                     pointer-events: none;
                   }
                 </style>
-                <h4>Pet Diagnosis</h4>
-                  <div class="row">
+                <?php
+                  if($_SESSION['dbet'] != 'Veterinarian' && $dbstatus != 'Completed'){
+                    $nodisplay = "style='display:none'";
+                  }else{
+                    $nodisplay = "";
+                  }
+                ?>
+                <h4 <?= $nodisplay ?>>Pet Diagnosis</h4>
+                  <div class="row" <?= $nodisplay ?>>
 
                     <?php
                       $isdisabled = ($dbstatus == 'Completed') ? "readonly" : "";
@@ -358,8 +376,8 @@ if(isset($_GET['id'])){
 
             <div class="box-footer">
               <div class="pull-right">
-                  <a id="printPageButton" href="<?php echo $baseurl; ?>employee/dashboard/appointments" class="btn btn-default" > Go Back</a>
-                  
+                  <a id="" href="<?php echo $baseurl; ?>employee/dashboard/appointments" class="btn btn-default" > Go Back</a>
+                  <?= ($dbstatus == 'Completed') ? '<a  href="'.$baseurl.'employee/dashboard/service_reports/invoice.php?id='.$_GET['id'].'" class="btn btn-primary" > <i class="fa fa-print"></i> Print Invoice</a>' : '' ?>
                   <?php if($vet_id == $_SESSION['dbu']): ?>
                   <?php if($dbstatus != 'Cancelled' && $dbstatus != 'Booked' && $dbstatus != 'Completed'): ?>
                     
@@ -499,7 +517,7 @@ if(isset($_POST['btnUpdate'])){
     $qryx->bind_param("is",$_SESSION['dbu'],$activity);
     $qryx->execute();
 
-    echo '<meta http-equiv="refresh" content="0; URL=view.php?id='.$_GET['id'].'&status=completed">';
+    echo '<meta http-equiv="refresh" content="0; URL="'.$baseurl.'employee/dashboard/service_reports/invoice.php?id='.$_GET['id'].'>';
     
   
 }

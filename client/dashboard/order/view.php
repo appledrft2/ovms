@@ -14,28 +14,26 @@ if(isset($_SESSION['dbu'])){
 }
 $pages = 'order/index';
 
-$sqlo = "SELECT order_code,proof_of_payment FROM tbl_order WHERE id = ?";
+$sqlo = "SELECT o.order_code,o.timestamp,c.firstname,c.lastname,o.total FROM tbl_order AS o INNER JOIN tbl_client AS c ON c.id = o.client_id WHERE o.id = ?";
 $qryo = $connection->prepare($sqlo);
 $qryo->bind_param("i",$_GET['id']);
 $qryo->execute();
-$qryo->bind_result($oc,$pop);
+$qryo->bind_result($oc,$dbtimestamp,$dbf,$dbl,$dbt);
 $qryo->store_result();
 $qryo->fetch();
 
+$dbfn = $dbf." ".$dbl; 
 
-$sql = "SELECT id,fullname,phone,province,city,barangay,postal,street,message FROM tbl_delivery_address WHERE order_code = ?";
+
+$dbtimestamp  = date_create($dbtimestamp);
+
+$sql = "SELECT tax,shipping FROM tbl_order_settings WHERE id = 1";
 $qry = $connection->prepare($sql);
-$qry->bind_param("s",$oc);
 $qry->execute();
-$qry->bind_result($id,$dbfn,$dbp,$dbpr,$dbc,$dbb,$dbpt,$dbs,$dbm);
+$qry->bind_result($dbtax, $dbshipping);
 $qry->store_result();
-$qry->fetch();
+$qry->fetch ();
 
-if($dbfn == ''){
-  $dbfn = $_SESSION['dbf']." ".$_SESSION['dbl'];
-}if($dbp == ''){
-  $dbp = $_SESSION['dbphone'];
-}
 
 ?>
 <?php include('../header.php'); ?>
@@ -58,69 +56,40 @@ if($dbfn == ''){
 
     <!-- Main content -->
     <section class="content">
-      <?php 
-        if(isset($_GET['status'])){
-          if($_GET['status'] == 'success'){
-            echo '<div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <p><i class="icon fa fa-check"></i>  Transaction Successfully Processed.</p>
-                   
-                  </div>';
-          }
-        }
-      ?>
-      <a href="<?php echo $baseurl; ?>client/dashboard/order" class="btn btn-default" > Go Back</a><br><br>
-      <div class="row" >
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header"></div>
-            <div class="box-body">
-              <div class="row">
-                <div class="col-md-12" id="deladd">
-                  <form method="POST" action="#" enctype="multipart/form-data">
-                    <p class="form-inline"><input type="text" class="form-control"  readonly name="order_code" value="<?php echo $oc; ?>"></p>
-                    <hr>
-                  <h4 class=""><i class="fa fa-truck"></i> Delivery Address</h4>
-                  <div class="row">
-                    <div class="col-md-6">
-                      
-                        <label>Fullname: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="fullname" value="<?php echo $dbfn; ?>">
-                        <label>Phone Number: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="phone" value="<?php echo $dbp; ?>">
-                       
-                        <label>Special Notes: <i class="text-red"></i></label>
-                        <textarea class="form-control" rows="3" name="message" placeholder="(Optional)"><?php echo $dbm; ?></textarea>
-                      
-                    </div>
-                    <div class="col-md-6">
-        
-                        
-                        <label>Province: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="province" value="<?php echo $dbpr; ?>">
-                        <label>City: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="city" value="<?php echo $dbc; ?>">
-                        <label>Barangay: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="barangay" value="<?php echo $dbb; ?>">
-                        <label>Purok/Street: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="street" value="<?php echo $dbs; ?>">
-                        <label>Postal Code: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="postal" value="<?php echo $dbpt; ?>">
-                   
-                    </div>
-                    <div class="col-md-12">
-                      <br>
-                     
-                    </div>
+    
+        <div class="row">
+          <div class="col-md-6" style="float:none;margin:auto;">
+            <div class="box">
+              <div class="box-header"> 
+                
+               
+              </div>
+              <div class="box-body">
+                <form id="printme" >
+                <center>
+                  <img src="<?php echo $baseurl ?>logo.jpg" width="100px" style="border:1px solid black"><br>
+                  <b style="text-transform: uppercase;">Bath & Bark Grooming and Veterinary Services</b>
+                  <p>
+                    Bauan-Batangas Road<br>
+                    Poblacion, San Pascual, Philippines<br>
+                    Contact No.: 09178827552
+                  </p>
+                </center>
+                <div class="row">
+                  <div class="col-md-6">
+                 
+                    <label>Date: <?php echo date_format($dbtimestamp,"M d, Y"); ?></label><br>
+                    <label>Invoice #<?php echo $oc; ?></label>
+                    
                   </div>
-                  <hr>
-              
+                  <div class="col-md-6">
+                 
+                    <label>Client Name: <?php echo ucwords($dbfn) ?></label><br>
+                    
+                  </div>
                 </div>
-              
-                <div class="col-md-12">
-                   <h4 class=""><i class="fa fa-shopping-cart"></i> Cart</h4>
-                  <table class="table table-bordered table-hover">
-                    <thead style="background-color: #222d32;color:white;">
+                <table class="table table-bordered">
+                  <thead>
                       <tr>
                         <th width="5%">#</th>
                         <th>Product Name</th>
@@ -132,7 +101,7 @@ if($dbfn == ''){
                     </thead>
                     <tbody>
                       <?php 
-  
+                    
                        $ctotal = 0;
                        $cempty = false;
                        $i = 1;
@@ -162,7 +131,7 @@ if($dbfn == ''){
                          echo "<input type='hidden' name='quantity[]' value='".$dbq."'> ";
 
                            echo"</td>";
-                            echo"<td class='text-right'>";
+                            echo"<td class='text-center'>";
                           echo "&#8369;".number_format($sub,2);
                          
                          echo"</tr>";
@@ -173,43 +142,61 @@ if($dbfn == ''){
                        }
 
                      ?>
+                  </tbody >
+                  <tfoot border="0">
+                      
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    
+                    
+                        <td >
+                          
+                           
+                            <div class="pull-right">
+                              <label class="pull-right">Subtotal:</label><br>
+                              
+                              <label class="pull-right">Tax:</label><br>
+                              <label class="pull-right">Shipping:</label><br>
+                    
+                              <label class="pull-right">Total:</label><br>
+                            
+                            </div>
+                     
 
-                    </tbody>
-                    <?php if($ctotal != 0){ ?>
-                    <tfoot>
-                      <tr><td></td><td></td><td></td><td></td><td class="text-right"><b>Total Amount:</b> &#8369;<?php echo number_format($ctotal,2); ?></td></tr>
-                    </tfoot>
-                    <?php } ?>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <div class="box-footer">
-              <div class="row">
-                <div class="col-md-6">
-                  
-                </div>
-                <div class="col-md-6">
-                   <div class="pull-right">
-                
-                    <label>Proof of Payment: <i class="text-red">*</i></label><br>
-                    <img src="<?php echo $baseurl ?>client/dashboard/products/<?php echo $pop; ?>" width="200px" height="200px">
-                    <br>
-                    <a href="<?php echo $baseurl ?>client/dashboard/products/<?php echo $pop; ?>" class="btn btn-block btn-success" download> Download</a>
-               
-                  </div>
-                 
-                </div>
-              </div>
-              <br>
-              <div class="pull-right">
-                
+                        </td>
+                        <td>
+                          <div class="text-center">
+                        
+                            <label style="font-weight:normal;">&#8369; <?php echo number_format($ctotal,2) ?></label><br>
+                            <label style="font-weight:normal;"><?= $dbtax ?> %</label><br>
+
+                            <label style="font-weight:normal;">&#8369; <?php echo number_format($dbshipping,2) ?></label><br>
+                          
+                            <label style="font-weight:normal;">&#8369; <?php echo number_format($dbt,2) ?></label><br>
+                          
+                          </div>
+
+                        </td>
+                      </tr>
+                    
+                  </tfoot>
+                </table>
               </form>
+              </div>
+
+              <div class="box-footer">
+             
+                <div class="pull-right">
+                  <a href="<?php echo $baseurl; ?>client/dashboard/order" class="btn btn-default" > Go Back</a>
+                  <button type="button" name="btnSave" onClick="printdiv('printme')" class="btn btn-primary"> <i class="fa fa-print"></i> Print</button>
+                </div>  
               </div>
             </div>
           </div>
         </div>
-      </div>
+    
     </section>
     <!-- /.content -->
   </div>
@@ -226,17 +213,15 @@ if($dbfn == ''){
 <!-- ./wrapper -->
 
 <?php include('footer.php') ?>
-<script type="text/javascript">
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+<script language="javascript">
+  function printdiv(printpage) {
+    var headstr = "<html><head><title></title></head><body>";
+    var footstr = "</body>";
+    var newstr = document.all.item(printpage).innerHTML;
+    var oldstr = document.body.innerHTML;
+    document.body.innerHTML = headstr + newstr + footstr;
+    window.print();
+    document.body.innerHTML = oldstr;
+    return false;
+  }
 </script>
-

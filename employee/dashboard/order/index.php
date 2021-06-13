@@ -135,9 +135,9 @@ $pages = 'order/index';
                       echo"<td class='text-right'>";
                       echo $dbtimestamp;
                       echo"</td>";
-                      echo"<td width='10%'>";
+                      echo"<td class='text-center' width='10%'>";
                     
-                      echo '<a class="btn btn-default btn-sm " href="view.php?id='.$id.'"><i class="fa fa-search"></i>&nbsp;</a>&nbsp;<a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
+                      echo '<a class="btn btn-default btn-sm " href="view.php?id='.$id.'"><i class="fa fa-print"></i>&nbsp;</a>';
                       echo"</td>";
                       echo"</tr>";
                     }

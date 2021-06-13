@@ -14,26 +14,29 @@ if(isset($_SESSION['dbu'])){
 }
 $pages = 'product/cart';
 
-
-$oc = 'none';
-$sql = "SELECT id,fullname,phone,province,city,barangay,postal,street,message FROM tbl_delivery_address WHERE client_id = ? AND order_code = ?";
+$sql = "SELECT tax,shipping FROM tbl_order_settings WHERE id = 1";
 $qry = $connection->prepare($sql);
-$qry->bind_param("is",$_SESSION['dbu'],$oc);
 $qry->execute();
-$qry->bind_result($id,$dbfn,$dbp,$dbpr,$dbc,$dbb,$dbpt,$dbs,$dbm);
+$qry->bind_result($dbtax, $dbshipping);
 $qry->store_result();
-$qry->fetch();
-
-if($dbfn == ''){
-  $dbfn = $_SESSION['dbf']." ".$_SESSION['dbl'];
-}if($dbp == ''){
-  $dbp = $_SESSION['dbphone'];
-}
+$qry->fetch ();
 
 ?>
+
 <?php include('../header.php'); ?>
   <!-- =============================================== -->
+  <style>
+    .list-center{
+      padding: 40px 0!important;
+    }
 
+    input[type=number]::-webkit-inner-spin-button {
+        opacity: 1
+    }
+    .d-none{
+      display: none!important;
+    }
+  </style>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -51,164 +54,169 @@ if($dbfn == ''){
 
     <!-- Main content -->
     <section class="content">
-      <?php 
-        if(isset($_GET['status'])){
-          if($_GET['status'] == 'success'){
-            echo '<div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <p><i class="icon fa fa-check"></i>  Transaction Successfully Processed.</p>
-                   
-                  </div>';
-          }
-        }
-      ?>
-      <div class="row" >
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header"></div>
-            <div class="box-body">
-              <div class="row">
-                <div class="col-md-12" id="deladd">
-                  <form method="POST" action="#">
-                    <p class="form-inline"><input type="text" class="form-control"  readonly name="order_code" value="OR-<?php echo rand(199999,599999); ?>"></p>
-                    <hr>
-                  <h4 class=""><i class="fa fa-truck"></i> Delivery Address</h4>
-                  <p>*Please fill out this form before you proceed to checkout.</p>
-                  <div class="row">
-                    <div class="col-md-6">
+      <!-- Main content -->
+      <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="page-header">
+              <i class="fa fa-shopping-cart"></i> Shopping Cart
+            </h2>
+          </div>
+          <!-- /.col -->
+        </div>
+       
+
+        <!-- Table row -->
+        <div class="row">
+          <div class="col-md-12 table-responsive">
+            
+            <table class="table table-striped table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Instock</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+                
+                <?php 
+                  $oc = '';
+                  $cart_total = 0;
+                  $cempty = false;
+                  $i = 1;
+                  $sql = "SELECT cc.id,p.name,cc.quantity,p.selling,p.id,p.category,p.image_path,p.quantity FROM tbl_client_cart AS cc INNER JOIN tbl_product AS p ON cc.product_id = p.id WHERE cc.client_id = ? AND cc.order_code = ?";
+                  $qry = $connection->prepare($sql);
+                  $qry->bind_param("is",$_SESSION['dbu'],$oc);
+                  $qry->execute();
+                  $qry->bind_result($id,$dbpn,$dbq,$dbp,$dbpid,$dbcat,$dbip,$instock);
+                  $qry->store_result();
+                  while($qry->fetch()){
+                    $sub = 0;
+                    $sub = $dbp * $dbq;
+                    $cart_total = $cart_total + $sub;
+                ?>
+                  <tr style="font-size: 20px;">
+                    <td><img src="http://localhost/ovms/employee/dashboard/products/<?= $dbip ?>" style="width: 100px;height:100px;border:1px solid black">
+                    </td>
+                    <td class="list-center"><?= $dbpn ?></td>
+                    <td class="list-center"><?= $dbcat ?></td>
+                    <td class="list-center text-right">&#8369; <?= number_format($dbp,2) ?></td>
+                    <td class="list-center text-center"><?= $instock ?></td>
+                    <td class="list-center text-center">
+                      <form method='POST' action='update_quantity.php'  >
+                        <input type="hidden" name="id" value="<?= $id ?>">
+                        <input type="number" name="changeQuantity" onchange='this.form.submit()' class="text-center" value="<?= $dbq ?>" min="1" max="50">
+                      </form>
+                    </td>
+                    <td class="list-center text-right">&#8369; <?= number_format($sub,2) ?></td>
+                    <td class="list-center text-center">
+                      <?php
+                      echo '<a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger " ><i class="fa fa-trash"></i></a>'
+                      ?>
+                    </td>
+
+                  </tr>
                       
-                        <label>Fullname: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" required name="fullname" value="<?php echo $dbfn; ?>">
-                        <label>Phone Number: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" required name="phone" value="<?php echo $dbp; ?>">
-                       
-                        <label>Special Notes: <i class="text-red"></i></label>
-                        <textarea class="form-control" rows="3"  name="message" placeholder="(Optional)"><?php echo $dbm; ?></textarea>
-                      
-                    </div>
-                    <div class="col-md-6">
-        
-                        
-                        <label>Province: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" required name="province" value="<?php echo $dbpr; ?>">
-                        <label>City: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" required name="city" value="<?php echo $dbc; ?>">
-                        <label>Barangay: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" required name="barangay" value="<?php echo $dbb; ?>">
-                        <label>Purok/Street: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" required name="street" value="<?php echo $dbs; ?>">
-                        <label>Postal Code: <i class="text-red">*</i></label>
-                        <input type="text" class="form-control" required name="postal" value="<?php echo $dbpt; ?>">
-                   
-                    </div>
-                    <div class="col-md-12">
-                      <br>
-                      <div class="pull-right">
-                        <button type="submit" name="btnUpdateAddress" class="btn btn-primary" > Update Address</button>
-                      </div>
-                    </div>
-                  </div>
-                  <hr>
-                </form>
-                <form method="POST" action="#" enctype="multipart/form-data">
-                </div>
-              
-                <div class="col-md-12">
-                   <h4 class=""><i class="fa fa-shopping-cart"></i> Cart</h4>
-                  <table class="table table-bordered table-hover">
-                    <thead style="background-color: #222d32;color:white;">
-                      <tr>
-                        <th width="5%">#</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Subtotal</th>
-                        <th>Action</th>  
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php 
-                       $oc = '';
-                       $ctotal = 0;
-                       $cempty = false;
-                       $i = 1;
-                       $sql = "SELECT cc.id,p.name,cc.quantity,p.selling,p.id FROM tbl_client_cart AS cc INNER JOIN tbl_product AS p ON cc.product_id = p.id WHERE cc.client_id = ? AND cc.order_code = ?";
-                       $qry = $connection->prepare($sql);
-                       $qry->bind_param("is",$_SESSION['dbu'],$oc);
-                       $qry->execute();
-                       $qry->bind_result($id,$dbpn,$dbq,$dbp,$dbpid);
-                       $qry->store_result();
-                       while($qry->fetch()){
-                         $sub = 0;
-                         $sub = $dbp * $dbq;
-                         $ctotal = $ctotal + $sub;
-                         echo"<tr>";
-                         echo"<td>";
-                         echo $i++;
-                         echo"</td>";
-                         echo"<td>";
-                         echo $dbpn;
-                         echo "<input type='hidden' name='pid[]' value='".$id."'> ";
-                         echo"</td>";
-                          echo"<td class='text-right'>";
-                         echo "&#8369;".number_format($dbp,2);
-                         echo"</td>";
-                         echo"<td class='text-center'>";
-                         echo $dbq." pcs";
-                         echo "<input type='hidden' name='quantity[]' value='".$dbq."'> ";
+                 <?php
+                  }
 
-                           echo"</td>";
-                            echo"<td class='text-right'>";
-                          echo "&#8369;".number_format($sub,2);
-                           echo"</td>";
-                         echo"<td width='5%'>";
-                         echo '
-                           <a href="delete.php?id='.$id.'" ';?>onclick="return confirm('Are you sure?')"<?php echo 'class="btn btn-danger btn-sm" ><i class="fa fa-remove"></i></a>';
-                         echo"</td>";
-                         echo"</tr>";
-                       }
-                       if($qry->num_rows == 0){
-                        $cempty = true;
-                        echo '<tr><td colspan="6" class="text-center">Your cart is currently empty.</td></tr>';
-                       }
+                  if($qry->num_rows == 0){
+                   $cempty = true;
+                   echo '<tr><td colspan="8" style="font-size: 20px;" class="list-center text-center">Your cart is currently empty.</td></tr>';
+                  }
 
-                     ?>
+                  ?>
 
-                    </tbody>
-                    <?php if($ctotal != 0){ ?>
-                    <tfoot>
-                      <tr><td></td><td></td><td></td><td></td><td class="text-right"><b>Total Amount:</b> &#8369;<?php echo number_format($ctotal,2); ?></td><td></td></tr>
-                    </tfoot>
-                    <?php } ?>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <div class="box-footer">
-              <div class="row">
-                <div class="col-md-6">
+              </tbody>
+            </table>
+            <form action="#" method="POST" id="paymentComplete">
+              <?php
+
+              $sql2 = "SELECT cc.id FROM tbl_client_cart AS cc INNER JOIN tbl_product AS p ON cc.product_id = p.id WHERE cc.client_id = ? AND cc.order_code = ?";
+              $qry2 = $connection->prepare($sql2);
+              $qry2->bind_param("is",$_SESSION['dbu'],$oc);
+              $qry2->execute();
+              $qry2->bind_result($id);
+              $qry2->store_result();
+              while($qry2->fetch()){
+                echo "<input type='hidden' name='pid[]' value='".$id."'>";
+              }
+              ?>
+              <button type="submit" name="btnComplete" id="btnComplete" style="display:none">test</button>
+            </form>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+       
+      </section>
+      <!-- /.content -->
+      <section class="invoice <?= ($sub == 0) ? 'd-none' : ''; ?> ">
+        <div class="row ">
+          
+          <div class="col-md-8">
+            <p class="lead" >Amount Due</p>
+
+            <div class="table-responsive">
+              <table class="table">
+                <tr>
+                  <th style="width:50%">Subtotal:</th>
+                  <td>&#8369; <?= number_format($cart_total,2) ?></td>
+                </tr>
+                <tr>
+                  <th>Tax</th>
+                  <td><?=$dbtax?> %</td>
+                </tr>
+                <tr>
+                  <th>Shipping:</th>
+                  <td>&#8369;<?= number_format($dbshipping,2) ?></td>
+                </tr>
+                <tr>
+                  <th>Total:</th>
+                  <td>&#8369; <?php 
+                  if($dbtax != 0){
+                   $taxtodeci =  $dbtax / 100;
+                   $taxsum = $cart_total * $taxtodeci;
+                   $cart_total = $cart_total + $taxsum;
+                  }if($dbshipping != 0){
+                    $cart_total = $cart_total + $dbshipping;
+                  }
                   
-                </div>
-                <div class="col-md-6">
-                   <div class="pull-right">
-                
-                    <label>Upload Proof of Payment (.jpg/.png): <i class="text-red">*</i></label>
-                    <input type="file" required class="form-control" <?php if($cempty == true){ echo 'disabled';} ?> name="proof_of_pay" accept="image/jpeg,image/png" >
-                
-               
-                  </div>
-                 
-                </div>
-              </div>
-              <br>
-              <div class="pull-right" id="reloadChkBtn">
-                <button type="submit" name="btnCheckout" class="btn btn-success" <?php if($cempty == true || $dbfn == '' || $dbp == '' || $dbpr == '' ||$dbc == '' || $dbb == '' ||$dbpt == '' ||$dbs == ''){ echo 'disabled';} ?> > Confirm Checkout</button>
-              </form>
-              </div>
+                  echo number_format($cart_total,2) 
+
+                 ?></td>
+                </tr>
+              </table>
             </div>
           </div>
+          <!-- /.col -->
+          
+          <!-- accepted payments column -->
+          <div class="col-md-4" id="payment">
+            <p class="lead">Payment Method:</p>
+
+              <script src="https://www.paypal.com/sdk/js?client-id=AUQBopAKT2W6JHA_vOaEqyqorZm4ptUO1zPtbjmnQwzwRINZxhVGK-Z21m1Y5CoYAQxKFB7mwVRlmbnt&currency=PHP"> // Replace YOUR_CLIENT_ID with your sandbox client ID
+            </script>
+
+            <div id="paypal-button-container" class=""></div>
+           
+
+            <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+              Easily pay your products online thru paypal payment gateway.
+            </p>
+          </div>
+          <!-- /.col -->
         </div>
-      </div>
+        <!-- /.row -->
+      </section>
+      
     </section>
     <!-- /.content -->
   </div>
@@ -226,117 +234,90 @@ if($dbfn == ''){
 
 <?php include('footer.php') ?>
 <script type="text/javascript">
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
+ 
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{"amount":{"currency_code":"PHP","value":<?= $cart_total ?>}}]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        iscomplete();
+        
+      });
     }
-  })
+  }).render('#paypal-button-container'); // Display payment options on your web page
+ 
+
+ function iscomplete(){
+  Swal.fire(
+    'Transaction Successfully Completed',
+    '',
+    'success'
+  );
+  setTimeout(function(){ $('#btnComplete').trigger('click'); }, 1500);
+  
+ }
 </script>
 
-<?php 
-if(isset($_POST['btnUpdateAddress'])){
-    $oc = 'none';
-    $cid = $_SESSION['dbu'];
-    $sql1 = "SELECT count(id) FROM tbl_delivery_address WHERE client_id = ? AND order_code = ?";
-    $qry1 = $connection->prepare($sql1);
-    $qry1->bind_param("is",$cid,$oc);
-    $qry1->execute();
-    $qry1->bind_result($id);
-    $qry1->store_result();
-    $qry1->fetch();
+<?php
 
-    if($id == 0){
 
-      $sql = "INSERT INTO tbl_delivery_address(fullname,phone,province,city,barangay,street,postal,message,client_id,order_code) VALUES(?,?,?,?,?,?,?,?,?,?)";
-      $qry = $connection->prepare($sql);
-      $qry->bind_param("ssssssssis",$_POST['fullname'],$_POST['phone'],$_POST['province'],$_POST['city'],$_POST['barangay'],$_POST['street'],$_POST['postal'],$_POST['message'],$cid,$oc);
-      $qry->execute();
-    
-    }else{
+if(isset($_POST['btnComplete'])){
+  
+ 
 
-      $sql2 = "UPDATE tbl_delivery_address SET fullname=?,phone=?,province=?,city=?,barangay=?,street=?,postal=?,message=? WHERE client_id = ? AND order_code = ?";
-      $qry2 = $connection->prepare($sql2);
-      $qry2->bind_param("ssssssssis",$_POST['fullname'],$_POST['phone'],$_POST['province'],$_POST['city'],$_POST['barangay'],$_POST['street'],$_POST['postal'],$_POST['message'],$cid,$oc);
-      $qry2->execute();
-      
-    }
-
-    echo "<script>
-       Toast.fire({
-         icon: 'info',
-         title: 'Delivery Address Successfully Updated'
-       })</script>";
-    echo '<script>$("#deladd").load(location.href + " #deladd");</script>';
-    echo '<script>$("#reloadChkBtn").load(location.href + " #reloadChkBtn");</script>';
-
-    
-}if(isset($_POST['btnCheckout'])){
-
-  $filetype=$_FILES['proof_of_pay']['type'];
-  $filename = md5(rand(11111,99999)."-".$_FILES["proof_of_pay"]["name"])."".$_FILES["proof_of_pay"]["name"];
-  $filepath = "uploads/".basename($filename);
-  if($filetype=='image/jpeg' or $filetype=='image/png' or $filetype=='image/gif')
-  {
-
-  move_uploaded_file($_FILES["proof_of_pay"]["tmp_name"],$filepath);
-
-  $order_code =  $_POST['order_code'];
+  $order_code =  "OR-".rand(199999,599999);
   $client_id = $_SESSION['dbu'];
-  $status = "Pending";
+  $status = "Completed";
   $cart_count = count($_POST['pid']);
 
 
-  $sql = "INSERT INTO tbl_order(status,proof_of_payment,client_id,order_code,total) VALUES(?,?,?,?,?)";
+  $sql = "INSERT INTO tbl_order(status,client_id,order_code,total) VALUES(?,?,?,?)";
   $qry = $connection->prepare($sql);
-  $qry->bind_param("ssiss",$status,$filepath,$client_id,$order_code,$ctotal);
+  $qry->bind_param("siss",$status,$client_id,$order_code,$cart_total);
   if($qry->execute()){
 
-
-    $sql2 = "INSERT INTO tbl_delivery_address(fullname,phone,province,city,barangay,street,postal,message,client_id,order_code) VALUES(?,?,?,?,?,?,?,?,?,?)";
-    $qry2 = $connection->prepare($sql2);
-    $qry2->bind_param("ssssssssis",$_POST['fullname'],$_POST['phone'],$_POST['province'],$_POST['city'],$_POST['barangay'],$_POST['street'],$_POST['postal'],$_POST['message'],$client_id,$order_code);
-    $qry2->execute();
-
-
+    $last_id = $qry->insert_id;
 
     if($cart_count != 0){
-
       for($i = 0; $i <= $cart_count;$i++){
-
-         $sql3 = "UPDATE tbl_client_cart SET order_code = ? WHERE id = ?";
+         $sql3 = "SELECT p.id,cc.quantity,p.quantity FROM tbl_client_cart AS cc INNER JOIN tbl_product AS p ON cc.product_id = p.id WHERE cc.id=?";
          $qry3 = $connection->prepare($sql3);
-         $qry3->bind_param('si',$order_code,$_POST['pid'][$i]);
+         $qry3->bind_param('i',$_POST['pid'][$i]);
          $qry3->execute();
+         $qry3->bind_result($prodid,$ccquant,$pquant);
+         $qry3->store_result();
+         $qry3->fetch();
+
+         $newquant = $pquant - $ccquant;
+
+         $sql4 = "UPDATE tbl_client_cart SET order_code = ? WHERE id = ?";
+         $qry4 = $connection->prepare($sql4);
+         $qry4->bind_param('si',$order_code,$_POST['pid'][$i]);
+         $qry4->execute();
+
+         $sql5 = "UPDATE tbl_product SET quantity = ? WHERE id = ?";
+         $qry5 = $connection->prepare($sql5);
+         $qry5->bind_param('si',$newquant,$prodid);
+         $qry5->execute();
 
 
       }
     }
-
-
-  echo '<meta http-equiv="refresh" content="0; URL=cart.php?status=success">';
+    echo '<meta http-equiv="refresh" content="0; URL='.$baseurl.'client/dashboard/order/view.php?id='.$last_id.'">';
+ 
 
   }
 
 
-  }else{
-    echo "<script>
-          Toast.fire({
-            icon: 'warning',
-            title: 'Invalid Upload File: Non image file is not allowed.'
-          })</script>";
-  }
+ 
 
 
 
-
-
-  
+ 
 
 }
+
 ?>
