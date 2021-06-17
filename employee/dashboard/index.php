@@ -158,63 +158,7 @@ $pages ='dashboard/index';
           <p><i class="icon fa fa-dashboard"></i>Welcome Back, <?php echo $_SESSION['dbg'].''.ucwords($_SESSION['dbl']); ?>!</p>
          
         </div>
-      <?php if($_SESSION['dbet'] == 'Veterinarian'):?>
-      <?php include('ap_vet_income.php') ?>
-      <div class="row">
-              <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-green">&#8369;</span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Daily Service Income</span>
-                    <span class="info-box-number">&#8369; <?php echo number_format($v_today,2);  ?></span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-red">&#8369;</span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Weekly Service Income</span>
-                    <span class="info-box-number">&#8369; <?php echo number_format($v_week,2);  ?></span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-               <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-default">&#8369;</span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Monthly Service Income</span>
-                    <span class="info-box-number">&#8369; <?php echo number_format($v_month,2);  ?></span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-blue">&#8369;</span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Annual Service Income</span>
-                    <span class="info-box-number">&#8369; <?php echo number_format($v_year,2);  ?></span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-      </div>
-      <?php endif ?>
+      
       
 
       <?php } ?>
