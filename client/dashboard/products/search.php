@@ -1,6 +1,22 @@
 <?php 
 session_start();
 include('../../../includes/autoload.php');
+if($_GET['keyword'] == ''){
+  header('location:index.php');
+}
+if(isset($_POST['btnLogout'])){
+  session_unset();
+  header('location:'.$baseurl.'');
+}
+if(isset($_SESSION['dbu'])){ 
+  if($_SESSION['dbc'] != true){
+      header("location:".$baseurl."employee/dashboard");
+  }
+}else{
+  header('location:'.$baseurl.'');
+}
+
+
 
 $pages = 'product/index';
 
