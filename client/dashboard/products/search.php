@@ -142,7 +142,7 @@ if(mysqli_num_rows($result)){
 
 }else{
   
-  header('location:index.php?result=0');
+  $outputList .= "No Records Found";
 }
 
 
@@ -201,7 +201,7 @@ if(mysqli_num_rows($result)){
 
        <?php 
 
-       
+       print "$outputList"; 
 
        if($paginationDisplay != ''){
 
