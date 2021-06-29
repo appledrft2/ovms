@@ -20,7 +20,7 @@ if($_GET['keyword'] == ''){
 // Custom PHP MySQL Pagination Tutorial and Script
 // You have to put your mysql connection data and alter the SQL queries(both queries)
 
-$con = mysqli_connect("localhost","root","","ovms");
+$con = mysqli_connect($host,$user,$pass,$db);
 // Check connection
 if (mysqli_connect_errno())
 {
