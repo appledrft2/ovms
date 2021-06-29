@@ -1,22 +1,10 @@
 <?php 
 session_start();
 include('../../../includes/autoload.php');
-if(isset($_POST['btnLogout'])){
-  session_unset();
-  header('location:'.$baseurl.'');
-}
-if(isset($_SESSION['dbu'])){ 
-  if($_SESSION['dbc'] != true){
-      header("location:".$baseurl."employee/dashboard");
-  }
-}else{
-  header('location:'.$baseurl.'');
-}
+
 $pages = 'product/index';
 
-if($_GET['keyword'] == ''){
-  header('location:index.php');
-}
+
 // Custom PHP MySQL Pagination Tutorial and Script
 // You have to put your mysql connection data and alter the SQL queries(both queries)
 
