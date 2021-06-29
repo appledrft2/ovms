@@ -1,7 +1,20 @@
 <?php 
 session_start();
 include('../../../includes/autoload.php');
-
+if(isset($_POST['btnLogout'])){
+  session_unset();
+  header('location:'.$baseurl.'');
+}
+if(isset($_SESSION['dbu'])){ 
+  if($_SESSION['dbc'] != true){
+      header("location:".$baseurl."employee/dashboard");
+  }
+}else{
+  header('location:'.$baseurl.'');
+}
+if($_GET['keyword'] == ''){
+  header('location:index.php');
+}
 
 
 
@@ -24,6 +37,10 @@ if ($result=mysqli_query($con,$sql))
     {
     // Return the number of rows in result set
     $nr=mysqli_num_rows($result); // Get total of Num rows from the database query
+
+      if($nr == 0){
+        header('location:index.php?result=0');
+      }
     }
 //////////////////////////////////// Pagination Logic ////////////////////////////////////////////////////////////////////////
 if (isset($_GET['pn'])) { // Get pn from URL vars if it is present
@@ -142,7 +159,7 @@ if(mysqli_num_rows($result)){
 
 }else{
   
-  $outputList .= "No Records Found";
+  header('location:index.php?result=0');
 }
 
 
