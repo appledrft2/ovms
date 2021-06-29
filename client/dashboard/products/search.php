@@ -201,7 +201,7 @@ if(mysqli_num_rows($result)){
 
        <?php 
 
-       print "$outputList"; 
+       
 
        if($paginationDisplay != ''){
 
