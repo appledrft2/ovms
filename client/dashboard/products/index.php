@@ -118,16 +118,16 @@ while ($row = mysqli_fetch_array($result)) {
   }
 
 
-  $outputList .= "<div class='col-md-3'>
+  $outputList .= "<div class='col-md-3' style='word-break: break-all; word-wrap: break-word;'>
       <form method='POST' action='#'>
       <div class='box'>
       <div class='box-header'>
         " . $prodimg . "
       </div>
       <div class='box-body'>
-      <h3>
-      " . $name . " (" . $category . ")
-      </h3>
+      <h4>
+      " . $name . "<br>(" . $category . ")
+      </h4>
       <div class='form-inline'><label>Price:</label>&nbsp;&#8369;" . number_format($price, 2) . "</div>
       <div class='form-inline'><label>Quantity:&nbsp;</label><input type='number' name='pquantity' min='1' class='form-control' value='1'></div>
       </div>
