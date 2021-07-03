@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,26 +21,40 @@
   <link rel="stylesheet" href="<?php echo $baseurl; ?>template/plugins/pace/pace.min.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="<?php echo $baseurl ?>template/plugins/iCheck/square/blue.css">
-  <link rel="icon" type="image/png" href="<?php echo $baseurl ?>/logo.jpg"/>
-  <!-- Google Font -->  
+  <link rel="icon" type="image/png" href="<?php echo $baseurl ?>/logo.jpg" />
+  <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <style type="text/css">
-    #topstrip{
-        background: #18BDDB;
-        padding: 20px;
-        font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
-        font-size: 15px;
-        color: #ffffff;
-        text-transform: uppercase;
-        border-bottom: 2px solid grey;
+    #topstrip {
+      background: #18BDDB;
+      padding: 20px;
+      font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      color: #ffffff;
+      text-transform: uppercase;
+      border-bottom: 2px solid grey;
     }
-    #topstrip a{
-        text-decoration: none;
-        color: #ffffff;
+
+    #topstrip a {
+      text-decoration: none;
+      color: #ffffff;
     }
-    .btn-skyblue{
+
+    .btn-skyblue {
       background-color: #18BDDB !important;
-      color:white;
+      color: white;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
     }
   </style>
 </head>
